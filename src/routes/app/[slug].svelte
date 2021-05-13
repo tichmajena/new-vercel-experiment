@@ -1,6 +1,13 @@
+<script context="module">
+  export async function load(ctx) {
+    let slug = ctx.page.params.slug;
+    return { props: { slug } };
+  }
+</script>
+
 <script>
   import { appNotes } from "$lib/js/store";
-
+  export let slug;
   let appName;
   let steps = [""];
 
@@ -26,13 +33,21 @@
   }
 </script>
 
+<style>
+  .add-btn {
+    margin-bottom: 15px;
+    align-self: flex-end;
+  }
+</style>
+
 <h1>I am slug App notes</h1>
 
 <input type="text" bind:value={appName} />App Name
 {#each steps as step, index}
   <div class="flex flex-row">
     <div style="width: 100%;" class="pr-2">
-      <input type="text" bind:value={steps[index]} />Step {index + 1}
+      <input type="text" bind:value={steps[index]} />Step
+      {index + 1}
     </div>
 
     <div class="add-btn">
@@ -40,8 +55,7 @@
         <button
           on:click={() => {
             deleteStep(index);
-          }}
-        >
+          }}>
           -
         </button>
       {/if}
@@ -53,10 +67,3 @@
 {/each}
 
 <button on:click={displayNotes}>Save</button>
-
-<style>
-  .add-btn {
-    margin-bottom: 15px;
-    align-self: flex-end;
-  }
-</style>

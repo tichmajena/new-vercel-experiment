@@ -13,7 +13,6 @@
 <script>
     export let index;
     import { cars } from "$lib/js/store";
-    console.log($cars[3]);
 </script>
 
 <div class="w-full h-full">

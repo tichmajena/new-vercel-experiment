@@ -40,7 +40,209 @@ export let contacts = writable([
 
 export const codeNotes = writable([]);
 
-export let appNotes = writable([]);
+export let appNotes = writable([
+  {
+    note: {
+      title: "App",
+      level: 1,
+      steps: [
+        // *******
+        { note: { title: "potsi" } },
+        {
+          note: {
+            //**** */
+            title: "piri",
+            level: 2,
+            steps: [
+              //****** */
+              { note: { title: "one" } },
+              { note: { title: "two" } },
+              { note: { title: "three" } },
+              {
+                note: {
+                  //*** */
+                  title: "piri",
+                  level: 3,
+                  steps: [
+                    //**** */
+                    { note: { title: "ichi" } },
+                    {
+                      note: {
+                        title: "piri",
+                        level: 4,
+                        steps: [
+                          //** */
+                          { note: { title: "uno" } },
+                          { note: { title: "dos" } },
+                          {
+                            note: {
+                              //** */
+                              title: "piri",
+                              level: 5,
+                              steps: [
+                                //**** */
+                                { note: { title: "un" } },
+                                { note: { title: "deaux" } },
+                                { note: { title: "trois" } },
+                                { note: { title: "quatre" } },
+                                { note: { title: "cinq" } },
+                              ],
+                            },
+                          }, //** */
+                          { note: { title: "quattro" } },
+                        ],
+                      },
+                    },
+                    { note: { title: "san" } },
+                    { note: { title: "chii" } },
+                    { note: { title: "go" } },
+                  ],
+                },
+              },
+              { note: { title: "five" } },
+            ],
+          },
+        },
+        { note: { title: "tatu" } },
+        { note: { title: "ina" } },
+      ],
+    },
+  },
+  {
+    note: {
+      title: "App",
+      level: 1,
+      steps: [
+        // *******
+        { note: { title: "potsi" } },
+        {
+          note: {
+            //**** */
+            title: "piri",
+            level: 2,
+            steps: [
+              //****** */
+              { note: { title: "one" } },
+              { note: { title: "two" } },
+              { note: { title: "three" } },
+              {
+                note: {
+                  //*** */
+                  title: "piri",
+                  level: 3,
+                  steps: [
+                    //**** */
+                    { note: { title: "ichi" } },
+                    {
+                      note: {
+                        title: "piri",
+                        level: 4,
+                        steps: [
+                          //** */
+                          { note: { title: "uno" } },
+                          { note: { title: "dos" } },
+                          {
+                            note: {
+                              //** */
+                              title: "piri",
+                              level: 5,
+                              steps: [
+                                //**** */
+                                { note: { title: "un" } },
+                                { note: { title: "deaux" } },
+                                { note: { title: "trois" } },
+                                { note: { title: "quatre" } },
+                                { note: { title: "cinq" } },
+                              ],
+                            },
+                          }, //** */
+                          { note: { title: "quattro" } },
+                        ],
+                      },
+                    },
+                    { note: { title: "san" } },
+                    { note: { title: "chii" } },
+                    { note: { title: "go" } },
+                  ],
+                },
+              },
+              { note: { title: "five" } },
+            ],
+          },
+        },
+        { note: { title: "tatu" } },
+        { note: { title: "ina" } },
+      ],
+    },
+  },
+  {
+    note: {
+      title: "App",
+      level: 1,
+      steps: [
+        // *******
+        { note: { title: "potsi" } },
+        {
+          note: {
+            //**** */
+            title: "piri",
+            level: 2,
+            steps: [
+              //****** */
+              { note: { title: "one" } },
+              { note: { title: "two" } },
+              { note: { title: "three" } },
+              {
+                note: {
+                  //*** */
+                  title: "piri",
+                  level: 3,
+                  steps: [
+                    //**** */
+                    { note: { title: "ichi" } },
+                    {
+                      note: {
+                        title: "piri",
+                        level: 4,
+                        steps: [
+                          //** */
+                          { note: { title: "uno" } },
+                          { note: { title: "dos" } },
+                          {
+                            note: {
+                              //** */
+                              title: "piri",
+                              level: 5,
+                              steps: [
+                                //**** */
+                                { note: { title: "un" } },
+                                { note: { title: "deaux" } },
+                                { note: { title: "trois" } },
+                                { note: { title: "quatre" } },
+                                { note: { title: "cinq" } },
+                              ],
+                            },
+                          }, //** */
+                          { note: { title: "quattro" } },
+                        ],
+                      },
+                    },
+                    { note: { title: "san" } },
+                    { note: { title: "chii" } },
+                    { note: { title: "go" } },
+                  ],
+                },
+              },
+              { note: { title: "five" } },
+            ],
+          },
+        },
+        { note: { title: "tatu" } },
+        { note: { title: "ina" } },
+      ],
+    },
+  },
+]);
 
 export let groceryList = writable([
   {
