@@ -58,15 +58,9 @@
   }
 </script>
 
-<style>
-  .add-btn {
-    margin-bottom: 15px;
-    align-self: flex-end;
-  }
-</style>
-
 <div
-  class="fixed inset-x-0 p-2 md:p-4 bg-gray-700 md:top-0 top-14 text-white text-lg md:pl-64 z-10">
+  class="fixed inset-x-0 p-2 md:p-4 bg-gray-700 md:top-0 top-14 text-white text-lg md:pl-64 z-10"
+>
   <h3 class="ml-10">Contacts</h3>
 </div>
 
@@ -76,7 +70,9 @@
   <input
     class="bg-gray-300  hover:bg-red-400 flex flex-col"
     type="text"
-    bind:value={data.name} />
+    bind:value={$contacts.name}
+  />
+
   {#each data.phoneNumber as number, index}
     <div class="flex flex-row">
       <div style="
@@ -86,7 +82,8 @@
         <input
           class="bg-gray-300  hover:bg-red-400 flex flex-col"
           type="text"
-          bind:value={$contacts.number} />
+          bind:value={$contacts.number}
+        />
       </div>
 
       <div class="add-btn">
@@ -96,26 +93,30 @@
               deleteNumber(index);
             }}
             fab
-            size="x-small"
-            class="red white-text">
+            size=""
+            class="red white-text text-white bg-green-600 grid place-items-center rounded-full h-12 w-12  items-center justify-center text-2xl"
+          >
             -
           </button>
         {/if}
         {#if index === phoneNumber.length - 1}
           <button
-            class="text-white  h-8 w-8 bg-pink-700 grid place-items-center"
-            on:click={newNumber}>
+            class="text-white   bg-pink-700 grid place-items-center rounded-full h-12 w-12  items-center justify-center"
+            on:click={newNumber}
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               class="h-6 w-6"
               fill="none"
               viewBox="0 0 24 24"
-              stroke="currentColor">
+              stroke="currentColor"
+            >
               <path
-                stroke-linecap="square"
-                stroke-linejoin="square"
+                stroke-linecap="round-full"
+                stroke-linejoin="round-full"
                 stroke-width="2"
-                d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                d="M12 6v6m0 0v6m0-6h6m-6 0H6"
+              />
             </svg>
           </button>
         {/if}
@@ -130,11 +131,21 @@
     type="text"
     bind:value={email}
     rules={emailRules}
-    validateOnBlur />
+    validateOnBlur
+  />
 
   {#if valid}
     <button
       on:click={addContact}
-      class="red white-text bg-blue-600 hover:text-red-600 m-2 w-16">Save</button>
+      class="red white-text bg-blue-600 hover:text-red-600 m-2 w-16"
+      >Save</button
+    >
   {:else}<button disabled>Save</button>{/if}
 </div>
+
+<style>
+  .add-btn {
+    margin-bottom: 15px;
+    align-self: flex-end;
+  }
+</style>
