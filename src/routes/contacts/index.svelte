@@ -19,20 +19,56 @@
   //     return pattern.test(v) || 'Invalid e-mail.';
   //   },
   // ];
+  function addContact() {
+    if (data.email === "" || data.name === "" || data.phoneNumber === [""]) {
+      return;
+    } else {
+      $contacts = [...$contacts, rData];
+      console.log($contacts);
+    }
+
+    data.name = "";
+    data.phoneNumber = [""];
+    data.email = "";
+  }
+
+  function newNumber() {
+    data.phoneNumber = [...data.phoneNumber, ""];
+  }
+  let emailRules = [
+    function (v) {
+      if ("" === v) {
+        valid = false;
+        return "Tipeiwo Email";
+      } else {
+        valid = true;
+        return false;
+      }
+    },
+  ];
+
+  function deleteNumber(index) {
+    data.phoneNumber.splice(index, 1);
+    data.phoneNumber = data.phoneNumber;
+  }
 </script>
 
 <main>
-  <h3 class="mb-10">Contacts</h3>
+  <div
+    class="fixed inset-x-0 p-2 md:p-4 bg-gray-700 md:top-0 top-14 text-white text-lg md:pl-64 z-10">
+    <h3 class="mb-10">Contacts</h3>
+  </div>
 
-  <a href="/contacts/zvirisei">First Contact</a>
-  {#each $contacts as contact}
+  {#each $contacts as contact, index}
     <li>
       <div style="border-bottom: 2px solid gray" class="d-flex flex-row mb-8">
         <div>icon</div>
         <div>
-          <h5>{contact.name}</h5>
-          <span > edit </span>
-          <span >
+          <a href="/contacts/{index}">
+            <h5>{contact.name}</h5></a>
+
+          <span> edit </span>
+          <span>
             {#each contact.phoneNumber as number, index}
               <span class="block">
                 <span class="ml-5"> phone</span>
