@@ -3,7 +3,8 @@
     const res = await fetch("/quiz.json");
 
     if (res.ok) {
-      const quiz = await res.json();
+      const jsonData = await res.json();
+      const quiz = await jsonData.data;
 
       return {
         props: { quiz },
@@ -22,7 +23,9 @@
   export let quiz;
   console.log(quiz);
 
-  let questions = [
+  let questions = quiz;
+
+  let questionsz = [
     {
       question:
         "Which of the following special symbol allowed in a variable name?",
@@ -59,6 +62,9 @@
       correctIndex: 2,
     },
   ];
+
+  
+
   let answers = new Array(questions.length).fill(null);
   let questionPointer = -1;
 
@@ -175,6 +181,7 @@
     <div class="start-screen">
       <button
         on:click={() => {
+          questions = quiz;
           questionPointer = 0;
         }}>
         Start Quiz
@@ -183,16 +190,16 @@
   {:else if !(questionPointer > answers.length - 1)}
     <div class="quiz-screen">
       <div class="main">
-        <h2>{questions[questionPointer].question}</h2>
+        <h2>{questions[questionPointer].question_title}</h2>
 
         <div class="options">
-          {#each questions[questionPointer].options as opt, i}
+          {#each questions[questionPointer].question_answers as opt, i}
             <button
               class={answers[questionPointer] == i ? 'selected' : ''}
               on:click={() => {
                 answers[questionPointer] = i;
               }}>
-              {opt}
+              {opt.answer_title}
             </button>
           {/each}
         </div>
