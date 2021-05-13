@@ -1,11 +1,11 @@
 //const base = "http://mydiary.local/wp-json/tutor/v1/quiz-question-answer/16/";
-const base = "https://mydiary.local/wp-json/wp/v2";
+const base = "http://mydiary.local/wp-json/wp/v2";
 
 export async function getJSON(request, resource, data) {
   // user must have a cookie set
-  if (!request.context.userid) {
-    return { status: 401 };
-  }
+  //   if (!request.context.userid) {
+  //     return { status: 401 };
+  //   }
 
   const res = await fetch(`${base}/${resource}`, {
     method: request.method,

@@ -1,12 +1,12 @@
 import { getJSON } from "./_rest";
 
 export const get = async (request) => {
-  if (!request.context.userid) {
-    // the user has never visited the site before
-    // and so doesn't yet have a userid, which is
-    // set in `handle`, in src/hooks.js
-    return { body: [] };
-  }
+  //   if (!request.context.userid) {
+  //     // the user has never visited the site before
+  //     // and so doesn't yet have a userid, which is
+  //     // set in `handle`, in src/hooks.js
+  //     return { body: [] };
+  //   }
 
   const response = await getJSON(request, `posts/`);
 
