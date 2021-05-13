@@ -1,5 +1,5 @@
 //const base = "http://mydiary.local/wp-json/tutor/v1/quiz-question-answer/16/";
-const base = "http://mydiary.local/wp-json/wp/v2";
+const base = "http://sveltepresslocal.local/wp-json";
 
 export async function getJSON(request, resource, data) {
   // user must have a cookie set

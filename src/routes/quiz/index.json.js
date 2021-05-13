@@ -8,7 +8,7 @@ export const get = async (request) => {
   //     return { body: [] };
   //   }
 
-  const response = await getJSON(request, `posts/`);
+  const response = await getJSON(request, `tutor/v1/quiz-question-answer/11/`);
 
   if (response.status === 404) {
     console.log("404 pano");

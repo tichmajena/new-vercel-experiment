@@ -1,12 +1,26 @@
+<script context="module">
+  export const load = async ({ fetch }) => {
+    const res = await fetch("/quiz.json");
+
+    if (res.ok) {
+      const quiz = await res.json();
+
+      return {
+        props: { quiz },
+      };
+    }
+
+    const { message } = await res.json();
+
+    return {
+      error: new Error(message),
+    };
+  };
+</script>
+
 <script>
-  import { onMount } from "svelte";
   export let quiz;
-  onMount(async () => {
-    let res = await fetch(
-      "https://mydiary.local/wp-json/tutor/v1/quiz-question-answer/16/"
-    );
-    quiz = await res.json();
-  });
+  console.log(quiz);
 
   let questions = [
     {
@@ -63,73 +77,6 @@
     questionPointer = 0;
   }
 </script>
-
-<div class="app">
-  {#if questionPointer == -1}
-    <div class="start-screen">
-      <button
-        on:click={() => {
-          questionPointer = 0;
-        }}
-      >
-        Start Quiz
-      </button>
-    </div>
-  {:else if !(questionPointer > answers.length - 1)}
-    <div class="quiz-screen">
-      <div class="main">
-        <h2>
-          {questions[questionPointer].question}
-        </h2>
-
-        <div class="options">
-          {#each questions[questionPointer].options as opt, i}
-            <button
-              class={answers[questionPointer] == i ? "selected" : ""}
-              on:click={() => {
-                answers[questionPointer] = i;
-              }}
-            >
-              {opt}
-            </button>
-          {/each}
-        </div>
-      </div>
-
-      <div class="footer">
-        <div class="progress-bar">
-          <div style="width:{(questionPointer / questions.length) * 100}%" />
-        </div>
-
-        <div class="buttons">
-          <button
-            disabled={questionPointer === 0}
-            on:click={() => {
-              questionPointer--;
-            }}
-          >
-            &lt;
-          </button>
-          <button
-            on:click={() => {
-              questionPointer++;
-            }}
-          >
-            &gt;
-          </button>
-        </div>
-      </div>
-    </div>
-  {:else}
-    <div class="score-screen">
-      <h1>
-        Your score:{getScore()}
-      </h1>
-
-      <button on:click={restartQuiz}> Restar Quiz </button>
-    </div>
-  {/if}
-</div>
 
 <style>
   .app {
@@ -222,3 +169,62 @@
     margin-bottom: 10px;
   }
 </style>
+
+<div class="app">
+  {#if questionPointer == -1}
+    <div class="start-screen">
+      <button
+        on:click={() => {
+          questionPointer = 0;
+        }}>
+        Start Quiz
+      </button>
+    </div>
+  {:else if !(questionPointer > answers.length - 1)}
+    <div class="quiz-screen">
+      <div class="main">
+        <h2>{questions[questionPointer].question}</h2>
+
+        <div class="options">
+          {#each questions[questionPointer].options as opt, i}
+            <button
+              class={answers[questionPointer] == i ? 'selected' : ''}
+              on:click={() => {
+                answers[questionPointer] = i;
+              }}>
+              {opt}
+            </button>
+          {/each}
+        </div>
+      </div>
+
+      <div class="footer">
+        <div class="progress-bar">
+          <div style="width:{(questionPointer / questions.length) * 100}%" />
+        </div>
+
+        <div class="buttons">
+          <button
+            disabled={questionPointer === 0}
+            on:click={() => {
+              questionPointer--;
+            }}>
+            &lt;
+          </button>
+          <button
+            on:click={() => {
+              questionPointer++;
+            }}>
+            &gt;
+          </button>
+        </div>
+      </div>
+    </div>
+  {:else}
+    <div class="score-screen">
+      <h1>Your score:{getScore()}</h1>
+
+      <button on:click={restartQuiz}> Restar Quiz </button>
+    </div>
+  {/if}
+</div>
