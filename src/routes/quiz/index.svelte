@@ -20,60 +20,32 @@
 </script>
 
 <script>
+  import Timer from "$lib/Timer/index.svelte";
   export let quiz;
   console.log(quiz);
 
-  let questions = quiz;
+  let questions = quiz,
+    elapsedTime = 0,
+    elapsedGameTime = 0,
+    now = 0,
+    countDownTimer = null,
+    pauseTime = 0,
+    quizDuration = 5,
+    quizTime = quizDuration,
+    gameTimerId = null,
+    gameTime = 15;
 
-  let questionsz = [
-    {
-      question:
-        "Which of the following special symbol allowed in a variable name?",
-      options: ["* (asterisk)", "| (pipeline)", "- (hyphen)", "_ (underscore)"],
-      correctIndex: 3,
-    },
-    {
-      question:
-        "Which of the following correctly shows the hierarchy of arithmetic operations in C?",
-      options: ["/ + * -", "* - / +", "+ - / *", "/ * + -"],
-      correctIndex: 3,
-    },
-    {
-      question:
-        "Which header file should be included to use functions like malloc() and calloc()?",
-      options: ["memory.h", "stdlib.h", "string.h", "dos.h"],
-      correctIndex: 1,
-    },
-    {
-      question:
-        "Which bitwise operator is suitable for turning off a particular bit in a number?",
-      options: ["&& operator", "& operator", "|| operator", "! operator"],
-      correctIndex: 1,
-    },
-    {
-      question:
-        "What function should be used to free the memory allocated by calloc() ?",
-      options: [
-        "dealloc();",
-        "malloc(variable_name, 0)",
-        "free();",
-        "memalloc(variable_name, 0)",
-      ],
-      correctIndex: 2,
-    },
-  ];
-
-  
-
-  let answers = new Array(questions.length).fill(null);
+  let answers = new Array(questions.length).fill("answer");
   let questionPointer = -1;
 
   function getScore() {
-    let score = answers.reduce((acc, val, index) => {
-      if (questions[index].correctIndex == val) {
-        return acc + 1;
+    let score = answers.reduce((zzero, selectedAnswer, quizIndex) => {
+      if (
+        questions[quizIndex].question_answers[selectedAnswer].is_correct == 1
+      ) {
+        return zzero + 1;
       }
-      return acc;
+      return zzero;
     }, 0);
     return (score / questions.length) * 100 + "%";
   }
@@ -82,14 +54,164 @@
     answers = new Array(questions.length).fill(null);
     questionPointer = 0;
   }
+
+  let getAns = (opt) => {
+    let option = opt.answer_title.split("$");
+    return option[0];
+  };
+
+  let getImg = (opt) => {
+    let image = opt.answer_title.split("$");
+    return image[1];
+  };
+
+  function start() {
+    questions = quiz;
+    questionPointer = 0;
+    chachaya();
+  }
+
+  function clear(id) {
+    clearInterval(id);
+  }
+
+  function gameTimer() {
+    quizTime--;
+    gameTime--;
+    console.log(quizTime);
+
+    if (quizTime === 0 && gameTime >= 0) {
+      questionPointer++;
+      quizTime += quizDuration;
+    } else if (gameTime <= 0 && quizTime === 0) {
+      console.log("Game Over");
+      clear(gameTimerId);
+      questionPointer++;
+    }
+  }
+
+  function newGameTimer() {
+    let duration = quizDuration * 1000;
+    let gameDuration = gameTime * 1000;
+    let everyMilliSecond = Date.now();
+    elapsedTime = now + duration - everyMilliSecond + pauseTime;
+    elapsedGameTime = now + gameDuration - everyMilliSecond + pauseTime;
+
+    if (elapsedTime <= 0 && elapsedGameTime > 0) {
+      console.log("Adding");
+      questionPointer++;
+      console.log(questionPointer);
+      elapsedTime += duration;
+      console.log(elapsedTime, duration);
+    } else if (elapsedGameTime <= 0 && elapsedTime <= 0) {
+      console.log("Game Over");
+      clear(countDownTimer);
+      questionPointer++;
+    }
+  }
+
+  function countDown() {
+    countDownTimer = setInterval(newGameTimer);
+  }
+
+  function chachaya() {
+    now = Date.now();
+    countDown();
+  }
+
+  function pause() {
+    clearInterval(countDownTimer);
+    pauseTime = elapsedTime;
+  }
+
+  function stopCountDown() {
+    elapsedTime = 0;
+    clearInterval(countDownTimer);
+  }
 </script>
+
+<div class="hidden">
+  <button
+    class="px-2 py-1 mb-3 ml-20 text-white bg-yellow-500"
+    on:click={chachaya}>Start</button
+  >
+  <button class="px-2 py-1 mb-3 text-white bg-yellow-700" on:click={pause}
+    >Pause</button
+  >
+  <button
+    class="px-2 py-1 mb-3 text-white bg-yellow-900"
+    on:click={stopCountDown}>Stop</button
+  >
+</div>
+
+<div class="app">
+  <Timer {elapsedTime} />
+  <Timer elapsedTime={elapsedGameTime} />
+  {#if questionPointer == -1}
+    <div class="start-screen">
+      <button on:click={start}> Start Quiz </button>
+    </div>
+  {:else if !(questionPointer > answers.length - 1)}
+    <div class="quiz-screen">
+      <div class="main">
+        <h2>{questions[questionPointer].question_title}</h2>
+
+        <div class="options">
+          {#each questions[questionPointer].question_answers as opt, i}
+            <div class="w-24 ">
+              <img src={getImg(opt)} alt="" />
+              <button
+                class={answers[questionPointer] == i ? "selected" : ""}
+                on:click={() => {
+                  answers[questionPointer] = i;
+                  console.log(answers);
+                }}
+              >
+                {getAns(opt)}
+              </button>
+            </div>
+          {/each}
+        </div>
+      </div>
+
+      <div class="footer">
+        <div class="progress-bar">
+          <div style="width:{(questionPointer / questions.length) * 100}%" />
+        </div>
+
+        <div class="buttons">
+          <button
+            disabled={questionPointer === 0}
+            on:click={() => {
+              questionPointer--;
+            }}
+          >
+            &lt;
+          </button>
+          <button
+            on:click={() => {
+              questionPointer++;
+            }}
+          >
+            &gt;
+          </button>
+        </div>
+      </div>
+    </div>
+  {:else}
+    <div class="score-screen">
+      <h1>Your score:{getScore()}</h1>
+
+      <button on:click={restartQuiz}> Restar Quiz </button>
+    </div>
+  {/if}
+</div>
 
 <style>
   .app {
     position: absolute;
     top: 0px;
     left: 0px;
-    width: 100vw;
     height: 100vh;
   }
 
@@ -175,63 +297,3 @@
     margin-bottom: 10px;
   }
 </style>
-
-<div class="app">
-  {#if questionPointer == -1}
-    <div class="start-screen">
-      <button
-        on:click={() => {
-          questions = quiz;
-          questionPointer = 0;
-        }}>
-        Start Quiz
-      </button>
-    </div>
-  {:else if !(questionPointer > answers.length - 1)}
-    <div class="quiz-screen">
-      <div class="main">
-        <h2>{questions[questionPointer].question_title}</h2>
-
-        <div class="options">
-          {#each questions[questionPointer].question_answers as opt, i}
-            <button
-              class={answers[questionPointer] == i ? 'selected' : ''}
-              on:click={() => {
-                answers[questionPointer] = i;
-              }}>
-              {opt.answer_title}
-            </button>
-          {/each}
-        </div>
-      </div>
-
-      <div class="footer">
-        <div class="progress-bar">
-          <div style="width:{(questionPointer / questions.length) * 100}%" />
-        </div>
-
-        <div class="buttons">
-          <button
-            disabled={questionPointer === 0}
-            on:click={() => {
-              questionPointer--;
-            }}>
-            &lt;
-          </button>
-          <button
-            on:click={() => {
-              questionPointer++;
-            }}>
-            &gt;
-          </button>
-        </div>
-      </div>
-    </div>
-  {:else}
-    <div class="score-screen">
-      <h1>Your score:{getScore()}</h1>
-
-      <button on:click={restartQuiz}> Restar Quiz </button>
-    </div>
-  {/if}
-</div>
