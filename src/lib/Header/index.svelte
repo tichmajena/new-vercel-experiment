@@ -114,13 +114,13 @@
       </li></a
     >
 
-    <a class="text-blue-100 hover:no-underline" href="/cars">
+    <a class="text-blue-100 hover:no-underline" href="/tools">
       <li
         on:click={toggleMenu}
-        class:active={$page.path === "/cars"}
+        class:active={$page.path === "/tools"}
         class="block py-2 px-4 hover:bg-blue-600 hover:text-white rounded transition duration-200"
       >
-        Cars
+        Tools
       </li></a
     >
 
