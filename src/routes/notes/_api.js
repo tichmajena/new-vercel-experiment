@@ -1,4 +1,4 @@
-const base = "http://mydiary.local/wp-json";
+const base = "https://imajenation.co.zw/mydiary/wp-json";
 //const base = "http://sveltepresslocal.local/wp-json";
 
 export async function getJSON(request, resource, data) {

@@ -24,7 +24,33 @@
 <script>
   let title, content;
   export let notes;
-  console.log(notes);
+
+  let addNote = true;
+  async function addPost() {
+    const token = JSON.parse(localStorage.getItem("token"));
+    try {
+      const res = await fetch("https://imajenation.co.zw/mydiary/wp-json/wp/v2/note", {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Content-type": "application/json",
+          Authorization: "Bearer " + token,
+        },
+        body: JSON.stringify({ title, content, status: "publish" }),
+      });
+
+      const data = await res.json();
+      console.log(data);
+
+      if (res.ok) {
+        console.log("res is okay");
+      } else {
+        console.log("res has an error");
+      }
+    } catch (error) {
+      console.log("ERROR!!!: ", error);
+    }
+  }
 </script>
 
 <h1 class="text-2xl font-bold ">Notes</h1>

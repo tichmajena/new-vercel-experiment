@@ -1,13 +1,70 @@
 <script context="module">
-  export async function load(ctx) {
-    // Wabva kupi?
-    console.log(ctx.page.params.index);
-    let index = ctx.page.params.index;
-    return { props: { index } };
-  }
+  // see https://kit.svelte.dev/docs#loading
+  export const load = async (ctx) => {
+    const res = await fetch(
+      `https://imajenation.co.zw/mydiary/wp-json/wp/v2` +
+        `/contact/?slug=${ctx.page.params.slug}`
+    );
+    if (res.ok) {
+      console.log("res is ok");
+      const data = await res.json();
+      const post = await data[0];
+
+      console.log(post);
+
+      return {
+        props: { post },
+      };
+    }
+
+    const { message } = await res.json();
+
+    return {
+      error: new Error(message),
+    };
+  };
 </script>
 
 <script>
+  let edit = false;
+
+  function editForm() {
+    edit = !edit;
+  }
+
+  async function editPost() {
+    let body = { title, content, status: "publish" };
+    const token = localStorage.getItem("token");
+    try {
+      const res = await fetch(
+        `https://www.imajenation.co.zw/mydiary/wp-json/wp/v2/contact${post.id}`,
+        {
+          method: "PUT",
+          credentials: "include",
+          headers: {
+            "Content-type": "application/json",
+            Authorization: "Bearer " + token,
+          },
+          body: JSON.stringify(body),
+        }
+      );
+
+      const data = await res.json();
+      console.log(data);
+
+      if (res.ok) {
+        console.log("res is okay");
+        console.log(data);
+
+        edit = false;
+      } else {
+        console.log("res has an error");
+      }
+    } catch (error) {
+      console.log("ERROR!!!: ", error);
+    }
+  }
+
   import { contacts } from "$lib/js/store";
 
   let name;
@@ -75,8 +132,11 @@
 
   {#each data.phoneNumber as number, index}
     <div class="flex flex-row">
-      <div style="
-        width: 100%;" class="pr-2">
+      <div
+        style="
+        width: 100%;"
+        class="pr-2"
+      >
         <label class="" for="input-phoneNumber">Phone Number...</label>
 
         <input

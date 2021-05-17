@@ -4,8 +4,8 @@
 
 <script>
   import { scale, fade } from "svelte/transition";
-  let username = "berlinmhiripi@gmail.com";
-  let password = "M@jena347";
+  let username;
+  let password;
 
   async function submit() {
     let body = {
@@ -14,7 +14,7 @@
     };
     try {
       const res = await fetch(
-        "https://mydiary.local/wp-json/jwt-auth/v1/token",
+        "https://imajenation.co.zw/mydiary/wp-json/jwt-auth/v1/token",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -48,7 +48,7 @@
     bind:value={username}
     class="w-full rounded mb-5"
     placeholder="Email"
-    type="password"
+    type="text"
   />
   <input
     bind:value={password}

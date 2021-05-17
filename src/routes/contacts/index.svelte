@@ -1,4 +1,57 @@
+<script context="module">
+  export const load = async ({ fetch }) => {
+    const res = await fetch("/contacts.json");
+
+    console.log(res);
+
+    if (res.ok) {
+      const jsonData = await res.json();
+      const contacts = await jsonData;
+
+      return {
+        props: { contacts },
+      };
+    }
+
+    const { message } = await res.json();
+
+    return {
+      error: new Error(message),
+    };
+  };
+</script>
+
 <script>
+  let addNote = true;
+  async function addPost() {
+    const token = JSON.parse(localStorage.getItem("token"));
+    try {
+      const res = await fetch(
+        "https://www.imajenation.co.zw/mydiary/wp-json/wp/v2/contact",
+        {
+          method: "POST",
+          credentials: "include",
+          headers: {
+            "Content-type": "application/json",
+            Authorization: "Bearer " + token,
+          },
+          body: JSON.stringify({ name, phoneNumber, email, status: "publish" }),
+        }
+      );
+
+      const data = await res.json();
+      console.log(data);
+
+      if (res.ok) {
+        console.log("res is okay");
+      } else {
+        console.log("res has an error");
+      }
+    } catch (error) {
+      console.log("ERROR!!!: ", error);
+    }
+  }
+
   import { contacts } from "$lib/js/store";
 
   let name;
@@ -55,7 +108,8 @@
 
 <main>
   <div
-    class="fixed inset-x-0 p-2 md:p-4 bg-gray-700 md:top-0 top-14 text-white text-lg md:pl-64 z-10">
+    class="fixed inset-x-0 p-2 md:p-4 bg-gray-700 md:top-0 top-14 text-white text-lg md:pl-64 z-10"
+  >
     <h3 class="mb-10">Contacts</h3>
   </div>
 
@@ -64,8 +118,7 @@
       <div style="border-bottom: 2px solid gray" class="d-flex flex-row mb-8">
         <div>icon</div>
         <div>
-          <a href="/contacts/{index}">
-            <h5>{contact.name}</h5></a>
+          <a href="/contacts/{index}"> <h5>{contact.name}</h5></a>
 
           <span> edit </span>
           <span>
