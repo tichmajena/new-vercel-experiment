@@ -94,19 +94,21 @@
     let duration = quizDuration * 1000;
     let gameDuration = gameTime * 1000;
     let everyMilliSecond = Date.now();
+    
     elapsedTime = now + duration - everyMilliSecond + pauseTime;
+
     elapsedGameTime = now + gameDuration - everyMilliSecond + pauseTime;
 
     if (elapsedTime <= 0 && elapsedGameTime > 0) {
       console.log("Adding");
-      questionPointer++;
-      console.log(questionPointer);
+      //questionPointer++;
       elapsedTime += duration;
-      console.log(elapsedTime, duration);
     } else if (elapsedGameTime <= 0 && elapsedTime <= 0) {
       console.log("Game Over");
       clear(countDownTimer);
-      questionPointer++;
+      (elapsedGameTime = 0), (elapsedTime = 0);
+
+      //questionPointer++;
     }
   }
 

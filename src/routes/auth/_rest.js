@@ -1,5 +1,4 @@
-const base = "http://mydiary.local/wp-json";
-//const base = "http://sveltepresslocal.local/wp-json";
+let base = "https://mydiary.local/wp-json";
 
 export async function getJSON(request, resource, data) {
   // user must have a cookie set

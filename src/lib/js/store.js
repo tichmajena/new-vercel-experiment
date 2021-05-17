@@ -8,7 +8,10 @@ export let domState = writable({
   showAddDesc: false,
   activeIndex: 0,
   pageIndex: 0,
+  save: false,
 });
+
+export let notes = writable([]);
 
 export let contacts = writable([
   {

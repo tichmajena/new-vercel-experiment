@@ -37,6 +37,11 @@
     console.log(index);
     goto("/code/" + index);
   }
+
+  function save() {
+    $domState.save = false;
+    goto("/code/");
+  }
 </script>
 
 <div
@@ -80,25 +85,49 @@
       </div>
       <div class="bottom-bar md:pl-64">
         <div id="add-btn">
-          <button
-            class="text-white rounded-full h-14 w-14 bg-pink-700 grid place-items-center"
-            on:click={toggleTitle}
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              class="h-8 w-8"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
+          {#if !$domState.save}
+            <button
+              class="text-white rounded-full h-14 w-14 bg-pink-700 grid place-items-center"
+              on:click={toggleTitle}
             >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M12 6v6m0 0v6m0-6h6m-6 0H6"
-              />
-            </svg>
-          </button>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-8 w-8"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M12 6v6m0 0v6m0-6h6m-6 0H6"
+                />
+              </svg>
+            </button>
+          {/if}
+
+          {#if $domState.save}
+            <button
+              class="text-white rounded-full h-14 w-14 bg-green-700 grid place-items-center"
+              on:click={save}
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-8 w-8"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M5 13l4 4L19 7"
+                />
+              </svg>
+            </button>
+          {/if}
         </div>
       </div>
     </div>
