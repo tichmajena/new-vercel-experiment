@@ -21,8 +21,8 @@
   //   };
   // };
 
-  export const load = async ({ fetch }) => {
-    const res = await fetch("/[slug].json");
+  export const load = async (ctx) => {
+    const res = await fetch(`/contacts/${ctx.page.params.slug}.json`);
 
     console.log(res);
 

@@ -99,7 +99,11 @@
         App Notes
       </li></a
     >
-    <a class="text-blue-100 hover:no-underline" href="/notes">
+    <a
+      sveltekit:prefetch
+      class="text-blue-100 hover:no-underline"
+      href="/notes"
+    >
       <li
         on:click={toggleMenu}
         class:active={$page.path === "/notes"}
