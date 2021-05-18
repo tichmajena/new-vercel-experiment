@@ -22,116 +22,61 @@
 </script>
 
 <script>
-  let addNote = true;
-  async function addPost() {
-    const token = JSON.parse(localStorage.getItem("token"));
-    try {
-      const res = await fetch(
-        "https://www.imajenation.co.zw/mydiary/wp-json/wp/v2/contact",
-        {
-          method: "POST",
-          credentials: "include",
-          headers: {
-            "Content-type": "application/json",
-            Authorization: "Bearer " + token,
-          },
-          body: JSON.stringify({ name, phoneNumber, email, status: "publish" }),
-        }
-      );
-
-      const data = await res.json();
-      console.log(data);
-
-      if (res.ok) {
-        console.log("res is okay");
-      } else {
-        console.log("res has an error");
-      }
-    } catch (error) {
-      console.log("ERROR!!!: ", error);
-    }
-  }
-
-  import { contacts } from "$lib/js/store";
+  export let contacts;
+  console.log(contacts);
 
   let name;
   let phoneNumber = [""];
   let email;
 
   $: newContact = {
-    name: name,
-    phoneNumber: phoneNumber,
+    title: name,
+    full_name: name,
+    phone_numbers: phoneNumber,
     email: email,
+    status: "publish",
   };
-  // const titleRules = [(v) => !!v || 'Required'];
-  // const emailRules = [
-  //   (v) => !!v || 'Required',
-  //   (v) => v.length <= 25 || 'Max 25 characters',
-  //   (v) => {
-  //     const pattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-  //     return pattern.test(v) || 'Invalid e-mail.';
-  //   },
-  // ];
-  function addContact() {
-    if (data.email === "" || data.name === "" || data.phoneNumber === [""]) {
-      return;
-    } else {
-      $contacts = [...$contacts, rData];
-      console.log($contacts);
-    }
-
-    data.name = "";
-    data.phoneNumber = [""];
-    data.email = "";
-  }
-
-  function newNumber() {
-    data.phoneNumber = [...data.phoneNumber, ""];
-  }
-  let emailRules = [
-    function (v) {
-      if ("" === v) {
-        valid = false;
-        return "Tipeiwo Email";
-      } else {
-        valid = true;
-        return false;
-      }
-    },
-  ];
-
-  function deleteNumber(index) {
-    data.phoneNumber.splice(index, 1);
-    data.phoneNumber = data.phoneNumber;
-  }
 </script>
 
-<main>
-  <div
-    class="fixed inset-x-0 p-2 md:p-4 bg-gray-700 md:top-0 top-14 text-white text-lg md:pl-64 z-10"
+<div
+  class="fixed inset-x-0 p-2 md:p-4 bg-gray-700 md:top-0 top-14 text-white text-lg md:pl-64 z-10"
+>
+  <h3 class="ml-10">Contacts</h3>
+</div>
+<a href="/contacts/new">
+  <button class="px-6 py-2 text-white rounded bg-pink-700 hover:bg-pink-500"
+    >New</button
   >
-    <h3 class="mb-10">Contacts</h3>
-  </div>
+</a>
 
-  {#each $contacts as contact, index}
-    <li>
-      <div style="border-bottom: 2px solid gray" class="d-flex flex-row mb-8">
-        <div>icon</div>
-        <div>
-          <a href="/contacts/{index}"> <h5>{contact.name}</h5></a>
+{#each contacts as contact, index}
+  <li>
+    <div style="border-bottom: 2px solid gray" class="d-flex flex-row mb-8">
+      <div>icon</div>
+      <div>
+        <a sveltekit:prefetch href="/contacts/{contact.slug}">
+          <h5>{contact.full_name}</h5></a
+        >
 
-          <span> edit </span>
-          <span>
-            {#each contact.phoneNumber as number, index}
+        <span> edit </span>
+        <span>
+          {#if typeof contact.phone_numbers === "string"}
+            <span class="block">
+              <span class="ml-5"> phone</span>
+              {contact.phone_numbers}
+            </span>
+          {:else}
+            Not a string
+            {#each contact.phone_numbers as number, index}
               <span class="block">
                 <span class="ml-5"> phone</span>
                 {number}
               </span>
             {/each}
-            <span class="ml-5"> email</span>{contact.email}<br />
-          </span>
-        </div>
+          {/if}
+          <span class="ml-5"> email</span>{contact.email}<br />
+        </span>
       </div>
-    </li>
-  {/each}
-</main>
+    </div>
+  </li>
+{/each}

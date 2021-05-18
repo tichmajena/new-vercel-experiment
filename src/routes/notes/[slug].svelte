@@ -38,7 +38,8 @@
 
   async function editPost() {
     let body = { title, content, status: "publish" };
-    const token = localStorage.getItem("token");
+    let token = localStorage.getItem("token");
+    token = JSON.parse(token);
     try {
       const res = await fetch(
         `https://www.imajenation.co.zw/mydiary/wp-json/wp/v2/note/${post.id}`,

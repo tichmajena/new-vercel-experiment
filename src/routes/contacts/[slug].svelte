@@ -1,16 +1,34 @@
 <script context="module">
-  // see https://kit.svelte.dev/docs#loading
-  export const load = async (ctx) => {
-    const res = await fetch(
-      `https://imajenation.co.zw/mydiary/wp-json/wp/v2` +
-        `/contact/?slug=${ctx.page.params.slug}`
-    );
-    if (res.ok) {
-      console.log("res is ok");
-      const data = await res.json();
-      const post = await data[0];
+  // export const load = async (ctx) => {
+  //   const res = await fetch(
+  //     `https://imajenation.co.zw/mydiary/wp-json/wp/v2` +
+  //       `/contact/?slug=${ctx.page.params.slug}`
+  //   );
+  //   if (res.ok) {
+  //     console.log("res is ok");
+  //     const data = await res.json();
+  //     const post = await data[0];
 
-      console.log(post);
+  //     return {
+  //       props: { post },
+  //     };
+  //   }
+
+  //   const { message } = await res.json();
+
+  //   return {
+  //     error: new Error(message),
+  //   };
+  // };
+
+  export const load = async ({ fetch }) => {
+    const res = await fetch("/[slug].json");
+
+    console.log(res);
+
+    if (res.ok) {
+      const jsonData = await res.json();
+      const post = await jsonData[0];
 
       return {
         props: { post },
@@ -26,18 +44,42 @@
 </script>
 
 <script>
-  let edit = false;
+  export let post;
+  console.log(post);
+  if (typeof post.phone_numbers === "string") {
+    let num = post.phone_numbers.split();
+    post.phone_numbers = num;
+  }
 
-  function editForm() {
-    edit = !edit;
+  let name = post.full_name;
+  let phoneNumber = post.phone_numbers;
+  let email = post.email;
+
+  $: newContact = {
+    title: name,
+    full_name: name,
+    phone_numbers: phoneNumber,
+    email: email,
+    status: "publish",
+  };
+
+  function newNumber() {
+    phoneNumber = [phoneNumber, ""];
+  }
+
+  function deleteNumber(index) {
+    phoneNumber.splice(index, 1);
+    phoneNumber = phoneNumber;
   }
 
   async function editPost() {
-    let body = { title, content, status: "publish" };
-    const token = localStorage.getItem("token");
+    let body = newContact;
+    let token = localStorage.getItem("token");
+    console.log(token);
+    token = JSON.parse(token);
     try {
       const res = await fetch(
-        `https://www.imajenation.co.zw/mydiary/wp-json/wp/v2/contact${post.id}`,
+        `https://www.imajenation.co.zw/mydiary/wp-json/wp/v2/contact/${post.id}`,
         {
           method: "PUT",
           credentials: "include",
@@ -64,61 +106,12 @@
       console.log("ERROR!!!: ", error);
     }
   }
-
-  import { contacts } from "$lib/js/store";
-
-  let name;
-  let phoneNumber = [""];
-  let email;
-
-  export let data = {
-    name: name,
-    phoneNumber: phoneNumber,
-    email: email,
-  };
-
-  $: rData = data;
-
-  let valid = true;
-
-  function addContact() {
-    if (data.email === "" || data.name === "" || data.phoneNumber === [""]) {
-      return;
-    } else {
-      $contacts = [...$contacts, rData];
-      console.log($contacts);
-    }
-
-    data.name = "";
-    data.phoneNumber = [""];
-    data.email = "";
-  }
-
-  function newNumber() {
-    data.phoneNumber = [...data.phoneNumber, ""];
-  }
-  let emailRules = [
-    function (v) {
-      if ("" === v) {
-        valid = false;
-        return "Tipeiwo Email";
-      } else {
-        valid = true;
-        return false;
-      }
-    },
-  ];
-
-  function deleteNumber(index) {
-    data.phoneNumber.splice(index, 1);
-    data.phoneNumber = data.phoneNumber;
-  }
 </script>
 
 <div
   class="fixed inset-x-0 p-2 md:p-4 bg-gray-700 md:top-0 top-14 text-white text-lg md:pl-64 z-10"
 >
-  <h3 class="ml-10">Contacts</h3>
+  <h3 class="ml-10">Contacts: {post.full_name}</h3>
 </div>
 
 <div class="section md:mt-32 mt-20">
@@ -127,10 +120,10 @@
   <input
     class="bg-gray-300  hover:bg-red-400 flex flex-col"
     type="text"
-    bind:value={$contacts.name}
+    bind:value={name}
   />
 
-  {#each data.phoneNumber as number, index}
+  {#each phoneNumber as number, index}
     <div class="flex flex-row">
       <div
         style="
@@ -142,7 +135,7 @@
         <input
           class="bg-gray-300  hover:bg-red-400 flex flex-col"
           type="text"
-          bind:value={$contacts.number}
+          bind:value={number}
         />
       </div>
 
@@ -190,17 +183,12 @@
     class="bg-gray-300  hover:bg-red-400 flex flex-col"
     type="text"
     bind:value={email}
-    rules={emailRules}
-    validateOnBlur
   />
 
-  {#if valid}
-    <button
-      on:click={addContact}
-      class="red white-text bg-blue-600 hover:text-red-600 m-2 w-16"
-      >Save</button
-    >
-  {:else}<button disabled>Save</button>{/if}
+  <button
+    on:click={editPost}
+    class="red white-text bg-blue-600 hover:text-red-600 m-2 w-16">Save</button
+  >
 </div>
 
 <style>

@@ -1,62 +1,85 @@
 <script>
-    let name,email, phoneNumber;
-  
-    async function addPost() {
-      const token = JSON.parse(localStorage.getItem("token"));
-      try {
-        const res = await fetch(
-          "https://imajenation.co.zw/mydiary/wp-json/wp/v2/note",
-          {
-            method: "POST",
-            credentials: "include",
-            headers: {
-              "Content-type": "application/json",
-              Authorization: "Bearer " + token,
-            },
-            body: JSON.stringify({ title, content, status: "publish" }),
-          }
-        );
-  
-        const data = await res.json();
-        console.log(data);
-  
-        if (res.ok) {
-          console.log("res is okay");
-        } else {
-          console.log("res has an error");
-        }
-      } catch (error) {
-        console.log("ERROR!!!: ", error);
-      }
-    }
-  </script>
+  let name,
+    email,
+    phoneNumber = [""];
 
+  $: newContact = {
+    title: name,
+    full_name: name,
+    phone_numbers: phoneNumber,
+    email: email,
+    status: "publish",
+  };
+
+  function newNumber() {
+    phoneNumber = [...phoneNumber, ""];
+  }
+
+  function deleteNumber(index) {
+    phoneNumber.splice(index, 1);
+    phoneNumber = phoneNumber;
+  }
+
+  async function addPost() {
+    let token = localStorage.getItem("token");
+    token = JSON.parse(token);
+    let body = newContact;
+    try {
+      const res = await fetch(
+        "https://imajenation.co.zw/mydiary/wp-json/wp/v2/note",
+        {
+          method: "POST",
+          credentials: "include",
+          headers: {
+            "Content-type": "application/json",
+            Authorization: "Bearer " + token,
+          },
+          body: JSON.stringify(body),
+        }
+      );
+
+      const data = await res.json();
+      console.log(data);
+
+      if (res.ok) {
+        console.log("res is okay");
+      } else {
+        console.log("res has an error");
+      }
+    } catch (error) {
+      console.log("ERROR!!!: ", error);
+    }
+  }
+</script>
 
 <div class="section md:mt-32 mt-20">
+  <label class="" for="input-name">Name...</label>
+
+  <div class="section md:mt-32 mt-20">
     <label class="" for="input-name">Name...</label>
-  
+
     <input
       class="bg-gray-300  hover:bg-red-400 flex flex-col"
       type="text"
-      bind:value={$contacts.name}
+      bind:value={name}
     />
-  
-    {#each data.phoneNumber as number, index}
+
+    {#each phoneNumber as number, index}
       <div class="flex flex-row">
         <div
           style="
-          width: 100%;"
+        width: 100%;"
           class="pr-2"
         >
           <label class="" for="input-phoneNumber">Phone Number...</label>
-  
+
           <input
             class="bg-gray-300  hover:bg-red-400 flex flex-col"
             type="text"
-            bind:value={$contacts.number}
+            bind:value={number}
           />
         </div>
-  
+
         <div class="add-btn">
           {#if index !== phoneNumber.length - 1}
             <button
@@ -94,50 +117,21 @@
         </div>
       </div>
     {/each}
-  
+
     <label class="" for="input-email">Email...</label>
-  
+
     <input
       class="bg-gray-300  hover:bg-red-400 flex flex-col"
       type="text"
       bind:value={email}
-      rules={emailRules}
-      validateOnBlur
     />
-  
-    {#if valid}
-      <button
-        on:click={addContact}
-        class="red white-text bg-blue-600 hover:text-red-600 m-2 w-16"
-        >Save</button
-      >
-    {:else}<button disabled>Save</button>{/if}
-  </div>
-  
 
-  
-  <h1 class="text-2xl font-bold ">Notes</h1>
-  
-  <div class="mx-auto p-5 md:max-w-md w-full bg-gray-100 rounded mb-16 shadow-lg">
-    <h3 class="text-center text-2xl mb-5">Add Note</h3>
-  
-    <input
-      bind:value={title}
-      class="w-full rounded mb-5"
-      placeholder="Title"
-      type="text"
-    />
-    <input
-      bind:value={content}
-      class="w-full rounded mb-5"
-      placeholder="Content"
-      type="text"
-    />
-  
     <button
       on:click={addPost}
-      class="px-6 py-2 text-white rounded bg-pink-700 hover:bg-pink-500"
-      >Publish</button
+      class="red white-text bg-blue-600 hover:text-red-600 m-2 w-16"
+      >Save</button
     >
   </div>
-  
+</div>
+
+<h1 class="text-2xl font-bold ">Notes</h1>

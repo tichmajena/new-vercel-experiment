@@ -77,7 +77,11 @@
         Home
       </li></a
     >
-    <a class="text-blue-100 hover:no-underline" href="/contacts">
+    <a
+      sveltekit:prefetch
+      class="text-blue-100 hover:no-underline"
+      href="/contacts"
+    >
       <li
         on:click={toggleMenu}
         class:active={$page.path === "/contacts"}
@@ -138,6 +142,7 @@
 
 <style>
   .active {
-    @apply bg-blue-700 text-white;
+    @apply bg-blue-700;
+    @apply text-white;
   }
 </style>

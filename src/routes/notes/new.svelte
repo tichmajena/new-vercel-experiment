@@ -2,7 +2,8 @@
   let title, content;
 
   async function addPost() {
-    const token = JSON.parse(localStorage.getItem("token"));
+    let token = localStorage.getItem("token");
+    token = JSON.parse(token);
     try {
       const res = await fetch(
         "https://imajenation.co.zw/mydiary/wp-json/wp/v2/note",
