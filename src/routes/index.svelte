@@ -8,8 +8,8 @@
   let loading = false;
   import { domState } from "$lib/js/store";
   import { scale, fade } from "svelte/transition";
-  let username;
-  let password;
+  let username = "berlin@imajenation.co.zw";
+  let password = "M@jena0347";
 
   async function submit() {
     loading = true;

@@ -8,7 +8,7 @@
   {#if $domState.login}
     <Header />
   {/if}
-  <div class="bg-gray-200 flex-1 p-10 relative">
+  <div class="bg-gray-200 flex-1 px-10 pt-32 relative">
     <slot />
   </div>
 </div>
