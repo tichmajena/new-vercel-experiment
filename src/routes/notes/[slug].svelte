@@ -92,7 +92,7 @@
 
   let successLogic = () => {
     editNotesSucc = false;
-    goto(`/notes/${data.slug}`);
+    goto(`/notes/${post.slug}?acas=97097`);
   };
 
   let errorLogic = () => {
