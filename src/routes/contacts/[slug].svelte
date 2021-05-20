@@ -43,7 +43,7 @@
   };
 
   function newNumber() {
-    phoneNumber = [phoneNumber, ""];
+    phoneNumber = [...phoneNumber, ""];
   }
 
   function deleteNumber(index) {
