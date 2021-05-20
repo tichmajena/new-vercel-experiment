@@ -5,7 +5,7 @@
   let mn;
   let sc;
 
-  export let day = new Date();
+  export let day;
 
   setInterval(() => {
     day = new Date();

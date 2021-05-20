@@ -33,7 +33,7 @@
 </a>
 
 {#each notes as note}
-  <a href="/notes/{note.slug}">
+  <a sveltekit:prefetch href="/notes/{note.slug}">
     <h2>{note.title.rendered}</h2>
   </a>
 {/each}

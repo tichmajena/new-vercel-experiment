@@ -9,6 +9,7 @@ export let domState = writable({
   activeIndex: 0,
   pageIndex: 0,
   save: false,
+  login: false,
 });
 
 export let notes = writable([]);
