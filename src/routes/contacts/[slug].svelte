@@ -1,29 +1,6 @@
 <script context="module">
-  // export const load = async (ctx) => {
-  //   const res = await fetch(
-  //     `https://imajenation.co.zw/mydiary/wp-json/wp/v2` +
-  //       `/contact/?slug=${ctx.page.params.slug}`
-  //   );
-  //   if (res.ok) {
-  //     console.log("res is ok");
-  //     const data = await res.json();
-  //     const post = await data[0];
-
-  //     return {
-  //       props: { post },
-  //     };
-  //   }
-
-  //   const { message } = await res.json();
-
-  //   return {
-  //     error: new Error(message),
-  //   };
-  // };
-
-  export const load = async ({ page, fetch, context }) => {
+  export const load = async ({ page, fetch }) => {
     console.log(page);
-    console.log(context);
     const res = await fetch(`/contacts/${page.params.slug}.json`);
 
     console.log(res);

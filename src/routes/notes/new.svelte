@@ -3,7 +3,7 @@
   let data;
   let notesSucc = false;
   import { domState } from "$lib/js/store";
-  import { goto } from "$app/navigation";
+  import { goto, prefetch } from "$app/navigation";
 
   async function addPost() {
     let token = localStorage.getItem("token");
@@ -26,6 +26,7 @@
       console.log(data.slug);
 
       if (res.ok) {
+        prefetch(`/notes/${data.slug}`);
         notesSucc = true;
       } else {
         console.log("res has an error");
