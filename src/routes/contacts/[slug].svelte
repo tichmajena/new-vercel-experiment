@@ -20,9 +20,16 @@
       error: new Error(message),
     };
   };
+  import { goto, prefetch } from "$app/navigation";
 </script>
 
 <script>
+  import Button from "$lib/Button/index.svelte";
+  import Message from "$lib/Message/index.svelte";
+  let loading = false;
+  let edit = false;
+  let editContactSucc = false;
+
   export let post;
   console.log(post);
   if (typeof post.phone_numbers === "string") {
@@ -56,6 +63,8 @@
     let token = localStorage.getItem("token");
     console.log(token);
     token = JSON.parse(token);
+    loading = true;
+
     try {
       const res = await fetch(
         `https://www.imajenation.co.zw/mydiary/wp-json/wp/v2/contact/${post.id}`,
@@ -76,15 +85,23 @@
       if (res.ok) {
         console.log("res is okay");
         console.log(data);
+        editContactSucc = true;
+        loading = false;
 
         edit = false;
       } else {
         console.log("res has an error");
+        loading = false;
       }
     } catch (error) {
       console.log("ERROR!!!: ", error);
+      loading = false;
     }
   }
+  let successLogic = () => {
+    editContactSucc = false;
+    goto(`/contacts/${post.slug}?acas=97097`);
+  };
 </script>
 
 <div
@@ -164,11 +181,29 @@
     bind:value={email}
   />
 
-  <button
-    on:click={editPost}
-    class="red white-text bg-blue-600 hover:text-red-600 m-2 w-16">Save</button
-  >
+  <Button on:click={editPost} color="blue" {loading}>Save</Button>
 </div>
+{#if editContactSucc}
+  <Message color="green" timeout={3000} logic={successLogic}>
+    <span slot="message" class="text-xl"> Edit successfull </span>
+
+    <svg
+      slot="icon"
+      xmlns="http://www.w3.org/2000/svg"
+      class="h-8 w-8 "
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke="currentColor"
+    >
+      <path
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="2"
+        d="M14 10h4.764a2 2 0 011.789 2.894l-3.5 7A2 2 0 0115.263 21h-4.017c-.163 0-.326-.02-.485-.06L7 20m7-10V5a2 2 0 00-2-2h-.095c-.5 0-.905.405-.905.905 0 .714-.211 1.412-.608 2.006L7 11v9m7-10h-2M7 20H5a2 2 0 01-2-2v-6a2 2 0 012-2h2.5"
+      />
+    </svg>
+  </Message>
+{/if}
 
 <style>
   .add-btn {
@@ -176,3 +211,8 @@
     align-self: flex-end;
   }
 </style>
+
+
+
+
+<h2>CVLq=-L1~+*{</h2>

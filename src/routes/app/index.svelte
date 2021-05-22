@@ -1,16 +1,9 @@
 <script>
   import { appNotes } from "$lib/js/store";
+  import { notebook } from "$lib/js/store";
 
   function displayForm() {}
 </script>
-
-<style>
-  .fab {
-    position: fixed;
-    right: 50px;
-    bottom: 50px;
-  }
-</style>
 
 <h1 class="text-2xl font-bold">App Notes</h1>
 
@@ -19,22 +12,37 @@
     <h3 class="mb-10">App Notes</h3>
   </a>
   <ul>
-    {#each $appNotes as notes, index}
+    {#each $notebook as leaf, index}
       <li>
-        <div class="bg-" style="border-bottom: 2px solid gray">
-          <h5>{notes.note.title}</h5>
-          <span>
-            <a href="/app/{index}">
-              <button
-                class="py-2 px-4 bg-pink-700 rounded-md text-white text-sm ">
-                More
-              </button>
-            </a></span>
-          <span>{notes.note.steps.length}
-            Step{#if notes.note.steps.length > 1}s{/if}</span>
+        <div
+          class="flex justify-between mb-3"
+          style="border-bottom: 2px solid gray"
+        >
+          <div class="flex flex-col">
+            <h5 class="block">{leaf.note.title}</h5>
+            <span class="block"
+              >{leaf.note.steps.length}
+              Step{#if leaf.note.steps.length > 1}s{/if}</span
+            >
+          </div>
+          <a class="mb-2" href="/app/{index}">
+            <button
+              class="py-2 px-4 bg-pink-700 rounded-md text-white text-sm "
+            >
+              More
+            </button>
+          </a>
         </div>
       </li>
     {/each}
   </ul>
 </main>
 <div class="fab"><button on:click={displayForm}> + </button></div>
+
+<style>
+  .fab {
+    position: fixed;
+    right: 50px;
+    bottom: 50px;
+  }
+</style>

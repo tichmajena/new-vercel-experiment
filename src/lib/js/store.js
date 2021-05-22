@@ -9,8 +9,84 @@ export let domState = writable({
   activeIndex: 0,
   pageIndex: 0,
   save: false,
-  login: false,
+  login: true,
 });
+
+export let notebook = writable([
+  {
+    note: {
+      title: "App Title 1",
+      level: 1,
+      steps: [
+        {
+          note: {
+            title: "Step 1",
+            level: 1,
+            steps: [],
+          },
+        },
+        {
+          note: {
+            title: "Step 2",
+            level: 1,
+            steps: [],
+          },
+        },
+        {
+          note: {
+            title: "Step 3",
+            level: 1,
+            steps: [],
+          },
+        },
+      ],
+    },
+  },
+  {
+    note: {
+      title: "App Title 2",
+      level: 1,
+      steps: [
+        {
+          note: {
+            title: "Step 1",
+            level: 1,
+            steps: [],
+          },
+        },
+        {
+          note: {
+            title: "Step 2",
+            level: 1,
+            steps: [
+              {
+                note: {
+                  title: "Sub Step 1",
+                  level: 1,
+                  steps: [],
+                },
+              },
+              {
+                note: {
+                  title: "Sub Step 2",
+                  level: 1,
+                  steps: [],
+                },
+              },
+            ],
+          },
+        },
+        {
+          note: {
+            title: "Step 3",
+            level: 1,
+            steps: [],
+          },
+        },
+      ],
+    },
+  },
+]);
 
 export let notes = writable([]);
 
@@ -51,7 +127,7 @@ export let appNotes = writable([
       level: 1,
       steps: [
         // *******
-        { note: { title: "potsi" } },
+        { note: { title: "potsi", steps: [] } },
         {
           note: {
             //**** */
@@ -59,9 +135,9 @@ export let appNotes = writable([
             level: 2,
             steps: [
               //****** */
-              { note: { title: "one" } },
-              { note: { title: "two" } },
-              { note: { title: "three" } },
+              { note: { title: "one", steps: [] } },
+              { note: { title: "two", steps: [] } },
+              { note: { title: "three", steps: [] } },
               {
                 note: {
                   //*** */
@@ -69,15 +145,15 @@ export let appNotes = writable([
                   level: 3,
                   steps: [
                     //**** */
-                    { note: { title: "ichi" } },
+                    { note: { title: "ichi", steps: [] } },
                     {
                       note: {
                         title: "piri",
                         level: 4,
                         steps: [
                           //** */
-                          { note: { title: "uno" } },
-                          { note: { title: "dos" } },
+                          { note: { title: "uno", steps: [] } },
+                          { note: { title: "dos", steps: [] } },
                           {
                             note: {
                               //** */
@@ -85,164 +161,30 @@ export let appNotes = writable([
                               level: 5,
                               steps: [
                                 //**** */
-                                { note: { title: "un" } },
-                                { note: { title: "deaux" } },
-                                { note: { title: "trois" } },
-                                { note: { title: "quatre" } },
-                                { note: { title: "cinq" } },
+                                { note: { title: "un", steps: [] } },
+                                { note: { title: "deaux", steps: [] } },
+                                { note: { title: "trois", steps: [] } },
+                                { note: { title: "quatre", steps: [] } },
+                                { note: { title: "cinq", steps: [] } },
                               ],
                             },
                           }, //** */
-                          { note: { title: "quattro" } },
+                          { note: { title: "quattro", steps: [] } },
                         ],
                       },
                     },
-                    { note: { title: "san" } },
-                    { note: { title: "chii" } },
-                    { note: { title: "go" } },
+                    { note: { title: "san", steps: [] } },
+                    { note: { title: "chii", steps: [] } },
+                    { note: { title: "go", steps: [] } },
                   ],
                 },
               },
-              { note: { title: "five" } },
+              { note: { title: "five", steps: [] } },
             ],
           },
         },
-        { note: { title: "tatu" } },
-        { note: { title: "ina" } },
-      ],
-    },
-  },
-  {
-    note: {
-      title: "App",
-      level: 1,
-      steps: [
-        // *******
-        { note: { title: "potsi" } },
-        {
-          note: {
-            //**** */
-            title: "piri",
-            level: 2,
-            steps: [
-              //****** */
-              { note: { title: "one" } },
-              { note: { title: "two" } },
-              { note: { title: "three" } },
-              {
-                note: {
-                  //*** */
-                  title: "piri",
-                  level: 3,
-                  steps: [
-                    //**** */
-                    { note: { title: "ichi" } },
-                    {
-                      note: {
-                        title: "piri",
-                        level: 4,
-                        steps: [
-                          //** */
-                          { note: { title: "uno" } },
-                          { note: { title: "dos" } },
-                          {
-                            note: {
-                              //** */
-                              title: "piri",
-                              level: 5,
-                              steps: [
-                                //**** */
-                                { note: { title: "un" } },
-                                { note: { title: "deaux" } },
-                                { note: { title: "trois" } },
-                                { note: { title: "quatre" } },
-                                { note: { title: "cinq" } },
-                              ],
-                            },
-                          }, //** */
-                          { note: { title: "quattro" } },
-                        ],
-                      },
-                    },
-                    { note: { title: "san" } },
-                    { note: { title: "chii" } },
-                    { note: { title: "go" } },
-                  ],
-                },
-              },
-              { note: { title: "five" } },
-            ],
-          },
-        },
-        { note: { title: "tatu" } },
-        { note: { title: "ina" } },
-      ],
-    },
-  },
-  {
-    note: {
-      title: "App",
-      level: 1,
-      steps: [
-        // *******
-        { note: { title: "potsi" } },
-        {
-          note: {
-            //**** */
-            title: "piri",
-            level: 2,
-            steps: [
-              //****** */
-              { note: { title: "one" } },
-              { note: { title: "two" } },
-              { note: { title: "three" } },
-              {
-                note: {
-                  //*** */
-                  title: "piri",
-                  level: 3,
-                  steps: [
-                    //**** */
-                    { note: { title: "ichi" } },
-                    {
-                      note: {
-                        title: "piri",
-                        level: 4,
-                        steps: [
-                          //** */
-                          { note: { title: "uno" } },
-                          { note: { title: "dos" } },
-                          {
-                            note: {
-                              //** */
-                              title: "piri",
-                              level: 5,
-                              steps: [
-                                //**** */
-                                { note: { title: "un" } },
-                                { note: { title: "deaux" } },
-                                { note: { title: "trois" } },
-                                { note: { title: "quatre" } },
-                                { note: { title: "cinq" } },
-                              ],
-                            },
-                          }, //** */
-                          { note: { title: "quattro" } },
-                        ],
-                      },
-                    },
-                    { note: { title: "san" } },
-                    { note: { title: "chii" } },
-                    { note: { title: "go" } },
-                  ],
-                },
-              },
-              { note: { title: "five" } },
-            ],
-          },
-        },
-        { note: { title: "tatu" } },
-        { note: { title: "ina" } },
+        { note: { title: "tatu", steps: [] } },
+        { note: { title: "ina", steps: [] } },
       ],
     },
   },
