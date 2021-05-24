@@ -5,6 +5,7 @@
   let noteIndex = 0;
 
   function toggleTitle() {
+    $domState.showTitleContent = false;
     let newNote = {
       title: "",
       steps: [],

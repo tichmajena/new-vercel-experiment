@@ -1,14 +1,19 @@
 <script>
-  import { appNotes } from "$lib/js/store";
+  import { appNotes, domState } from "$lib/js/store";
   import { notebook } from "$lib/js/store";
 
   function displayForm() {}
+  let arr1 = ["0", 1, 2, 3, 4, 5, 6];
+  let arr2 = ["a", "b", "c", "d", "e", "f"];
+
+  let a = arr2[arr1[0]];
+  console.log("A:", a);
 </script>
 
 <h1 class="text-2xl font-bold">App Notes</h1>
 
 <main>
-  <a href="/app/hello">
+  <a href="/app/new">
     <h3 class="mb-10">App Notes</h3>
   </a>
   <ul>

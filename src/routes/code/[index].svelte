@@ -21,6 +21,7 @@
   console.log("page index", $domState.pageIndex);
 
   function toggleTitle() {
+    $domState.showTitleForm = false;
     let newNote = {
       title: "",
       steps: [],
