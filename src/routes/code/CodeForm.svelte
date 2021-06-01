@@ -3,39 +3,29 @@
   import { onMount } from "svelte";
 
   let code = false;
+  export let step;
+  export let note;
+  console.log("Form is true");
+  note.steps[step].code;
 
   let editor;
   let CodeMirror;
   let options = {
     lineNumbers: true,
     mode: "javascript",
-    value: "const x = 42",
+    value: note.steps[step].code,
   };
-  const sleep = (ms) => new Promise((f) => setTimeout(f, ms));
 
   onMount(async () => {
-    await sleep(1000); // simulate network delay
-    //Thing = (await import("./Thing.svelte")).default;
-    //import 'codemirror/mode/javascript/javascript'
-    (await import("codemirror/mode/javascript/javascript")).default;
-
-    //import CodeMirror from '@joshnuss/svelte-codemirror'
     CodeMirror = (await import("@joshnuss/svelte-codemirror")).default;
-
-    // CodeMirror = (await import("codemirror")).default;
+    (await import("codemirror/mode/javascript/javascript")).default;
+    console.log("CodeMirrored!");
   });
-
-  export let step;
 </script>
 
 <div class="flex flex-col-reverse">
   <!-- <CodeMirror bind:editor class="editor" {options} /> -->
-  <svelte:component
-    this={CodeMirror}
-    bind:editor
-    options={{ lineNumbers: true, mode: "javascript", value: "const x = 42" }}
-    class="editor"
-  />
+  <svelte:component this={CodeMirror} bind:editor {options} class="editor" />
   <!-- <textarea
     class="snippet__code-input  "
     type="text"

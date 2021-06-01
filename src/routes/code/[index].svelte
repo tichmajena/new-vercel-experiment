@@ -1,9 +1,18 @@
 <script context="module">
+  import { codeNotes } from "$lib/js/store";
+
+  let notes;
+
+  const unsubscribe = codeNotes.subscribe((value) => {
+    notes = value;
+  });
+
   export async function load(ctx) {
     // Wabva kupi?
     console.log(ctx.page.params.index);
     let index = ctx.page.params.index;
-    return { props: { index } };
+    let note = notes[index];
+    return { props: { note, index } };
   }
 </script>
 
@@ -12,9 +21,10 @@
   import TitleForm from "./TitleForm.svelte";
   import TitleContent from "./TitleContent.svelte";
   import OurButtons from "./OurButtons.svelte";
-  import { codeNotes, domState } from "$lib/js/store";
+  import { domState } from "$lib/js/store";
   import { goto } from "$app/navigation";
   export let index;
+  export let note;
   let noteIndex = index;
   $domState.pageIndex = index;
 
@@ -58,12 +68,12 @@
         <div class="note-title__title">
           <div class="title__form-div">
             {#if $domState.showTitleForm}
-              <TitleForm {index} />
+              <TitleForm {index} {note} />
             {/if}
           </div>
           <div class="title__content-div">
             {#if $domState.showTitleContent}
-              <TitleContent {index} />
+              <TitleContent {index} {note} />
             {/if}
           </div>
         </div>
@@ -73,7 +83,7 @@
           <ol class="list-decimal">
             {#each $codeNotes[noteIndex].steps as step, index}
               <li class="mb-5">
-                <NoteBody step={index} />
+                <NoteBody step={index} {note} />
               </li>
             {/each}
           </ol>
@@ -82,7 +92,7 @@
 
       <div class="note-footer">
         <!-- uvbu -->
-        <OurButtons />
+        <OurButtons {note} />
       </div>
       <div class="bottom-bar md:pl-64">
         <div id="add-btn">

@@ -13,7 +13,7 @@
 
     let leaf = chakuti;
     let address = slug.split("");
- 
+
     address.forEach((a, i) => {
       a = +a;
       if (i === address.length - 1) {
@@ -160,8 +160,10 @@
       {loading}
       on:click={() => {
         edit = true;
-      }}>Edit</Button
+      }}
     >
+      Edit
+    </Button>
   </div>
 {/if}
 
@@ -181,7 +183,9 @@
             type="text"
             bind:value={step.note.title}
           />
-          <label class="text-xs" for="step-{index + 1}" /> Step {index + 1}
+          <label class="text-xs" for="step-{index + 1}" />
+          Step
+          {index + 1}
         </div>
 
         <div class="add-btn mb-1">

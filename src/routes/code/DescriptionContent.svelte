@@ -1,10 +1,11 @@
 <script>
   import { codeNotes, domState } from "$lib/js/store";
   export let step;
+  export let note;
   let showTitleForm = () => {
     $domState.activeIndex = step;
-    $codeNotes[0].steps[step].showDForm = true;
-    $codeNotes[0].steps[step].showDContent = false;
+    note.steps[step].showDForm = true;
+    note.steps[step].showDContent = false;
   };
 </script>
 
@@ -28,6 +29,6 @@
     </button>
   </div>
 
-  <h3 class="text-2xl mb-3">{$codeNotes[0].steps[step].subtitle}</h3>
-  <p class="text-lg mb-3">{$codeNotes[0].steps[step].desc}</p>
+  <h3 class="text-2xl mb-3">{note.steps[step].subtitle}</h3>
+  <p class="text-lg mb-3">{note.steps[step].desc}</p>
 </div>

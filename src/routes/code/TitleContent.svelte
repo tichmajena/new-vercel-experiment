@@ -1,7 +1,9 @@
 <script>
   import { codeNotes } from "$lib/js/store";
-  export let index;
   import { domState } from "$lib/js/store";
+
+  export let index;
+  export let note;
   let showTitleForm = () => {
     $domState.showTitleForm = true;
     $domState.showTitleContent = false;
@@ -30,5 +32,5 @@
     </button>
   </div>
 
-  <h3 class="md:text-4xl text-xl ml-8 md:ml-10">{$codeNotes[index].title}</h3>
+  <h3 class="md:text-4xl text-xl ml-8 md:ml-10">{note.title}</h3>
 </div>

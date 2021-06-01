@@ -1,22 +1,22 @@
 <script context="module">
-  export const load = async ({ fetch }) => {
-    const res = await fetch("/quiz.json");
+  // export const load = async ({ fetch }) => {
+  //   const res = await fetch("/quiz.json");
 
-    if (res.ok) {
-      const jsonData = await res.json();
-      const quiz = await jsonData.data;
+  //   if (res.ok) {
+  //     const jsonData = await res.json();
+  //     const quiz = await jsonData.data;
 
-      return {
-        props: { quiz },
-      };
-    }
+  //     return {
+  //       props: { quiz },
+  //     };
+  //   }
 
-    const { message } = await res.json();
+  //   const { message } = await res.json();
 
-    return {
-      error: new Error(message),
-    };
-  };
+  //   return {
+  //     error: new Error(message),
+  //   };
+  // };
 </script>
 
 <script>
@@ -94,7 +94,7 @@
     let duration = quizDuration * 1000;
     let gameDuration = gameTime * 1000;
     let everyMilliSecond = Date.now();
-    
+
     elapsedTime = now + duration - everyMilliSecond + pauseTime;
 
     elapsedGameTime = now + gameDuration - everyMilliSecond + pauseTime;

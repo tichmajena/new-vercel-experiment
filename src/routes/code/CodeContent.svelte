@@ -1,6 +1,7 @@
 <script>
   import { codeNotes } from "$lib/js/store";
   export let step;
+  export let note;
 </script>
 
 <div>
@@ -22,5 +23,5 @@
       </svg>
     </button>
   </div>
-  <h3>{$codeNotes[0].steps[step].code}</h3>
+  <h3>{note.steps[step].code}</h3>
 </div>

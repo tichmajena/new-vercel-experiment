@@ -132,7 +132,8 @@
         placeholder="Content"
         type="text"
       />
-      <Button on:click={editPost} color="red" {loading}>Update</Button>
+      <Button on:click={editPost} color="red" {loading}>Update
+      </Button>
     {/if}
   </div>
 {/if}

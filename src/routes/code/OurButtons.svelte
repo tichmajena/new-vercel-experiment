@@ -3,9 +3,13 @@
 
   $: activeIndex = 0;
   $: pageIndex = $domState.pageIndex;
-
+  $: console.log("Page Index:", pageIndex);
+  $: console.log("Active Index:", activeIndex);
   function tumiraEvent() {
+    console.log($domState.showTitleForm);
+    console.log($domState.showAddDesc);
     if ($domState.showTitleForm || $domState.showAddDesc) {
+      console.log("One of them is true");
       let newStep = {
         subtitle: "",
         desc: "",
@@ -26,10 +30,27 @@
       $codeNotes[pageIndex].steps[activeIndex].showDForm = true;
       $domState.showAddDesc = false;
     } else if ($codeNotes[pageIndex].steps[activeIndex].showDForm) {
+      console.log(
+        "First If:",
+        $codeNotes[pageIndex].steps[activeIndex].showDForm
+      );
+      console.log(
+        "Second If:",
+        $codeNotes[pageIndex].steps[activeIndex].showCForm
+      );
+      console.log($codeNotes[pageIndex]);
       $codeNotes[pageIndex].steps[activeIndex].showDForm = false;
       $codeNotes[pageIndex].steps[activeIndex].showDContent = true;
       $codeNotes[pageIndex].steps[activeIndex].showCForm = true;
     } else if ($codeNotes[pageIndex].steps[activeIndex].showCForm) {
+      console.log(
+        "Second If:",
+        $codeNotes[pageIndex].steps[activeIndex].showCForm
+      );
+      console.log(
+        "First If:",
+        $codeNotes[pageIndex].steps[activeIndex].showDForm
+      );
       $codeNotes[pageIndex].steps[activeIndex].showDForm = false;
       $codeNotes[pageIndex].steps[activeIndex].showCContent = true;
       $codeNotes[pageIndex].steps[activeIndex].showCForm = false;

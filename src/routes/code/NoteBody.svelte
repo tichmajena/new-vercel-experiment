@@ -6,30 +6,36 @@
   import { domState, codeNotes } from "$lib/js/store";
   let idCount = 1;
   export let step;
+  export let note;
+
+  $: activeIndex = $codeNotes[pageIndex].steps.length - 1;
+  $: pageIndex = $domState.pageIndex;
+  $: console.log("Current Note Code Form:", note.steps[step].showCForm);
+  $: console.log(note);
 </script>
 
 <div class="note-body-wrapper note-body-wrapper-{idCount}">
   <div class="note-body__desc note-body__desc-{idCount}">
     <div class="desc__form-div desc__form-div-{idCount}">
-      {#if $codeNotes[0].steps[step].showDForm}
-        <DescriptionForm {step} />
+      {#if note.steps[step].showDForm}
+        <DescriptionForm {step} {note} />
       {/if}
     </div>
     <div class="desc__content-div desc__content-div-{idCount}">
-      {#if $codeNotes[0].steps[step].showDContent}
-        <DescriptionContent {step} />
+      {#if note.steps[step].showDContent}
+        <DescriptionContent {step} {note} />
       {/if}
     </div>
   </div>
   <div class="note-body__snippet note-body__snippet-{idCount}">
     <div class="snippet__form-div snippet__form-div-{idCount}">
-      {#if $codeNotes[0].steps[step].showCForm}
-        <CodeForm {step} />
+      {#if note.steps[step].showCForm}
+        <CodeForm {step} {note} />
       {/if}
     </div>
     <div class="snippet__content-div snippet__content-div-{idCount}">
-      {#if $codeNotes[0].steps[step].showCContent}
-        <CodeContent {step} />
+      {#if note.steps[step].showCContent}
+        <CodeContent {step} {note} />
       {/if}
     </div>
   </div>

@@ -1,7 +1,9 @@
 <script>
   import { codeNotes } from "$lib/js/store";
-  export let index;
   import { domState } from "$lib/js/store";
+
+  export let index;
+  export let note;
 
   let showTitleContent = () => {
     $domState.showTitleForm = false;
@@ -16,7 +18,7 @@
     class="title__input "
     type="text"
     id="input-title"
-    bind:value={$codeNotes[index].title}
+    bind:value={note.title}
   />
 </div>
 
