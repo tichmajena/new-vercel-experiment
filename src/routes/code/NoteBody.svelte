@@ -10,8 +10,8 @@
 
   $: activeIndex = $codeNotes[pageIndex].steps.length - 1;
   $: pageIndex = $domState.pageIndex;
-  $: console.log("Current Note Code Form:", note.steps[step].showCForm);
   $: console.log(note);
+  $: console.log("Current Note Code Form:", note.steps[step].showCForm);
 </script>
 
 <div class="note-body-wrapper note-body-wrapper-{idCount}">

@@ -19,13 +19,22 @@
   onMount(async () => {
     CodeMirror = (await import("@joshnuss/svelte-codemirror")).default;
     (await import("codemirror/mode/javascript/javascript")).default;
+    let gondo = (await import("codemirror/mode/javascript/javascript")).default;
+    console.log(gondo);
     console.log("CodeMirrored!");
   });
 </script>
 
 <div class="flex flex-col-reverse">
   <!-- <CodeMirror bind:editor class="editor" {options} /> -->
-  <svelte:component this={CodeMirror} bind:editor {options} class="editor" />
+  <svelte:component
+    this={CodeMirror}
+    bind:editor
+    {options}
+    bind:value={note.steps[step].code}
+    class="editor"
+  />
+
   <!-- <textarea
     class="snippet__code-input  "
     type="text"
@@ -38,6 +47,6 @@
 
 <style>
   :global(.editor) {
-    font-size: 1.5rem;
+    font-size: 1.2rem;
   }
 </style>

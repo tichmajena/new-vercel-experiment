@@ -6,6 +6,7 @@
   $: console.log("Page Index:", pageIndex);
   $: console.log("Active Index:", activeIndex);
   function tumiraEvent() {
+    $domState.save = true;
     console.log($domState.showTitleForm);
     console.log($domState.showAddDesc);
     if ($domState.showTitleForm || $domState.showAddDesc) {
@@ -24,6 +25,7 @@
       activeIndex = $codeNotes[pageIndex].steps.length - 1;
       console.log($codeNotes);
       console.log($codeNotes[pageIndex].steps.length);
+      console.log("Page Index", pageIndex);
 
       $domState.showTitleForm = false;
       $domState.showTitleContent = true;

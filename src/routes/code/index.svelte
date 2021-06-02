@@ -19,7 +19,7 @@
     $domState.save = true;
     let index = $codeNotes.length - 1;
     console.log(index);
-    goto("/code/" + index);
+    goto("/code/" + index + "?v=456");
   }
 
   function save() {
@@ -37,7 +37,17 @@
 <div class="section md:mt-32 mt-20">
   <div class="container mx-auto max-w-lg ">
     {#each $codeNotes as note, index}
-      <a href="/code/{index}">
+      <a
+        on:click={() => {
+          $domState.showTitleForm = false;
+          $domState.showTitleContent = true;
+          // $domState.showFabs = true;
+          if(true){}
+          //$domState.showAddDesc = true;
+          console.log($domState.showFabs);
+        }}
+        href="/code/{index}"
+      >
         <h3 class="md:text-4xl text-lg ml-8 md:ml-10">
           {$codeNotes[index].title}
         </h3>

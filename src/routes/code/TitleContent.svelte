@@ -4,6 +4,7 @@
 
   export let index;
   export let note;
+  console.log(note);
   let showTitleForm = () => {
     $domState.showTitleForm = true;
     $domState.showTitleContent = false;
