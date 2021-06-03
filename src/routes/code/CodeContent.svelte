@@ -66,7 +66,7 @@
     in:fade
     class="flex">
     <code
-      class="block p-4 w-auto javascript">
+      class="block p-4 w-full rounded javascript">
       {note.steps[step].code}
     </code>
   </pre>

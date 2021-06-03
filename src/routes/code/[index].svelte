@@ -26,15 +26,29 @@
   export let index;
   export let note;
   let noteIndex = index;
-  $domState.pageIndex = index;
+  $domState.pageIndex = +index;
 
   console.log("page index", $domState.pageIndex);
+
+  function restState() {
+    $codeNotes.forEach((note) => {
+      note.edit = false;
+      if (note.steps.length > 0) {
+        note.steps.forEach((step) => {
+          step.editDesc = false;
+          step.editCode = false;
+        });
+      }
+    });
+  }
 
   function toggleTitle() {
     $domState.showTitleForm = false;
     let newNote = {
       title: "",
       steps: [],
+      edit: true,
+      ready: true,
     };
 
     $codeNotes = [...$codeNotes, newNote];
@@ -67,19 +81,19 @@
       <div class="note-title">
         <div class="note-title__title">
           <div class="title__form-div">
-            {#if $domState.showTitleForm}
+            {#if $codeNotes[index].edit}
               <TitleForm {index} {note} />
             {/if}
           </div>
           <div class="title__content-div">
-            {#if $domState.showTitleContent}
+            {#if !$codeNotes[index].edit}
               <TitleContent {index} {note} />
             {/if}
           </div>
         </div>
       </div>
       <div class="note-body">
-        {#if $domState.showTitleContent}
+        {#if !$codeNotes[noteIndex].edit}
           <ol class="list-decimal">
             {#each $codeNotes[noteIndex].steps as step, index}
               <li class="mb-5">

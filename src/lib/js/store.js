@@ -1,5 +1,12 @@
 import { writable } from "svelte/store";
 
+export let cnState = writable({
+  newNote: false,
+  addDesc: false,
+  addCode: true,
+  saveNote: false,
+});
+
 export let domState = writable({
   showTitleForm: false,
   showTitleContent: false,

@@ -9,6 +9,8 @@
     let newNote = {
       title: "",
       steps: [],
+      edit: true,
+      ready: true,
     };
 
     $codeNotes = [...$codeNotes, newNote];
@@ -41,8 +43,10 @@
         on:click={() => {
           $domState.showTitleForm = false;
           $domState.showTitleContent = true;
+          $domState.save = true;
           // $domState.showFabs = true;
-          if(true){}
+          if (true) {
+          }
           //$domState.showAddDesc = true;
           console.log($domState.showFabs);
         }}
