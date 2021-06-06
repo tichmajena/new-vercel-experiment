@@ -1,5 +1,5 @@
-const base = "http://mydiary.local/wp-json";
-//const base = "http://sveltepresslocal.local/wp-json";
+export const BASE = import.meta.env.VITE_BASE;
+const base = BASE;
 
 export async function getJSON(request, resource, data) {
   // user must have a cookie set

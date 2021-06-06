@@ -1,26 +1,27 @@
 <script context="module">
-  // export const load = async ({ fetch }) => {
-  //   const res = await fetch("/quiz.json");
+  export const load = async ({ fetch }) => {
+    const res = await fetch("/quiz.json");
 
-  //   if (res.ok) {
-  //     const jsonData = await res.json();
-  //     const quiz = await jsonData.data;
+    if (res.ok) {
+      const jsonData = await res.json();
+      const quiz = await jsonData.data;
 
-  //     return {
-  //       props: { quiz },
-  //     };
-  //   }
+      return {
+        props: { quiz },
+      };
+    }
 
-  //   const { message } = await res.json();
+    const { message } = await res.json();
 
-  //   return {
-  //     error: new Error(message),
-  //   };
-  // };
+    return {
+      error: new Error(message),
+    };
+  };
 </script>
 
 <script>
   import Timer from "$lib/Timer/index.svelte";
+  import CLock from "$lib/Clock/index.svelte";
   export let quiz;
   console.log(quiz);
 
@@ -131,6 +132,8 @@
     clearInterval(countDownTimer);
   }
 </script>
+
+<Clock />
 
 <div class="hidden">
   <button

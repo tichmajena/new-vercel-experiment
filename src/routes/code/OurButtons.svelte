@@ -1,5 +1,5 @@
 <script>
-  import { domState, codeNotes, cnState } from "$lib/js/store";
+  import { domState, codeNotes } from "$lib/js/store";
 
   $: activeIndex = 0;
   $: pageIndex = $domState.pageIndex;
@@ -45,59 +45,6 @@
     restState();
     $codeNotes[pageIndex].steps[activeIndex].editCode = false;
     $codeNotes[pageIndex].ready = true;
-  }
-
-  function tumiraEvent() {
-    $domState.save = true;
-    console.log($domState.showTitleForm);
-    console.log($domState.showAddDesc);
-    if ($domState.showTitleForm || $domState.showAddDesc) {
-      console.log("One of them is true");
-      let newStep = {
-        subtitle: "",
-        desc: "",
-        code: "",
-        editDesc: false,
-        editCode: false,
-      };
-
-      $codeNotes[pageIndex].steps = [...$codeNotes[pageIndex].steps, newStep];
-      activeIndex = $codeNotes[pageIndex].steps.length - 1;
-      console.log($codeNotes);
-      console.log($codeNotes[pageIndex].steps.length);
-      console.log("Page Index", pageIndex);
-
-      $domState.showTitleForm = false;
-      $domState.showTitleContent = true;
-      $codeNotes[pageIndex].steps[activeIndex].showDForm = true;
-      $domState.showAddDesc = false;
-    } else if ($codeNotes[pageIndex].steps[activeIndex].showDForm) {
-      console.log(
-        "First If:",
-        $codeNotes[pageIndex].steps[activeIndex].showDForm
-      );
-      console.log(
-        "Second If:",
-        $codeNotes[pageIndex].steps[activeIndex].showCForm
-      );
-      console.log($codeNotes[pageIndex]);
-      $codeNotes[pageIndex].steps[activeIndex].showDForm = false;
-      $codeNotes[pageIndex].steps[activeIndex].showDContent = true;
-      $codeNotes[pageIndex].steps[activeIndex].showCForm = true;
-    } else if ($codeNotes[pageIndex].steps[activeIndex].showCForm) {
-      console.log(
-        "Second If:",
-        $codeNotes[pageIndex].steps[activeIndex].showCForm
-      );
-      console.log(
-        "First If:",
-        $codeNotes[pageIndex].steps[activeIndex].showDForm
-      );
-      $codeNotes[pageIndex].steps[activeIndex].showDForm = false;
-      $codeNotes[pageIndex].steps[activeIndex].showCContent = true;
-      $codeNotes[pageIndex].steps[activeIndex].showCForm = false;
-      $domState.showAddDesc = true;
-    }
   }
 </script>
 

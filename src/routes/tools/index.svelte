@@ -4,22 +4,20 @@
   let hr;
   let mn;
   let sc;
-
+  let zuva = new Date();
   export let day = new Date();
 
-  setInterval(() => {
-    day = new Date();
-  });
-
-  $: hh = day.getHours() * 30;
-  $: mm = day.getMinutes() * deg;
-  $: ss = day.getSeconds() * deg;
+  $: hh = zuva.getHours() * 30;
+  $: mm = zuva.getMinutes() * deg;
+  $: ss = zuva.getSeconds() * deg;
   onMount(() => {
     console.log(hr, mn, sc);
-
-    hr.style.transform = `rotateZ(${hh + mm / 12}deg)`;
-    mn.style.transform = `rotateZ(${mm}deg)`;
-    sc.style.transform = `rotateZ(${ss}deg)`;
+    setInterval(() => {
+      zuva = new Date();
+      hr.style.transform = `rotateZ(${hh + mm / 12}deg)`;
+      mn.style.transform = `rotateZ(${mm}deg)`;
+      sc.style.transform = `rotateZ(${ss}deg)`;
+    });
   });
 </script>
 
