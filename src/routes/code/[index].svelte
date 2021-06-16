@@ -29,7 +29,12 @@
   let noteIndex = index;
   $domState.pageIndex = +index;
 
+  if ($codeNotes[index] === undefined) {
+    goto("/code");
+  }
   console.log("page index", $domState.pageIndex);
+  console.log($codeNotes[index].ready);
+  console.log($domState.showFabs);
 
   async function newPost() {
     let body = $codeNotes[index];

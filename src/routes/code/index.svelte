@@ -70,10 +70,10 @@
     {#each $codeNotes as note, index}
       <a
         on:click={() => {
-          $domState.showTitleForm = false;
-          $domState.showTitleContent = true;
-          $domState.save = true;
-          // $domState.showFabs = true;
+          $codeNotes[index].ready = true;
+          $codeNotes[$domState.pageIndex].edit = true;
+          $domState.edit = true;
+          $domState.showFabs = true;
           if (true) {
           }
           //$domState.showAddDesc = true;
@@ -96,7 +96,7 @@
       </div>
       <div class="bottom-bar md:pl-64">
         <div id="add-btn">
-          {#if !$domState.save}
+          {#if !$domState.save && !$codeNotes[$domState.pageIndex].edit}
             <button
               class="text-white rounded-full h-14 w-14 bg-pink-700 grid place-items-center"
               on:click={toggleTitle}
@@ -121,6 +121,28 @@
           {#if $domState.save}
             <button
               class="text-white rounded-full h-14 w-14 bg-green-700 grid place-items-center"
+              on:click={save}
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-8 w-8"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M5 13l4 4L19 7"
+                />
+              </svg>
+            </button>
+          {/if}
+
+          {#if $codeNotes[$domState.pageIndex].edit}
+            <button
+              class="text-white rounded-full h-14 w-14 bg-blue-700 grid place-items-center"
               on:click={save}
             >
               <svg
