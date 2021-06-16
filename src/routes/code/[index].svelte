@@ -23,12 +23,96 @@
   import OurButtons from "./OurButtons.svelte";
   import { domState } from "$lib/js/store";
   import { goto } from "$app/navigation";
+  import { post } from "$lib/js/req_utils";
   export let index;
   export let note;
   let noteIndex = index;
   $domState.pageIndex = +index;
 
   console.log("page index", $domState.pageIndex);
+
+  async function newPost() {
+    let body = $codeNotes[index];
+    console.log(body);
+    body = JSON.stringify(body);
+    let note = {
+      title: $codeNotes[index].title,
+      string: body,
+      status: "publish",
+    };
+    let token = localStorage.getItem("token");
+    console.log(token);
+    token = JSON.parse(token);
+    try {
+      const res = await fetch(
+        `https://www.imajenation.co.zw/mydiary/wp-json/wp/v2/code_note/`,
+        {
+          method: "POST",
+          credentials: "include",
+          headers: {
+            "Content-type": "application/json",
+            Authorization: "Bearer " + token,
+          },
+          body: JSON.stringify(note),
+        }
+      );
+
+      const data = await res.json();
+      console.log(data);
+
+      if (res.ok) {
+        console.log("res is okay");
+        console.log(data);
+
+        edit = false;
+      } else {
+        console.log("res has an error");
+        loading = false;
+      }
+    } catch (error) {
+      console.log("ERROR!!!: ", error);
+    }
+  }
+
+  async function editPost() {
+    let body = newContact;
+    let token = localStorage.getItem("token");
+    console.log(token);
+    token = JSON.parse(token);
+    loading = true;
+
+    try {
+      const res = await fetch(
+        `https://www.imajenation.co.zw/mydiary/wp-json/wp/v2/code/${post.id}`,
+        {
+          method: "PUT",
+          credentials: "include",
+          headers: {
+            "Content-type": "application/json",
+            Authorization: "Bearer " + token,
+          },
+          body: JSON.stringify(body),
+        }
+      );
+
+      const data = await res.json();
+      console.log(data);
+
+      if (res.ok) {
+        console.log("res is okay");
+        console.log(data);
+        editContactSucc = true;
+        loading = false;
+
+        edit = false;
+      } else {
+        console.log("res has an error");
+        loading = false;
+      }
+    } catch (error) {
+      console.log("ERROR!!!: ", error);
+    }
+  }
 
   function restState() {
     $codeNotes.forEach((note) => {
@@ -135,7 +219,7 @@
           {#if $domState.save}
             <button
               class="text-white rounded-full h-14 w-14 bg-green-700 grid place-items-center"
-              on:click={save}
+              on:click={newPost}
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"

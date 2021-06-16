@@ -4,10 +4,11 @@
 
   export let index;
   export let note;
+
   console.log(note);
   let showTitleForm = () => {
-    $domState.showTitleForm = true;
-    $domState.showTitleContent = false;
+    $codeNotes[index].edit = true;
+    console.log($codeNotes[index].edit);
   };
 </script>
 

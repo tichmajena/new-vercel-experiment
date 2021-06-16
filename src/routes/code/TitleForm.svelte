@@ -1,13 +1,15 @@
 <script>
   import { codeNotes } from "$lib/js/store";
   import { domState } from "$lib/js/store";
+  import Button from "$lib/Button/index.svelte";
+  let loading = false;
 
   export let index;
   export let note;
 
   let showTitleContent = () => {
-    $domState.showTitleForm = false;
-    $domState.showTitleContent = true;
+    $codeNotes[index].edit = false;
+    // $codeNotes[index].ready = true;
   };
 </script>
 
@@ -22,4 +24,4 @@
   />
 </div>
 
-<button on:click={showTitleContent}>Save</button>
+<Button on:click={showTitleContent} {loading} color="green">Save</Button>

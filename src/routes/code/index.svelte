@@ -1,8 +1,37 @@
+<script context="module">
+  export const load = async ({ fetch }) => {
+    const res = await fetch("/code.json");
+
+    console.log(res);
+
+    if (res.ok) {
+      const jsonData = await res.json();
+
+      let codenotes = jsonData.map((note) => {
+        return JSON.parse(note.string);
+      });
+
+      return {
+        props: { codenotes },
+      };
+    }
+
+    //const { message } = await res.json();
+
+    return {
+      //error: new Error(message),
+    };
+  };
+</script>
+
 <script>
   import OurButtons from "./OurButtons.svelte";
   import { codeNotes, domState } from "$lib/js/store";
   import { goto } from "$app/navigation";
   let noteIndex = 0;
+
+  export let codenotes;
+  $codeNotes = codenotes;
 
   function toggleTitle() {
     $domState.showTitleContent = false;

@@ -211,8 +211,3 @@
     align-self: flex-end;
   }
 </style>
-
-
-
-
-<h2>CVLq=-L1~+*{</h2>

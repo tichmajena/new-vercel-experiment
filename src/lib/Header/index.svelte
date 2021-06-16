@@ -1,6 +1,5 @@
 <script>
   import { page } from "$app/stores";
-  import logo from "./svelte-logo.svg";
   let menu = true;
   let toggleMenu = () => {
     menu = !menu;
