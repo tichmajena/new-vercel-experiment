@@ -1,11 +1,11 @@
 <script context="module">
   // see https://kit.svelte.dev/docs#loading
-  import { goto, prefetch } from "$app/navigation";
+  import { goto, prefetch, invalidate } from "$app/navigation";
 
-  export const load = async (ctx) => {
+  export const load = async ({ page, fetch }) => {
     const res = await fetch(
       `https://imajenation.co.zw/mydiary/wp-json/wp/v2` +
-        `/note/?slug=${ctx.page.params.slug}`
+        `/note/?slug=${page.params.slug}`
     );
     if (res.ok) {
       console.log("res is ok");
@@ -73,7 +73,8 @@
         edit = false;
         editNotesSucc = true;
         loading = false;
-        prefetch(`/notes/${data.slug}`);
+        prefetch(`/notes/${post.slug}`);
+        location.reload();
       } else {
         console.log("res has an error");
         editNotesError = true;
@@ -92,7 +93,6 @@
 
   let successLogic = () => {
     editNotesSucc = false;
-    goto(`/notes/${post.slug}?acas=97097`);
   };
 
   let errorLogic = () => {
@@ -132,8 +132,7 @@
         placeholder="Content"
         type="text"
       />
-      <Button on:click={editPost} color="red" {loading}>Update
-      </Button>
+      <Button on:click={editPost} color="red" {loading}>Update</Button>
     {/if}
   </div>
 {/if}

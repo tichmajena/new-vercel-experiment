@@ -93,7 +93,7 @@
     console.log(token);
     token = JSON.parse(token);
     loading = true;
-
+    console.log("note id: ", note.id);
     try {
       const res = await fetch(
         `https://www.imajenation.co.zw/mydiary/wp-json/wp/v2/code_note/${note.id}`,
@@ -117,6 +117,7 @@
         loading = false;
 
         edit = false;
+        location.reload();
       } else {
         console.log("res has an error");
         loading = false;
