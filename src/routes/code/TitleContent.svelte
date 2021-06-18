@@ -24,6 +24,7 @@
     $codeNotes[index].edit = true;
     console.log($codeNotes[index].edit);
     $domState.update = true;
+    $domState.edit = true;
   };
 </script>
 

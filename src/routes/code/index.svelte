@@ -30,7 +30,8 @@
 <script>
   import OurButtons from "./OurButtons.svelte";
   import { codeNotes, domState } from "$lib/js/store";
-  import { goto } from "$app/navigation";
+  import { goto, prefetchRoutes } from "$app/navigation";
+  import { onMount } from "svelte";
   let noteIndex = 0;
 
   export let codenotes;
@@ -65,6 +66,7 @@
     $domState.showFabs = true;
     $domState.showAddDesc = true;
     $domState.save = true;
+    $domState.edit = false;
     let index = $codeNotes.length - 1;
     console.log(index);
     goto("/code/" + index + "?v=456");
@@ -74,6 +76,37 @@
     $domState.save = false;
     goto("/code/");
   }
+  $domState.save = false;
+  onMount(async () => {
+    prefetchRoutes();
+    let token = localStorage.getItem("token");
+    token = JSON.parse(token);
+
+    try {
+      const res = await fetch(
+        `https://www.imajenation.co.zw/mydiary/wp-json/jwt-auth/v1/token/validate`,
+        {
+          method: "POST",
+          credentials: "include",
+          headers: {
+            "Content-type": "application/json",
+            Authorization: "Bearer " + token,
+          },
+        }
+      );
+
+      const data = await res.json();
+      console.log(data);
+
+      if (res.ok) {
+        $domState.login = true;
+      } else {
+        console.log("res has an error");
+      }
+    } catch (error) {
+      console.log("ERROR!!!: ", error);
+    }
+  });
 </script>
 
 <div
@@ -93,7 +126,8 @@
           $domState.edit = true;
           $domState.showFabs = true;
         }}
-        href="/code/{index}"
+        sveltekit:prefetch
+        href="/code/{note.id}-{index}"
       >
         <h3 class="md:text-4xl text-lg ml-8 md:ml-10">
           {$codeNotes[index].title}
@@ -110,7 +144,7 @@
       </div>
       <div class="bottom-bar md:pl-64">
         <div id="add-btn">
-          {#if !$domState.save && !$codeNotes[$domState.pageIndex].edit}
+          {#if !$domState.save && !$domState.edit}
             <button
               class="text-white rounded-full h-14 w-14 bg-pink-700 grid place-items-center"
               on:click={toggleTitle}

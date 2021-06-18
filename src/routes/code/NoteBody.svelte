@@ -9,9 +9,11 @@
   let idCount = 1;
   export let step;
   export let note;
+  console.log("NOTE!!!", note);
+  console.log("STEP!!!", step, $domState.pageIndex);
 
-  $: activeIndex = $codeNotes[pageIndex].steps.length - 1;
   $: pageIndex = $domState.pageIndex;
+  $: activeIndex = $codeNotes[pageIndex].steps.length - 1;
 
   function restState() {
     $codeNotes.forEach((note) => {

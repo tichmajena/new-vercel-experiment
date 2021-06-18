@@ -10,7 +10,7 @@ export const get = async (request) => {
   //const response = await getJSON(request, `tutor/v1/quiz-question-answer/11/`);
   const response = await getJSON(
     request,
-    `wp/v2/contact/?slug=${request.params.slug}`
+    `wp/v2/code_note/${request.params.index}`
   );
   if (response.status === 404) {
     console.log("404 pano");

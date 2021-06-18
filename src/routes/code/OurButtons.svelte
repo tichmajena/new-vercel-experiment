@@ -32,6 +32,7 @@
     };
 
     $codeNotes[pageIndex].steps = [...$codeNotes[pageIndex].steps, newStep];
+    console.log($codeNotes[pageIndex]);
     activeIndex = $codeNotes[pageIndex].steps.length - 1;
     $domState.save = true;
   }

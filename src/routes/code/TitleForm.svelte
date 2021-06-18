@@ -20,6 +20,7 @@
     });
   }
   let showTitleContent = () => {
+    console.log(index);
     restState();
     $codeNotes[index].edit = false;
     $codeNotes[index].ready = true;
@@ -36,6 +37,8 @@
     bind:value={$codeNotes[index].title}
   />
 </div>
-<div class="mt-2 mb-6">
-  <Button on:click={showTitleContent} {loading} color="green">Save</Button>
-</div>
+{#if $domState.edit}
+  <div class="mt-2 mb-6">
+    <Button on:click={showTitleContent} {loading} color="green">Update</Button>
+  </div>
+{/if}
