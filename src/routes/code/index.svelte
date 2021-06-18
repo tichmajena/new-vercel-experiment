@@ -8,7 +8,10 @@
       const jsonData = await res.json();
 
       let codenotes = jsonData.map((note) => {
-        return JSON.parse(note.string);
+        console.log(note);
+        let newNote = JSON.parse(note.string);
+        newNote.id = note.id;
+        return newNote;
       });
 
       return {
@@ -32,6 +35,20 @@
 
   export let codenotes;
   $codeNotes = codenotes;
+  console.log($codeNotes);
+
+  function restState() {
+    $codeNotes.forEach((note) => {
+      note.edit = false;
+      note.ready = false;
+      if (note.steps.length > 0) {
+        note.steps.forEach((step) => {
+          step.editDesc = false;
+          step.editCode = false;
+        });
+      }
+    });
+  }
 
   function toggleTitle() {
     $domState.showTitleContent = false;
@@ -70,14 +87,11 @@
     {#each $codeNotes as note, index}
       <a
         on:click={() => {
+          restState();
           $codeNotes[index].ready = true;
-          $codeNotes[$domState.pageIndex].edit = true;
+          // $codeNotes[$domState.pageIndex].edit = true;
           $domState.edit = true;
           $domState.showFabs = true;
-          if (true) {
-          }
-          //$domState.showAddDesc = true;
-          console.log($domState.showFabs);
         }}
         href="/code/{index}"
       >
@@ -121,28 +135,6 @@
           {#if $domState.save}
             <button
               class="text-white rounded-full h-14 w-14 bg-green-700 grid place-items-center"
-              on:click={save}
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                class="h-8 w-8"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M5 13l4 4L19 7"
-                />
-              </svg>
-            </button>
-          {/if}
-
-          {#if $codeNotes[$domState.pageIndex].edit}
-            <button
-              class="text-white rounded-full h-14 w-14 bg-blue-700 grid place-items-center"
               on:click={save}
             >
               <svg

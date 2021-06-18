@@ -5,10 +5,25 @@
   export let index;
   export let note;
 
+  function restState() {
+    $codeNotes.forEach((note) => {
+      note.edit = false;
+      note.ready = false;
+      if (note.steps.length > 0) {
+        note.steps.forEach((step) => {
+          step.editDesc = false;
+          step.editCode = false;
+        });
+      }
+    });
+  }
+
   console.log(note);
   let showTitleForm = () => {
+    restState();
     $codeNotes[index].edit = true;
     console.log($codeNotes[index].edit);
+    $domState.update = true;
   };
 </script>
 

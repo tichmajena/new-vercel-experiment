@@ -5,7 +5,9 @@ export let domState = writable({
   activeIndex: 0,
   pageIndex: 0,
   save: false,
+  update: false,
   login: false,
+  edit: false,
 });
 
 export let notebook = writable([

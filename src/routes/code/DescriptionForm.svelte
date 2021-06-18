@@ -1,5 +1,5 @@
 <script>
-  import { codeNotes } from "$lib/js/store";
+  import { codeNotes, domState } from "$lib/js/store";
   export let step;
   export let note;
 </script>
@@ -31,7 +31,7 @@
     type="file"
     id="image-field"
     multiple
-    bind:value={note.steps[step].subtitle}
+    bind:value={$codeNotes[$domState.pageIndex].steps[step].subtitle}
   />
   <label class="" for="image-field">Upload Images...</label>
 </div>

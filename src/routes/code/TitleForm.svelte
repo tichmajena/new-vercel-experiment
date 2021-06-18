@@ -7,9 +7,22 @@
   export let index;
   export let note;
 
+  function restState() {
+    $codeNotes.forEach((note) => {
+      note.edit = false;
+      note.ready = false;
+      if (note.steps.length > 0) {
+        note.steps.forEach((step) => {
+          step.editDesc = false;
+          step.editCode = false;
+        });
+      }
+    });
+  }
   let showTitleContent = () => {
+    restState();
     $codeNotes[index].edit = false;
-    // $codeNotes[index].ready = true;
+    $codeNotes[index].ready = true;
   };
 </script>
 
@@ -20,8 +33,9 @@
     class="title__input "
     type="text"
     id="input-title"
-    bind:value={note.title}
+    bind:value={$codeNotes[index].title}
   />
 </div>
-
-<Button on:click={showTitleContent} {loading} color="green">Save</Button>
+<div class="mt-2 mb-6">
+  <Button on:click={showTitleContent} {loading} color="green">Save</Button>
+</div>

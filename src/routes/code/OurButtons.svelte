@@ -10,14 +10,13 @@
     $codeNotes.forEach((note) => {
       note.edit = false;
       note.ready = false;
+      $domState.edit = false;
       if (note.steps.length > 0) {
         note.steps.forEach((step) => {
           step.editDesc = false;
           step.editCode = false;
-          console.log(step);
         });
       }
-      console.log(note);
     });
   }
 
@@ -34,17 +33,20 @@
 
     $codeNotes[pageIndex].steps = [...$codeNotes[pageIndex].steps, newStep];
     activeIndex = $codeNotes[pageIndex].steps.length - 1;
+    $domState.save = true;
   }
 
   function addCode() {
     restState();
     $codeNotes[pageIndex].steps[activeIndex].editCode = true;
+    $domState.save = true;
   }
 
   function saveNote() {
     restState();
     $codeNotes[pageIndex].steps[activeIndex].editCode = false;
     $codeNotes[pageIndex].ready = true;
+    $domState.save = true;
   }
 </script>
 

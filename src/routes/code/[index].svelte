@@ -6,7 +6,6 @@
   const unsubscribe = codeNotes.subscribe((value) => {
     notes = value;
   });
-
   export async function load(ctx) {
     // Wabva kupi?
     console.log(ctx.page.params.index);
@@ -28,6 +27,8 @@
   export let note;
   let noteIndex = index;
   $domState.pageIndex = +index;
+  let loading = false;
+  let edit = false;
 
   if ($codeNotes[index] === undefined) {
     goto("/code");
@@ -40,7 +41,7 @@
     let body = $codeNotes[index];
     console.log(body);
     body = JSON.stringify(body);
-    let note = {
+    let noteString = {
       title: $codeNotes[index].title,
       string: body,
       status: "publish",
@@ -58,7 +59,7 @@
             "Content-type": "application/json",
             Authorization: "Bearer " + token,
           },
-          body: JSON.stringify(note),
+          body: JSON.stringify(noteString),
         }
       );
 
@@ -80,7 +81,14 @@
   }
 
   async function editPost() {
-    let body = newContact;
+    let body = $codeNotes[index];
+    body = JSON.stringify(body);
+    let noteString = {
+      title: $codeNotes[index].title,
+      id: note.id,
+      string: body,
+      status: "publish",
+    };
     let token = localStorage.getItem("token");
     console.log(token);
     token = JSON.parse(token);
@@ -88,7 +96,7 @@
 
     try {
       const res = await fetch(
-        `https://www.imajenation.co.zw/mydiary/wp-json/wp/v2/code/${post.id}`,
+        `https://www.imajenation.co.zw/mydiary/wp-json/wp/v2/code_note/${note.id}`,
         {
           method: "PUT",
           credentials: "include",
@@ -96,7 +104,7 @@
             "Content-type": "application/json",
             Authorization: "Bearer " + token,
           },
-          body: JSON.stringify(body),
+          body: JSON.stringify(noteString),
         }
       );
 
@@ -106,7 +114,6 @@
       if (res.ok) {
         console.log("res is okay");
         console.log(data);
-        editContactSucc = true;
         loading = false;
 
         edit = false;
@@ -182,15 +189,15 @@
         </div>
       </div>
       <div class="note-body">
-        {#if !$codeNotes[noteIndex].edit}
-          <ol class="list-decimal">
-            {#each $codeNotes[noteIndex].steps as step, index}
-              <li class="mb-5">
-                <NoteBody step={index} {note} />
-              </li>
-            {/each}
-          </ol>
-        {/if}
+        <!-- {#if !$codeNotes[noteIndex].edit} -->
+        <ol class="list-decimal">
+          {#each $codeNotes[noteIndex].steps as step, index}
+            <li class="mb-5">
+              <NoteBody step={index} {note} />
+            </li>
+          {/each}
+        </ol>
+        <!-- {/if} -->
       </div>
 
       <div class="note-footer">
@@ -199,7 +206,7 @@
       </div>
       <div class="bottom-bar md:pl-64">
         <div id="add-btn">
-          {#if !$domState.save}
+          {#if !$domState.save && !$domState.update}
             <button
               class="text-white rounded-full h-14 w-14 bg-pink-700 grid place-items-center"
               on:click={toggleTitle}
@@ -221,10 +228,32 @@
             </button>
           {/if}
 
-          {#if $domState.save}
+          {#if $domState.save && !$domState.update}
             <button
               class="text-white rounded-full h-14 w-14 bg-green-700 grid place-items-center"
               on:click={newPost}
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-8 w-8"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M5 13l4 4L19 7"
+                />
+              </svg>
+            </button>
+          {/if}
+
+          {#if $domState.update}
+            <button
+              class="text-white rounded-full h-14 w-14 bg-blue-700 grid place-items-center"
+              on:click={editPost}
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"

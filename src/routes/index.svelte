@@ -8,8 +8,40 @@
   let loading = false;
   import { domState } from "$lib/js/store";
   import { scale, fade } from "svelte/transition";
+  import { onMount } from "svelte";
+
   let username = "berlin@imajenation.co.zw";
   let password = "M@jena0347";
+
+  onMount(async () => {
+    let token = localStorage.getItem("token");
+    token = JSON.parse(token);
+
+    try {
+      const res = await fetch(
+        `https://www.imajenation.co.zw/mydiary/wp-json/jwt-auth/v1/token/validate`,
+        {
+          method: "POST",
+          credentials: "include",
+          headers: {
+            "Content-type": "application/json",
+            Authorization: "Bearer " + token,
+          },
+        }
+      );
+
+      const data = await res.json();
+      console.log(data);
+
+      if (res.ok) {
+        $domState.login = true;
+      } else {
+        console.log("res has an error");
+      }
+    } catch (error) {
+      console.log("ERROR!!!: ", error);
+    }
+  });
 
   async function submit() {
     loading = true;
