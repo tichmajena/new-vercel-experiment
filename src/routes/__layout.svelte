@@ -4,11 +4,12 @@
   import { domState } from "$lib/js/store";
 </script>
 
-<div class="relative min-h-screen md:flex">
-  {#if $domState.login}
-    <Header />
-  {/if}
-  <div class="bg-gray-200 h-screen flex-1 px-10 pt-32 relative">
+<div class="relative min-h-screen md:flex md:fixed w-full pb-36 ">
+  <Header />
+
+  <div
+    class="bg-gray-200 h-screen w-full overflow-auto flex-1 px-10 my-32 relative"
+  >
     <slot />
   </div>
 </div>

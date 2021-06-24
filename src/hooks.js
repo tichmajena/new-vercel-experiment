@@ -1,22 +1,39 @@
-import cookie from 'cookie';
-import { v4 as uuid } from '@lukeed/uuid';
+import cookie from "cookie";
 
-export const handle = async ({ request, render }) => {
-	const cookies = cookie.parse(request.headers.cookie || '');
-	request.locals.userid = cookies.userid || uuid();
+/** @type {import('@sveltejs/kit').GetSession} */
+export function getSession(request) {
+  console.log(request);
+  const bhisvo = cookie.parse(request.headers.cookie || "").session || null;
+  const cookies = JSON.parse(bhisvo);
+  if (cookies) {
+    return {
+      user: {
+        id: cookies.profile.id,
+        name: cookies.profile.user_display_name,
+      },
+    };
+  }
+}
 
-	// TODO https://github.com/sveltejs/kit/issues/1046
-	if (request.query.has('_method')) {
-		request.method = request.query.get('_method').toUpperCase();
-	}
+// export const handle = async ({ request, resolve }) => {
+//   const bhisvo = cookie.parse(request.headers.cookie || "").session || null;
+//   const cookies = JSON.parse(bhisvo);
+//   request.locals.userid = cookies.profile.id;
 
-	const response = await render(request);
+//   // TODO https://github.com/sveltejs/kit/issues/1046
+//   if (request.query.has("_method")) {
+//     request.method = request.query.get("_method").toUpperCase();
+//   }
 
-	if (!cookies.userid) {
-		// if this is the first time the user has visited this app,
-		// set a cookie so that we recognise them when they return
-		response.headers['set-cookie'] = `userid=${request.locals.userid}; Path=/; HttpOnly`;
-	}
+//   const response = await resolve(request);
 
-	return response;
-};
+//   if (!cookies.profile.id) {
+//     // if this is the first time the user has visited this app,
+//     // set a cookie so that we recognise them when they return
+//     response.headers[
+//       "set-cookie"
+//     ] = `userid=${request.locals.userid}; Path=/; HttpOnly`;
+//   }
+
+//   return response;
+// };

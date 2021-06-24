@@ -3,30 +3,22 @@
   import { onMount } from "svelte";
 
   let code = false;
-  export let step;
-  export let note;
-  console.log("Form is true");
-  note.steps[step].code;
+  export let i;
+  export let ii;
 
   let editor;
   let CodeMirror;
-  s: options = {};
+  $: options = {};
   let gondo = 4;
-  setInterval(() => {
-    gondo = 5;
-  }, 5000);
 
   onMount(async () => {
     CodeMirror = (await import("@joshnuss/svelte-codemirror")).default;
     (await import("codemirror/mode/javascript/javascript")).default;
-    //gondo = (await import("codemirror/mode/javascript/javascript")).default;
-    // console.log(gondo);
-    console.log("CodeMirrored!");
     options = {
       mode: "javascript",
       lineNumbers: true,
       theme: "monokai",
-      value: note.steps[step].code,
+      value: $codeNotes[i].steps[ii].code,
     };
   });
 </script>
@@ -38,7 +30,7 @@
       this={CodeMirror}
       bind:editor
       {options}
-      bind:value={$codeNotes[$domState.pageIndex].steps[step].code}
+      bind:value={$codeNotes[i].steps[ii].code}
       class="editor"
     />
   {/key}

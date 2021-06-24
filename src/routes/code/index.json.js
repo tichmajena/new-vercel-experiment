@@ -7,9 +7,12 @@ export const get = async (request) => {
   //     // set in `handle`, in src/hooks.js
   //     return { body: [] };
   //   }
-
+  console.log(request);
   //const response = await getJSON(request, `tutor/v1/quiz-question-answer/11/`);
-  const response = await getJSON(request, `wp/v2/code_note`);
+  const response = await getJSON(
+    request,
+    `wp/v2/code_note/?author=${request.locals.user.id}`
+  );
   if (response.status === 404) {
     console.log("404 pano");
     // the user has visited before, but hasn't yet

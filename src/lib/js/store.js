@@ -1,4 +1,5 @@
 import { writable } from "svelte/store";
+import { browser } from "$app/env";
 
 export let domState = writable({
   showFabs: false,
@@ -116,8 +117,6 @@ export let contacts = writable([
   },
 ]);
 
-export const codeNotes = writable([]);
-
 export let appNotes = writable([
   {
     note: {
@@ -231,3 +230,21 @@ export let cars = writable([
     year: "2018",
   },
 ]);
+
+export const persistStore = (key, initial) => {
+  if (browser) {
+    const persist = localStorage.getItem(key);
+    const data = persist ? JSON.parse(persist) : initial;
+
+    const store = writable(data, () => {
+      const unsubscribe = store.subscribe((value) => {
+        localStorage.setItem(key, JSON.stringify(value));
+      });
+      return unsubscribe;
+    });
+
+    return store;
+  }
+};
+
+export const codeNotes = persistStore("code_notes", []);

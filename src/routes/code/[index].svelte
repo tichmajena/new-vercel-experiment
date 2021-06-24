@@ -1,57 +1,11 @@
 <script context="module">
-  import { codeNotes } from "$lib/js/store";
-
-  let notes;
-
-  const unsubscribe = codeNotes.subscribe((value) => {
-    notes = value;
-  });
   export async function load({ page, fetch }) {
     // Wabva kupi?
-    console.log(page.params.index);
     let slug = page.params.index;
 
     let slugArr = slug.split("-");
-
-    try {
-      if (slugArr.length > 1) {
-        console.log("TIIIIRIKU SPLLIIIIITER!!!!");
-        let id = slugArr[0];
-        let index = slugArr[1];
-        console.log(index);
-        const store = await fetch(`/code.json`);
-        let storeData = await store.json();
-        console.log(storeData);
-
-        let codenotes = storeData.map((note) => {
-          console.log(note);
-          let newNote = JSON.parse(note.string);
-          newNote.id = note.id;
-          return newNote;
-        });
-
-        codeNotes.set(codenotes);
-
-        const res = await fetch(`/code/${id}.json`);
-        console.log(res);
-        let note;
-        if (res.ok) {
-          console.log("res is okay");
-          let noteObj = await res.json();
-
-          note = JSON.parse(noteObj.string);
-          console.log(noteObj);
-        }
-        return { props: { note, index } };
-      }
-      let index = page.params.index;
-      console.log(notes);
-      let note = notes[index];
-      return { props: { note, index } };
-    } catch (error) {
-      console.log("ERROOOORR", error);
-      console.error(error);
-    }
+    let i = +slugArr[0];
+    return { props: { i } };
   }
 </script>
 
@@ -60,40 +14,39 @@
   import TitleForm from "./TitleForm.svelte";
   import TitleContent from "./TitleContent.svelte";
   import OurButtons from "./OurButtons.svelte";
-  import { domState } from "$lib/js/store";
+  import { codeNotes, domState } from "$lib/js/store";
   import { goto, prefetchRoutes } from "$app/navigation";
   import { post } from "$lib/js/req_utils";
+  import Message from "$lib/Message/index.svelte";
+  import { onMount } from "svelte";
   export let index;
+  export let i = 0;
+
+  let publishing = true;
   let saving = false;
-  console.log("INDEX!!", index);
 
   export let note;
-  console.log(note);
+
   let noteIndex = +index;
   $domState.pageIndex = +index;
-  console.log($codeNotes, $codeNotes[noteIndex]);
+
   let loading = false;
   let edit = false;
 
-  if ($codeNotes[index] === undefined) {
-    console.log("UNDEFINNED", $codeNotes);
-  }
-  console.log("page index", $domState.pageIndex);
-  // console.log($codeNotes[index].ready);
-  console.log($domState.showFabs);
-
   async function newPost() {
     saving = true;
-    let body = $codeNotes[index];
-    console.log(body);
+    $codeNotes[i].mode = "publish";
+    let body = $codeNotes[i];
+
     body = JSON.stringify(body);
     let noteString = {
-      title: $codeNotes[index].title,
+      title: $codeNotes[i].title,
       string: body,
       status: "publish",
+      author: 2,
     };
     let token = localStorage.getItem("token");
-    console.log(token);
+
     token = JSON.parse(token);
     try {
       const res = await fetch(
@@ -110,18 +63,25 @@
       );
 
       const data = await res.json();
-      console.log(data);
 
       if (res.ok) {
         console.log("res is okay");
-        console.log(data);
         saving = false;
         edit = false;
+        $codeNotes[i].mode = "publish";
         goto(`/code/?v=5777`);
         $domState.showFabs = false;
       } else {
         console.log("res has an error");
+        console.log(data);
         loading = false;
+        publishing = false;
+
+        if ($codeNotes[i].mode === "publish") {
+          $codeNotes[i].mode = "publish";
+        } else {
+          $codeNotes[i].mode = "draft";
+        }
       }
     } catch (error) {
       console.log("ERROR!!!: ", error);
@@ -129,22 +89,24 @@
   }
 
   async function editPost() {
-    let body = $codeNotes[index];
+    let body = $codeNotes[i];
     body = JSON.stringify(body);
     let noteString = {
-      title: $codeNotes[index].title,
-      id: note.id,
+      title: $codeNotes[i].title,
+      id: $codeNotes[i].id,
       string: body,
       status: "publish",
+      author: 2,
     };
     let token = localStorage.getItem("token");
-    console.log(token);
+
     token = JSON.parse(token);
     loading = true;
-    console.log("note id: ", note.id);
+    let cn_id = $codeNotes[i].id;
+
     try {
       const res = await fetch(
-        `https://www.imajenation.co.zw/mydiary/wp-json/wp/v2/code_note/${note.id}`,
+        `https://www.imajenation.co.zw/mydiary/wp-json/wp/v2/code_note/${cn_id}`,
         {
           method: "PUT",
           credentials: "include",
@@ -157,17 +119,16 @@
       );
 
       const data = await res.json();
-      console.log(data);
 
       if (res.ok) {
         console.log("res is okay");
-        console.log(data);
+
         loading = false;
 
         edit = false;
-        location.reload();
       } else {
         console.log("res has an error");
+        console.log(data);
         loading = false;
       }
     } catch (error) {
@@ -187,32 +148,69 @@
     });
   }
 
-  function toggleTitle() {
-    $domState.showTitleForm = false;
+  function newNote() {
     let newNote = {
       title: "",
       steps: [],
       edit: true,
       ready: true,
+      mode: "draft",
     };
 
     $codeNotes = [...$codeNotes, newNote];
-    console.log($codeNotes);
-    $domState.showTitleForm = true;
     $domState.showFabs = true;
-    $domState.showAddDesc = true;
-    $domState.showAdd = false;
     $domState.save = true;
     $domState.edit = false;
 
     let index = $codeNotes.length - 1;
-    console.log(index);
     goto("/code/" + index);
   }
 
   function save() {
     $domState.save = false;
     goto("/code/");
+  }
+
+  onMount(async () => {
+    prefetchRoutes();
+    let token = localStorage.getItem("token");
+    token = JSON.parse(token);
+
+    try {
+      const res = await fetch(
+        `https://www.imajenation.co.zw/mydiary/wp-json/jwt-auth/v1/token/validate`,
+        {
+          method: "POST",
+          credentials: "include",
+          headers: {
+            "Content-type": "application/json",
+            Authorization: "Bearer " + token,
+          },
+        }
+      );
+
+      const data = await res.json();
+
+      if (res.ok) {
+        localStorage.setItem("user", JSON.stringify(data));
+        $domState.login = true;
+      } else {
+        console.log("res has an error");
+      }
+    } catch (error) {
+      console.log("ERROR!!!: ", error);
+    }
+  });
+
+  async function testPost() {
+    let note = $codeNotes[i];
+    const res = await fetch(`/code/${note.id}.json`, {
+      method: "POST",
+      body: JSON.stringify({ name: "me", email: "a@b.com" }),
+    });
+
+    const data = await res.json();
+    console.log(data);
   }
 </script>
 
@@ -222,19 +220,19 @@
   <h3 class="ml-10">Code Notes</h3>
 </div>
 
-<div class="section md:mt-32 mt-20">
+<div class="section md:mt-8 mt-12">
   <div class="container mx-auto max-w-lg ">
     <div class="app-wrapper">
       <div class="note-title">
         <div class="note-title__title">
           <div class="title__form-div">
-            {#if $codeNotes[index].edit}
-              <TitleForm {index} {note} />
+            {#if $codeNotes[i].edit}
+              <TitleForm {i} />
             {/if}
           </div>
           <div class="title__content-div">
-            {#if !$codeNotes[index].edit}
-              <TitleContent {index} {note} />
+            {#if !$codeNotes[i].edit}
+              <TitleContent {i} />
             {/if}
           </div>
         </div>
@@ -242,25 +240,46 @@
       <div class="note-body">
         <!-- {#if !$codeNotes[noteIndex].edit} -->
         <ol class="list-decimal">
-          {#each $codeNotes[noteIndex].steps as step, index}
+          {#each $codeNotes[i].steps as step, ii}
             <li class="mb-5">
-              <NoteBody step={index} note={step} />
+              <NoteBody {i} {ii} />
             </li>
           {/each}
         </ol>
         <!-- {/if} -->
+        {#if !publishing}
+          <Message color="red">
+            <!--  -->
+            <svg
+              slot="icon"
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-6 w-6"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M10 14H5.236a2 2 0 01-1.789-2.894l3.5-7A2 2 0 018.736 3h4.018a2 2 0 01.485.06l3.76.94m-7 10v5a2 2 0 002 2h.096c.5 0 .905-.405.905-.904 0-.715.211-1.413.608-2.008L17 13V4m-7 10h2m5-10h2a2 2 0 012 2v6a2 2 0 01-2 2h-2.5"
+              />
+            </svg>
+            <span slot="message">An Error has occured</span>
+          </Message>
+        {/if}
       </div>
 
       <div class="note-footer">
         <!-- uvbu -->
-        <OurButtons {note} />
+        <OurButtons {i} />
       </div>
       <div class="bottom-bar md:pl-64">
         <div id="add-btn">
           {#if !$domState.save && !$domState.update}
             <button
               class="text-white rounded-full h-14 w-14 bg-pink-700 grid place-items-center"
-              on:click={toggleTitle}
+              on:click={newNote}
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -279,7 +298,7 @@
             </button>
           {/if}
 
-          {#if $domState.save && !$domState.update}
+          {#if $domState.save && $codeNotes[i].mode === "draft"}
             <button
               class="text-white rounded-full h-14 w-14 bg-green-700 flex items-center justify-center"
               on:click={newPost}
@@ -324,7 +343,7 @@
             </button>
           {/if}
 
-          {#if $domState.update}
+          {#if $domState.update && $codeNotes[i].mode === "publish"}
             <button
               class="text-white rounded-full h-14 w-14 bg-blue-700 grid place-items-center"
               on:click={editPost}

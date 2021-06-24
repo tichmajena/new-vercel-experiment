@@ -1,7 +1,7 @@
 <script>
   import { codeNotes, domState } from "$lib/js/store";
-  export let step;
-  export let note;
+  export let i;
+  export let ii;
 </script>
 
 <div class="flex flex-col-reverse mb-3">
@@ -9,7 +9,7 @@
     class="desc__subtitle-input "
     type="text"
     id="subtitle-field"
-    bind:value={note.steps[step].subtitle}
+    bind:value={$codeNotes[i].steps[ii].subtitle}
   />
   <label class="" for="subtitle-field">Subtitle...</label>
 </div>
@@ -20,7 +20,7 @@
     type="text"
     rows="3"
     id="content-field"
-    bind:value={note.steps[step].desc}
+    bind:value={$codeNotes[i].steps[ii].desc}
   />
   <label class="" for="content-field">Content...</label>
 </div>
@@ -31,7 +31,7 @@
     type="file"
     id="image-field"
     multiple
-    bind:value={$codeNotes[$domState.pageIndex].steps[step].subtitle}
+    bind:value={$codeNotes[i].steps[ii].subtitle}
   />
   <label class="" for="image-field">Upload Images...</label>
 </div>

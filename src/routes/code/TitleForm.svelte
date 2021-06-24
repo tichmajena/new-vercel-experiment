@@ -1,11 +1,9 @@
 <script>
-  import { codeNotes } from "$lib/js/store";
-  import { domState } from "$lib/js/store";
+  import { codeNotes, domState } from "$lib/js/store";
   import Button from "$lib/Button/index.svelte";
   let loading = false;
 
-  export let index;
-  export let note;
+  export let i;
 
   function restState() {
     $codeNotes.forEach((note) => {
@@ -20,10 +18,9 @@
     });
   }
   let showTitleContent = () => {
-    console.log(index);
     restState();
-    $codeNotes[index].edit = false;
-    $codeNotes[index].ready = true;
+    $codeNotes[i].edit = false;
+    $codeNotes[i].ready = true;
   };
 </script>
 
@@ -34,7 +31,7 @@
     class="title__input "
     type="text"
     id="input-title"
-    bind:value={$codeNotes[index].title}
+    bind:value={$codeNotes[i].title}
   />
 </div>
 {#if $domState.edit}

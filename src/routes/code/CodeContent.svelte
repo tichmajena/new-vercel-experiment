@@ -3,10 +3,9 @@
   import { onMount } from "svelte";
   import { fade } from "svelte/transition";
 
-  export let step;
-  export let note;
-  let code = note.steps[step].code;
-
+  export let i;
+  export let ii;
+  let myDiv;
   let Highlight;
   let javascript;
   let atomOneDark;
@@ -23,11 +22,13 @@
       .default;
     atomOneDark = (await import("svelte-highlight/src/styles/atom-one-dark"))
       .default;
-    console.log("CodeContented!");
-    console.log(hljs);
     await hljs.highlightAll();
+
+    let myDOM = document.getElementById(myDiv.id).innerHTML;
+    $codeNotes[i].steps[ii].codeDOM = myDOM;
   });
 
+  function saveDOM(el) {}
   // import Highlight from "svelte-highlight";
   // import javascript from "svelte-highlight/src/languages/javascript";
   // import atomOneDark from "svelte-highlight/src/styles/atom-one-dark";
@@ -42,13 +43,13 @@
 
 <!-- <svelte:component this={Highlight} language={javascript} {code} /> -->
 
-<div>
+<div id="zikustep_{ii}" bind:this={myDiv} use:saveDOM>
   <pre
     in:fade
     class="flex">
     <code
       class="block p-4 w-full rounded javascript">
-      {note.steps[step].code}
+      {$codeNotes[i].steps[ii].code}
     </code>
   </pre>
 </div>

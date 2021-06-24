@@ -2,8 +2,7 @@
   import { codeNotes } from "$lib/js/store";
   import { domState } from "$lib/js/store";
 
-  export let index;
-  export let note;
+  export let i;
 
   function restState() {
     $codeNotes.forEach((note) => {
@@ -18,11 +17,9 @@
     });
   }
 
-  console.log(note);
   let showTitleForm = () => {
     restState();
-    $codeNotes[index].edit = true;
-    console.log($codeNotes[index].edit);
+    $codeNotes[i].edit = true;
     $domState.update = true;
     $domState.edit = true;
   };
@@ -50,5 +47,5 @@
     </button>
   </div>
 
-  <h3 class="md:text-4xl text-xl ml-8 md:ml-10">{note.title}</h3>
+  <h3 class="md:text-4xl text-xl ml-8 md:ml-10">{$codeNotes[i].title}</h3>
 </div>

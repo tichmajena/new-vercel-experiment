@@ -1,10 +1,8 @@
 <script>
   import { domState, codeNotes } from "$lib/js/store";
 
+  export let i = 0;
   $: activeIndex = 0;
-  $: pageIndex = $domState.pageIndex;
-  $: console.log("Page Index:", pageIndex);
-  $: console.log("Active Index:", activeIndex);
 
   function restState() {
     $codeNotes.forEach((note) => {
@@ -27,33 +25,33 @@
       subtitle: "",
       desc: "",
       code: "",
+      codeDOM: "",
       editDesc: true,
       editCode: false,
     };
 
-    $codeNotes[pageIndex].steps = [...$codeNotes[pageIndex].steps, newStep];
-    console.log($codeNotes[pageIndex]);
-    activeIndex = $codeNotes[pageIndex].steps.length - 1;
+    $codeNotes[i].steps = [...$codeNotes[i].steps, newStep];
+    activeIndex = $codeNotes[i].steps.length - 1;
     $domState.save = true;
   }
 
   function addCode() {
     restState();
-    $codeNotes[pageIndex].steps[activeIndex].editCode = true;
+    $codeNotes[i].steps[activeIndex].editCode = true;
     $domState.save = true;
   }
 
   function saveNote() {
     restState();
-    $codeNotes[pageIndex].steps[activeIndex].editCode = false;
-    $codeNotes[pageIndex].ready = true;
+    $codeNotes[i].steps[activeIndex].editCode = false;
+    $codeNotes[i].ready = true;
     $domState.save = true;
   }
 </script>
 
 {#if $domState.showFabs}
   <div class="fab">
-    {#if $codeNotes[pageIndex].ready}
+    {#if $codeNotes[i].ready}
       <div id="subject-btn">
         <button
           class="text-white bg-purple-700 rounded-full w-14 h-14 grid place-items-center"
@@ -74,8 +72,8 @@
         </button>
       </div>
     {/if}
-    {#if $codeNotes[pageIndex].steps.length > 0}
-      {#if $codeNotes[pageIndex].steps[activeIndex].editDesc}
+    {#if $codeNotes[i].steps.length > 0}
+      {#if $codeNotes[i].steps[activeIndex].editDesc}
         <div id="code-btn">
           <button
             class="text-white bg-purple-700 rounded-full w-14 h-14 grid place-items-center"
@@ -99,7 +97,7 @@
         </div>
       {/if}
 
-      {#if $codeNotes[pageIndex].steps[activeIndex].editCode}
+      {#if $codeNotes[i].steps[activeIndex].editCode}
         <div id="save-btn">
           <button
             class="text-white bg-purple-700 rounded-full w-14 h-14 grid place-items-center"

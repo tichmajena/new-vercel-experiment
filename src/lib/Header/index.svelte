@@ -1,9 +1,31 @@
 <script>
   import { page } from "$app/stores";
+  import { goto } from "$app/navigation";
+  import { codeNotes, domState } from "$lib/js/store";
   let menu = true;
   let toggleMenu = () => {
     menu = !menu;
   };
+
+  function restState() {
+    $codeNotes.forEach((note) => {
+      note.edit = false;
+      note.ready = false;
+      $domState.edit = false;
+      if (note.steps.length > 0) {
+        note.steps.forEach((step) => {
+          step.editDesc = false;
+          step.editCode = false;
+        });
+      }
+    });
+  }
+  function codeReset() {
+    console.log($codeNotes);
+    goto("/code/");
+    toggleMenu();
+    restState();
+  }
 </script>
 
 <div
@@ -117,7 +139,7 @@
     >
     <a class="text-blue-100 hover:no-underline" href="/code">
       <li
-        on:click={toggleMenu}
+        on:click={codeReset}
         class:active={$page.path === "/code"}
         class="block py-2 px-4 hover:bg-blue-600 hover:text-white rounded transition duration-200"
       >

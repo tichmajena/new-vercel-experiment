@@ -6,7 +6,7 @@
 <button
   on:click
   type="button"
-  class="px-6 py-2 text-white rounded bg-{color}-700 hover:bg-{color}-500 flex "
+  class="px-6 py-2 text-white rounded bg-{color}-700 hover:bg-{color}-500 flex m-2"
 >
   {#if !loading}
     <slot />

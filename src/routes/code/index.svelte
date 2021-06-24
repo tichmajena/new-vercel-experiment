@@ -1,19 +1,26 @@
 <script context="module">
-  export const load = async ({ fetch }) => {
+  import { codeNotes } from "$lib/js/store";
+  export const load = async ({ fetch, session, context }) => {
+    console.log(session);
+    if (!session) {
+      return {
+        status: 302,
+        redirect: "/auth",
+      };
+    }
     const res = await fetch("/code.json");
-
-    console.log(res);
 
     if (res.ok) {
       const jsonData = await res.json();
 
       let codenotes = jsonData.map((note) => {
-        console.log(note);
         let newNote = JSON.parse(note.string);
         newNote.id = note.id;
+
         return newNote;
       });
 
+      codeNotes.set(codenotes);
       return {
         props: { codenotes },
       };
@@ -29,14 +36,12 @@
 
 <script>
   import OurButtons from "./OurButtons.svelte";
-  import { codeNotes, domState } from "$lib/js/store";
+  import { domState } from "$lib/js/store";
   import { goto, prefetchRoutes } from "$app/navigation";
   import { onMount } from "svelte";
   let noteIndex = 0;
 
   export let codenotes;
-  $codeNotes = codenotes;
-  console.log($codeNotes);
 
   function restState() {
     $codeNotes.forEach((note) => {
@@ -51,25 +56,21 @@
     });
   }
 
-  function toggleTitle() {
-    $domState.showTitleContent = false;
+  function newNote() {
     let newNote = {
       title: "",
       steps: [],
       edit: true,
       ready: true,
+      mode: "draft",
     };
 
     $codeNotes = [...$codeNotes, newNote];
-    console.log($codeNotes);
-    $domState.showTitleForm = true;
     $domState.showFabs = true;
-    $domState.showAddDesc = true;
     $domState.save = true;
     $domState.edit = false;
     let index = $codeNotes.length - 1;
-    console.log(index);
-    goto("/code/" + index + "?v=456");
+    goto("/code/" + index);
   }
 
   function save() {
@@ -77,36 +78,6 @@
     goto("/code/");
   }
   $domState.save = false;
-  onMount(async () => {
-    prefetchRoutes();
-    let token = localStorage.getItem("token");
-    token = JSON.parse(token);
-
-    try {
-      const res = await fetch(
-        `https://www.imajenation.co.zw/mydiary/wp-json/jwt-auth/v1/token/validate`,
-        {
-          method: "POST",
-          credentials: "include",
-          headers: {
-            "Content-type": "application/json",
-            Authorization: "Bearer " + token,
-          },
-        }
-      );
-
-      const data = await res.json();
-      console.log(data);
-
-      if (res.ok) {
-        $domState.login = true;
-      } else {
-        console.log("res has an error");
-      }
-    } catch (error) {
-      console.log("ERROR!!!: ", error);
-    }
-  });
 </script>
 
 <div
@@ -117,20 +88,20 @@
 
 <div class="section md:mt-32 mt-20">
   <div class="container mx-auto max-w-lg ">
-    {#each $codeNotes as note, index}
+    {#each $codeNotes as note, i}
       <a
         on:click={() => {
           restState();
-          $codeNotes[index].ready = true;
+          $codeNotes[i].ready = true;
           // $codeNotes[$domState.pageIndex].edit = true;
           $domState.edit = true;
           $domState.showFabs = true;
         }}
         sveltekit:prefetch
-        href="/code/{note.id}-{index}"
+        href="/code/{i}-{note.id}"
       >
         <h3 class="md:text-4xl text-lg ml-8 md:ml-10">
-          {$codeNotes[index].title}
+          {$codeNotes[i].title}
         </h3>
       </a>
     {:else}
@@ -147,7 +118,7 @@
           {#if !$domState.save && !$domState.edit}
             <button
               class="text-white rounded-full h-14 w-14 bg-pink-700 grid place-items-center"
-              on:click={toggleTitle}
+              on:click={newNote}
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
