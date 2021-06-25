@@ -1,6 +1,5 @@
 <script context="module">
   export async function load({ page, fetch, session, context }) {
-    console.log(session);
     if (session) {
       return {
         status: 302,
@@ -16,8 +15,9 @@
 
   let error = false;
   let succ = false;
+  let errMessage = "";
   let loading = false;
-  let username = "berlin@imajenation.co.zw";
+  let username = "tichmajena";
   let password = "M@jena0347";
 
   async function submit() {
@@ -27,39 +27,50 @@
       password,
     };
 
-    const res = await fetch("/auth/login", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(body),
-    });
+    try {
+      const res = await fetch("/auth/login", {
+        method: "post",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body),
+      });
 
-    console.log(res);
-    const data = await res.json();
-    console.log(data);
+      const data = await res.json();
 
-    if (res.ok) {
-      console.log("res is okay");
       console.log(data);
-      error = false;
-      loading = false;
-      succ = true;
-      setTimeout(() => {
-        window.location = "/";
-      }, 2001);
-    } else {
+
+      if (res.status === 200) {
+        console.log(res);
+        console.log("res is okay");
+        console.log(data);
+        error = false;
+        loading = false;
+        succ = true;
+        setTimeout(() => {
+          window.location = "/";
+        }, 2001);
+      } else {
+        error = true;
+        loading = false;
+        errMessage = "Wabhaiza Email kana Password, hameno.";
+      }
+    } catch (err) {
+      console.log("ERRRR");
+      console.error(err);
       error = true;
       loading = false;
-    }
-
-    try {
-    } catch (err) {
-      console.error(err);
+      errMessage = "Check Your Internet Connection";
     }
   }
 
   function removeMessage() {
     setTimeout(() => {
       succ = false;
+    }, 2000);
+  }
+
+  function removeERR() {
+    setTimeout(() => {
+      error = false;
     }, 2000);
   }
 </script>
@@ -123,5 +134,32 @@
     </div>
 
     <span class="text-xl"> Login successfull </span>
+  </div>
+{/if}
+
+{#if error}
+  <div
+    class="flex items-center justify-center mx-auto md:max-w-md w-full bg-red-100 rounded mb-16 shadow-lg text text-red-600 p-5"
+  >
+    <div
+      class="p-2 border-red-700 border-2 mr-3 rounded-full flex justify-center items-center"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        class="h-8 w-8 "
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M14 10h4.764a2 2 0 011.789 2.894l-3.5 7A2 2 0 0115.263 21h-4.017c-.163 0-.326-.02-.485-.06L7 20m7-10V5a2 2 0 00-2-2h-.095c-.5 0-.905.405-.905.905 0 .714-.211 1.412-.608 2.006L7 11v9m7-10h-2M7 20H5a2 2 0 01-2-2v-6a2 2 0 012-2h2.5"
+        />
+      </svg>
+    </div>
+
+    <span class="text-xl"> An Error has occured: {errMessage} </span>
   </div>
 {/if}

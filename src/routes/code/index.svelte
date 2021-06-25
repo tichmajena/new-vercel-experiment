@@ -1,7 +1,7 @@
 <script context="module">
   import { codeNotes } from "$lib/js/store";
-  export const load = async ({ fetch, session, context }) => {
-    console.log(session);
+
+  export const load = async ({ fetch, session }) => {
     if (!session) {
       return {
         status: 302,
@@ -21,9 +21,7 @@
       });
 
       codeNotes.set(codenotes);
-      return {
-        props: { codenotes },
-      };
+      return {};
     }
 
     //const { message } = await res.json();
@@ -40,8 +38,6 @@
   import { goto, prefetchRoutes } from "$app/navigation";
   import { onMount } from "svelte";
   let noteIndex = 0;
-
-  export let codenotes;
 
   function restState() {
     $codeNotes.forEach((note) => {

@@ -1,11 +1,17 @@
 <script context="module">
-  export async function load({ page, fetch }) {
+  export async function load({ page, fetch, session }) {
+    if (!session) {
+      return {
+        status: 302,
+        redirect: "/auth",
+      };
+    }
     // Wabva kupi?
     let slug = page.params.index;
 
     let slugArr = slug.split("-");
     let i = +slugArr[0];
-    return { props: { i } };
+    return { props: { i, session } };
   }
 </script>
 
@@ -16,19 +22,14 @@
   import OurButtons from "./OurButtons.svelte";
   import { codeNotes, domState } from "$lib/js/store";
   import { goto, prefetchRoutes } from "$app/navigation";
-  import { post } from "$lib/js/req_utils";
   import Message from "$lib/Message/index.svelte";
-  import { onMount } from "svelte";
-  export let index;
+
   export let i = 0;
 
   let publishing = true;
   let saving = false;
 
-  export let note;
-
-  let noteIndex = +index;
-  $domState.pageIndex = +index;
+  export let session;
 
   let loading = false;
   let edit = false;
@@ -38,16 +39,13 @@
     $codeNotes[i].mode = "publish";
     let body = $codeNotes[i];
 
-    body = JSON.stringify(body);
     let noteString = {
       title: $codeNotes[i].title,
-      string: body,
+      string: JSON.stringify(body),
       status: "publish",
-      author: 2,
+      author: session.id,
     };
-    let token = localStorage.getItem("token");
 
-    token = JSON.parse(token);
     try {
       const res = await fetch(
         `https://www.imajenation.co.zw/mydiary/wp-json/wp/v2/code_note/`,
@@ -171,46 +169,49 @@
     goto("/code/");
   }
 
-  onMount(async () => {
-    prefetchRoutes();
-    let token = localStorage.getItem("token");
-    token = JSON.parse(token);
-
-    try {
-      const res = await fetch(
-        `https://www.imajenation.co.zw/mydiary/wp-json/jwt-auth/v1/token/validate`,
-        {
-          method: "POST",
-          credentials: "include",
-          headers: {
-            "Content-type": "application/json",
-            Authorization: "Bearer " + token,
-          },
-        }
-      );
-
-      const data = await res.json();
-
-      if (res.ok) {
-        localStorage.setItem("user", JSON.stringify(data));
-        $domState.login = true;
-      } else {
-        console.log("res has an error");
-      }
-    } catch (error) {
-      console.log("ERROR!!!: ", error);
-    }
-  });
-
   async function testPost() {
-    let note = $codeNotes[i];
-    const res = await fetch(`/code/${note.id}.json`, {
+    saving = true;
+    $codeNotes[i].mode = "publish";
+    let body = $codeNotes[i];
+
+    let noteString = {
+      title: $codeNotes[i].title,
+      string: JSON.stringify(body),
+      status: "publish",
+      author: session.id,
+    };
+
+    const res = await fetch(`/code/${i}.json`, {
       method: "POST",
-      body: JSON.stringify({ name: "me", email: "a@b.com" }),
+      body: JSON.stringify(noteString),
     });
 
     const data = await res.json();
-    console.log(data);
+    setTimeout(() => {
+      restState();
+      $codeNotes.ready = true;
+      window.location = `/code/${i}-${data.body.id}`;
+    }, 2001);
+  }
+
+  async function testEdit() {
+    saving = true;
+    $codeNotes[i].mode = "publish";
+    let body = $codeNotes[i];
+
+    let noteString = {
+      title: $codeNotes[i].title,
+      string: JSON.stringify(body),
+      status: "publish",
+      author: session.id,
+    };
+
+    const res = await fetch(`/code/${i}.json`, {
+      method: "PUT",
+      body: JSON.stringify(noteString),
+    });
+
+    const data = await res.json();
   }
 </script>
 
@@ -301,7 +302,7 @@
           {#if $domState.save && $codeNotes[i].mode === "draft"}
             <button
               class="text-white rounded-full h-14 w-14 bg-green-700 flex items-center justify-center"
-              on:click={newPost}
+              on:click={testPost}
             >
               {#if saving}
                 <svg
@@ -346,7 +347,7 @@
           {#if $domState.update && $codeNotes[i].mode === "publish"}
             <button
               class="text-white rounded-full h-14 w-14 bg-blue-700 grid place-items-center"
-              on:click={editPost}
+              on:click={testEdit}
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"

@@ -7,11 +7,14 @@ export const get = async (request) => {
   //     // set in `handle`, in src/hooks.js
   //     return { body: [] };
   //   }
-  console.log(request);
+
   //const response = await getJSON(request, `tutor/v1/quiz-question-answer/11/`);
+  //let user = JSON.parse(request.locals);
+  console.log(request.locals.id);
+
   const response = await getJSON(
     request,
-    `wp/v2/code_note/?author=${request.locals.user.id}`
+    `wp/v2/code_note/?author=${request.locals.id}`
   );
   if (response.status === 404) {
     console.log("404 pano");
