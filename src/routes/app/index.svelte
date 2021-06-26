@@ -1,3 +1,20 @@
+<script context="module">
+  async function load({ page, fetch, session }) {
+    console.log(session);
+    if (!session) {
+      return {
+        status: 302,
+        location: "/auth",
+      };
+    }
+
+    let user = session;
+    return {
+      props: { user },
+    };
+  }
+</script>
+
 <script>
   import { appNotes, domState } from "$lib/js/store";
   import { notebook } from "$lib/js/store";

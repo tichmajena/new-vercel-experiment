@@ -4,7 +4,7 @@
 
   let chakuti;
 
-  const unsubscribe = appNotes.subscribe((value) => {
+  const unsubscribe = notebook.subscribe((value) => {
     chakuti = value;
   });
 
@@ -41,6 +41,7 @@
   export let slug;
 
   export let leaf;
+  console.log(leaf);
   onDestroy(unsubscribe);
 
   let edit = false;
@@ -162,7 +163,7 @@
     </ol>
 
     <Button
-      color="red"
+      color={"red"}
       {loading}
       on:click={() => {
         edit = true;
@@ -243,7 +244,7 @@
       </div>
     {/each}
 
-    <Button color="red" {loading} on:click={editNotes}>Save</Button>
+    <Button color={"red"} {loading} on:click={editNotes}>Save</Button>
   </Card>
 {/if}
 

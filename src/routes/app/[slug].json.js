@@ -20,7 +20,7 @@ export const post = async (request) => {
 
     return {
       status: 400,
-      body: [],
+      body: response,
     };
   }
 
