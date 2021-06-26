@@ -11,24 +11,20 @@ export async function api(request, resource, data) {
   let token;
 
   console.log("DATA!!", data);
-  let rm = request.method.toUpperCase();
-  if (rm === "POST" || rm === "PUT" || rm === "PATCH" || rm === "DEL") {
-    token = cookie.parse(request.headers.cookie || "").token || null;
-  }
 
   const res = await fetch(`${base}/${resource}`, {
     method: request.method,
     headers: {
       "content-type": "application/json",
-      Authorization: "Bearer " + token,
     },
-    body: data,
+    body: data && JSON.stringify(data),
   });
 
   // if the request came from a <form> submission, the browser's default
   // behaviour is to show the URL corresponding to the form's "action"
   // attribute. in those cases, we want to redirect them back to the
   // /todos page, rather than showing the response
+  const json = await res.json();
 
   if (
     res.ok &&
@@ -40,7 +36,7 @@ export async function api(request, resource, data) {
       headers: {
         location: "/code",
       },
-      body: await res.json(), // TODO https://github.com/sveltejs/kit/issues/1047
+      body: json, // TODO https://github.com/sveltejs/kit/issues/1047
     };
   }
 

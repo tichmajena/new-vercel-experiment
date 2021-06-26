@@ -8,8 +8,14 @@
     chakuti = value;
   });
 
-  export async function load(ctx) {
-    let slug = ctx.page.params.slug;
+  export async function load({ page, fetch, session }) {
+    if (!session) {
+      return {
+        status: 302,
+        redirect: "/auth",
+      };
+    }
+    let slug = page.params.slug;
 
     let leaf = chakuti;
     let address = slug.split("");

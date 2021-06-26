@@ -22,6 +22,7 @@
     $codeNotes[i].edit = true;
     $domState.update = true;
     $domState.edit = true;
+    $domState.showFabs = true;
   };
 </script>
 
