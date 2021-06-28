@@ -32,17 +32,17 @@ export const post = async (request) => {
 
 export const put = async (request) => {
   console.log("PUTING");
-  console.log(request.params.index);
+  console.log(request.params.slug);
 
   const response = await api(
     request,
-    `wp/v2/app_note/${request.params.index}`,
+    `wp/v2/app_note/${request.params.slug}`,
     request.body
   );
   if (response.status === 404) {
     console.log("404 pano");
 
-    return { body: [] };
+    return { body: response };
   }
   console.log(response);
 

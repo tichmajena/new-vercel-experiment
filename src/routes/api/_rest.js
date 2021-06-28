@@ -10,7 +10,6 @@ export async function api(request, resource, data) {
 
   let token;
 
-  console.log("DATA!!", data);
   let rm = request.method.toUpperCase();
   if (rm === "POST" || rm === "PUT" || rm === "PATCH" || rm === "DEL") {
     token = cookie.parse(request.headers.cookie || "").token || null;

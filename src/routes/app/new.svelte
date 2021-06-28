@@ -30,7 +30,7 @@
   let edit = false;
   let loading = false;
   let appName = "";
-  let steps = [{ note: { title: "", steps: [] } }];
+  let steps = [{ note: { title: "", steps: [] }, id: "" }];
 
   // $: if (leaf.note.steps.length === 0) {
   //   edit = true;
@@ -42,6 +42,7 @@
       title: appName,
       steps: steps,
     },
+    id: "",
   };
 
   function editNotes() {
@@ -69,7 +70,7 @@
 
   async function saveNote() {
     console.log(user);
-    $notebook = [...$notebook, myNotes];
+    $appNotes = [...$appNotes, myNotes];
     let body = {
       title: myNotes.note.title,
       string: JSON.stringify(myNotes),
@@ -93,7 +94,7 @@
   }
 
   function newStep() {
-    steps = [...steps, { note: { title: "", steps: [] } }];
+    steps = [...steps, { note: { title: "", steps: [] }, id: "" }];
     console.log(steps);
   }
 

@@ -9,6 +9,7 @@ export let domState = writable({
   update: false,
   login: false,
   edit: false,
+  appForward: true,
 });
 
 export let notebook = writable([
@@ -117,76 +118,6 @@ export let contacts = writable([
   },
 ]);
 
-export let appNotes = writable([
-  {
-    note: {
-      title: "App",
-      level: 1,
-      steps: [
-        // *******
-        { note: { title: "potsi", steps: [] } },
-        {
-          note: {
-            //**** */
-            title: "piri",
-            level: 2,
-            steps: [
-              //****** */
-              { note: { title: "one", steps: [] } },
-              { note: { title: "two", steps: [] } },
-              { note: { title: "three", steps: [] } },
-              {
-                note: {
-                  //*** */
-                  title: "piri",
-                  level: 3,
-                  steps: [
-                    //**** */
-                    { note: { title: "ichi", steps: [] } },
-                    {
-                      note: {
-                        title: "piri",
-                        level: 4,
-                        steps: [
-                          //** */
-                          { note: { title: "uno", steps: [] } },
-                          { note: { title: "dos", steps: [] } },
-                          {
-                            note: {
-                              //** */
-                              title: "piri",
-                              level: 5,
-                              steps: [
-                                //**** */
-                                { note: { title: "un", steps: [] } },
-                                { note: { title: "deaux", steps: [] } },
-                                { note: { title: "trois", steps: [] } },
-                                { note: { title: "quatre", steps: [] } },
-                                { note: { title: "cinq", steps: [] } },
-                              ],
-                            },
-                          }, //** */
-                          { note: { title: "quattro", steps: [] } },
-                        ],
-                      },
-                    },
-                    { note: { title: "san", steps: [] } },
-                    { note: { title: "chii", steps: [] } },
-                    { note: { title: "go", steps: [] } },
-                  ],
-                },
-              },
-              { note: { title: "five", steps: [] } },
-            ],
-          },
-        },
-        { note: { title: "tatu", steps: [] } },
-        { note: { title: "ina", steps: [] } },
-      ],
-    },
-  },
-]);
-
 export let groceryList = writable([
   {
     value: ["Rice", "Cooking oil", "Soap", "Royco"],
@@ -248,3 +179,5 @@ export const persistStore = (key, initial) => {
 };
 
 export const codeNotes = persistStore("code_notes", []);
+
+export const appNotes = persistStore("app_notes", []);

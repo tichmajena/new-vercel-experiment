@@ -19,6 +19,9 @@
   let loading = false;
   let username = "tichmajena";
   let password = "M@jena0347";
+  let displayName = "";
+  let email = "";
+  let login = true;
 
   async function submit() {
     loading = true;
@@ -73,6 +76,8 @@
       error = false;
     }, 2000);
   }
+
+  function register() {}
 </script>
 
 <div
@@ -89,6 +94,24 @@
     placeholder="Email"
     type="text"
   />
+
+  <input
+    bind:value={displayName}
+    class:border-red-700={error === true}
+    class:bg-red-200={error === true}
+    class="w-full rounded mb-5"
+    placeholder="Email"
+    type="text"
+  />
+  <input
+    bind:value={email}
+    class:border-red-700={error === true}
+    class:bg-red-200={error === true}
+    class="w-full rounded mb-5"
+    placeholder="Email"
+    type="text"
+  />
+
   <input
     bind:value={password}
     class:border-red-700={error === true}
@@ -100,13 +123,23 @@
   {#if error === true}
     <span class="text-red-700 block mb-5">Error, I think pane zvaitika</span>
   {/if}
-  <button
-    on:click={submit}
-    class:bg-pink-700={!loading}
-    class:bg-pink-300={loading}
-    class="px-6 py-2 text-white rounded hover:bg-pink-500"
-    >{#if loading}...{:else}Submit {/if}</button
-  >
+  {#if login}
+    <button
+      on:click={submit}
+      class:bg-pink-700={!loading}
+      class:bg-pink-300={loading}
+      class="px-6 py-2 text-white rounded hover:bg-pink-500"
+      >{#if loading}...{:else}Submit {/if}</button
+    >
+  {:else}
+    <button
+      on:click={register}
+      class:bg-pink-700={!loading}
+      class:bg-pink-300={loading}
+      class="px-6 py-2 text-white rounded hover:bg-pink-500"
+      >{#if loading}...{:else}Submit {/if}</button
+    >
+  {/if}
 </div>
 
 {#if succ}

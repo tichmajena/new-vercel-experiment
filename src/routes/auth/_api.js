@@ -42,6 +42,6 @@ export async function api(request, resource, data) {
 
   return {
     status: res.status,
-    body: await res.json(),
+    body: json,
   };
 }

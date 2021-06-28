@@ -1,5 +1,6 @@
 <script context="module">
-  async function load({ page, fetch, session }) {
+  import { appNotes } from "$lib/js/store";
+  export const load = async ({ page, fetch, session }) => {
     console.log(session);
     if (!session) {
       return {
@@ -8,16 +9,30 @@
       };
     }
 
+    const res = await fetch("/app.json");
+    console.log(res);
+    const posts = await res.json();
+
+    const appnotes = posts.map(function (post) {
+      let note = JSON.parse(post.string);
+      note.id = post.id;
+      return note;
+    });
+    console.log("posts,", appnotes);
+    appNotes.set(appnotes);
+
     let user = session;
     return {
       props: { user },
     };
-  }
+  };
 </script>
 
 <script>
-  import { appNotes, domState } from "$lib/js/store";
+  import { domState } from "$lib/js/store";
   import { notebook } from "$lib/js/store";
+
+  console.log($appNotes);
 
   function displayForm() {}
   let arr1 = ["0", 1, 2, 3, 4, 5, 6];
@@ -34,7 +49,7 @@
     <h3 class="mb-10">App Notes</h3>
   </a>
   <ul>
-    {#each $notebook as leaf, index}
+    {#each $appNotes as leaf, index}
       <li>
         <div
           class="flex justify-between mb-3"
