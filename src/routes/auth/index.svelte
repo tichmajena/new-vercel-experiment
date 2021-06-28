@@ -17,11 +17,12 @@
   let succ = false;
   let errMessage = "";
   let loading = false;
-  let username = "tichmajena";
-  let password = "M@jena0347";
+  let username = "";
+  let password = "";
   let displayName = "";
   let email = "";
   let login = true;
+  let user = "Username or Email";
 
   async function submit() {
     loading = true;
@@ -37,9 +38,8 @@
         body: JSON.stringify(body),
       });
 
+      console.log(res);
       const data = await res.json();
-
-      console.log(data);
 
       if (res.status === 200) {
         console.log(res);
@@ -76,8 +76,58 @@
       error = false;
     }, 2000);
   }
+  // let body2 = {
+  //     username: username,
+  //     email: email,
+  //     password: password,
+  //     roles: "author",
+  //     nickname: displayName,
+  //     capabilities: {
+  //       upload_files: true,
+  //       edit_posts: true,
+  //       edit_published_posts: true,
+  //       publish_posts: true,
+  //       read: true,
+  //       level_2: true,
+  //       level_1: true,
+  //       level_0: true,
+  //       delete_posts: true,
+  //       delete_published_posts: true,
+  //       author: true,
+  //     },
+  //     extra_capabilities: {
+  //       author: true,
+  //     },
+  //   };
 
-  function register() {}
+  async function testPost() {
+    let body = {
+      username: username,
+      email: email,
+      password: password,
+      role: "author",
+    };
+    const res = await fetch("/auth/register", {
+      method: "POST",
+      body: JSON.stringify(body),
+    });
+    const data = await res.json();
+    console.log(data.body.message);
+
+    return {
+      props: {
+        data,
+      },
+    };
+  }
+  function register() {
+    login = false;
+    user = "Username";
+  }
+
+  function logIn() {
+    login = true;
+  }
 </script>
 
 <div
@@ -91,27 +141,27 @@
     class:border-red-700={error === true}
     class:bg-red-200={error === true}
     class="w-full rounded mb-5"
-    placeholder="Email"
+    placeholder={user}
     type="text"
   />
-
-  <input
-    bind:value={displayName}
-    class:border-red-700={error === true}
-    class:bg-red-200={error === true}
-    class="w-full rounded mb-5"
-    placeholder="Email"
-    type="text"
-  />
-  <input
-    bind:value={email}
-    class:border-red-700={error === true}
-    class:bg-red-200={error === true}
-    class="w-full rounded mb-5"
-    placeholder="Email"
-    type="text"
-  />
-
+  {#if !login}
+    <input
+      bind:value={displayName}
+      class:border-red-700={error === true}
+      class:bg-red-200={error === true}
+      class="w-full rounded mb-5"
+      placeholder="Display Name"
+      type="text"
+    />
+    <input
+      bind:value={email}
+      class:border-red-700={error === true}
+      class:bg-red-200={error === true}
+      class="w-full rounded mb-5"
+      placeholder="Email"
+      type="text"
+    />
+  {/if}
   <input
     bind:value={password}
     class:border-red-700={error === true}
@@ -129,16 +179,26 @@
       class:bg-pink-700={!loading}
       class:bg-pink-300={loading}
       class="px-6 py-2 text-white rounded hover:bg-pink-500"
-      >{#if loading}...{:else}Submit {/if}</button
+      >{#if loading}...{:else}Login {/if}</button
     >
   {:else}
     <button
-      on:click={register}
+      on:click={testPost}
       class:bg-pink-700={!loading}
       class:bg-pink-300={loading}
       class="px-6 py-2 text-white rounded hover:bg-pink-500"
-      >{#if loading}...{:else}Submit {/if}</button
+      >{#if loading}...{:else}Register {/if}</button
     >
+  {/if}
+</div>
+
+<div class="text-center">
+  {#if login}
+    Don't have an Account?
+    <a on:click={register} href="">Register</a>
+  {:else}
+    Already have an Account?
+    <a on:click={logIn} href="">Login</a>
   {/if}
 </div>
 

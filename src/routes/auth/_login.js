@@ -17,7 +17,7 @@ export async function api(request, resource, data) {
     headers: {
       "content-type": "application/json",
     },
-    body: data,
+    body: JSON.stringify(data),
   });
 
   // if the request came from a <form> submission, the browser's default
