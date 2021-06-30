@@ -2,12 +2,6 @@
   import { notebook } from "$lib/js/store";
   import { appNotes } from "$lib/js/store";
 
-  let chakuti;
-
-  const unsubscribe = appNotes.subscribe((value) => {
-    chakuti = value;
-  });
-
   export async function load({ page, fetch, session }) {
     if (!session) {
       return {
@@ -17,7 +11,7 @@
     }
     let slug = page.params.slug;
 
-    let leaf = chakuti;
+    let leaf = "";
     let address = slug.split("");
 
     address.forEach((a, i) => {
