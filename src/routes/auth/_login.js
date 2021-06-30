@@ -10,7 +10,7 @@ export async function api(request, resource, data) {
 
   let token;
 
-  //console.log("DATA!!", data);
+  console.log("DATA!!", data);
 
   const res = await fetch(`${base}/${resource}`, {
     method: request.method,

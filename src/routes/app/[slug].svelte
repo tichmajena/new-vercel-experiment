@@ -9,9 +9,14 @@
         redirect: "/auth",
       };
     }
+    let chakuti;
+
+    const unsubscribe = appNotes.subscribe((value) => {
+      chakuti = value;
+    });
     let slug = page.params.slug;
 
-    let leaf = "";
+    let leaf = chakuti;
     let address = slug.split("");
 
     address.forEach((a, i) => {
