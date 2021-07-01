@@ -1,6 +1,7 @@
 import { api } from "../api/_rest";
 
 export const get = async (request) => {
+  request.locals.index;
   const response = await api(
     request,
     `wp/v2/code_note/${request.locals.index}`

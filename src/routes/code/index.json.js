@@ -1,7 +1,7 @@
 import { getJSON } from "./_api";
 
 export const get = async (request) => {
-  console.log(request.locals.id);
+  console.log("Locals:", request.locals.id);
 
   const response = await getJSON(
     request,

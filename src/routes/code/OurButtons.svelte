@@ -32,20 +32,20 @@
 
     $codeNotes[i].steps = [...$codeNotes[i].steps, newStep];
     activeIndex = $codeNotes[i].steps.length - 1;
-    $domState.save = true;
+    $domState.update = true;
   }
 
   function addCode() {
     restState();
     $codeNotes[i].steps[activeIndex].editCode = true;
-    $domState.save = true;
+    $domState.update = true;
   }
 
   function saveNote() {
     restState();
     $codeNotes[i].steps[activeIndex].editCode = false;
     $codeNotes[i].ready = true;
-    $domState.save = true;
+    $domState.update = true;
   }
 </script>
 

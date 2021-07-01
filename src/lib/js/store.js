@@ -1,6 +1,8 @@
 import { writable } from "svelte/store";
 import { browser } from "$app/env";
 
+export let codeNotes = writable([]);
+export let appNotes = writable([]);
 export let domState = writable({
   showFabs: false,
   activeIndex: 0,
@@ -175,9 +177,12 @@ export const persistStore = (key, initial) => {
     });
 
     return store;
+  } else {
+    codeNotes = writable([]);
+    appNotes = writable([]);
   }
 };
 
-export const codeNotes = persistStore("code_notes", []);
+//codeNotes = persistStore("code_notes", []);
 
-export const appNotes = persistStore("app_notes", []);
+//appNotes = persistStore("app_notes", []);

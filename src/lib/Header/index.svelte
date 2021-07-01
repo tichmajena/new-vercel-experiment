@@ -139,6 +139,7 @@
     >
     <a class="text-blue-100 hover:no-underline" href="/code">
       <li
+        sveltekit:prefetch
         on:click={codeReset}
         class:active={$page.path === "/code"}
         class="block py-2 px-4 hover:bg-blue-600 hover:text-white rounded transition duration-200"

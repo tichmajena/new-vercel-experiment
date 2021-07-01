@@ -10,8 +10,6 @@
       };
     }
 
-    prefetchRoutes();
-
     let user = session;
     return {
       props: {

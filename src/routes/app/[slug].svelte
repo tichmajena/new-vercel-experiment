@@ -47,7 +47,6 @@
 
   export let leaf;
   console.log("SLUG: ", slug);
-  onDestroy(unsubscribe);
 
   let edit = false;
   let loading = false;

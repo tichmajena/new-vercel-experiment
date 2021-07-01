@@ -18,7 +18,7 @@
       note.id = post.id;
       return note;
     });
-    console.log("posts,", appnotes);
+    console.log("appNotes,", appNotes);
     appNotes.set(appnotes);
 
     let user = session;

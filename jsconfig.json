@@ -9,6 +9,7 @@
     "src/**/*.d.ts",
     "src/**/*.js",
     "src/**/*.svelte",
-    "src/hooks.txt"
+    "src/hooks.txt",
+    "src/service-worker.jrts"
   ]
 }
