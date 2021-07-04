@@ -1,5 +1,5 @@
 <script>
-  import { codeNotes, domState } from "$lib/js/store";
+  import { codeNotes, domState, languages } from "$lib/js/store";
   import { onMount } from "svelte";
 
   let code = false;
@@ -22,6 +22,17 @@
     };
   });
 </script>
+
+<form>
+  Language:
+  <select bind:value={$codeNotes[i].steps[ii].codeLang}>
+    {#each $languages as language}
+      <option value={language}>
+        {language}
+      </option>
+    {/each}
+  </select>
+</form>
 
 <div class="flex flex-col-reverse">
   <!-- <CodeMirror bind:editor class="editor" {options} /> -->

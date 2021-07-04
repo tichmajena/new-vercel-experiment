@@ -7,9 +7,10 @@
   export let ii;
   let myDiv;
   let Highlight;
-  let javascript;
+  let javascript, php;
   let atomOneDark;
   let hljs;
+  let language = $codeNotes[i].steps[ii].codeLang.toLowerCase();
   let codess = `function gooda(){
         let mbudzi = 2;
       }
@@ -20,6 +21,7 @@
     hljs = (await import("highlight.js")).default;
     javascript = (await import("svelte-highlight/src/languages/javascript"))
       .default;
+    php = (await import("svelte-highlight/src/languages/php")).default;
     atomOneDark = (await import("svelte-highlight/src/styles/atom-one-dark"))
       .default;
     await hljs.highlightAll();
@@ -46,10 +48,16 @@
 <div id="zikustep_{ii}" bind:this={myDiv} use:saveDOM>
   <pre
     in:fade
-    class="flex">
+    class="flex code rounded">
     <code
-      class="block p-4 w-full rounded javascript">
+      class="block p-4 w-full rounded {language}">
       {$codeNotes[i].steps[ii].code}
     </code>
   </pre>
 </div>
+
+<style>
+  .code {
+    background-color: #282c34;
+  }
+</style>

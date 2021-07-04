@@ -16,7 +16,6 @@
       let codenotes = jsonData.map((note) => {
         let newNote = JSON.parse(note.string);
         newNote.id = note.id;
-
         return newNote;
       });
 
@@ -30,6 +29,8 @@
       //error: new Error(message),
     };
   };
+
+  function updateSchema() {}
 </script>
 
 <script>
@@ -37,7 +38,15 @@
   import { domState } from "$lib/js/store";
   import { goto, prefetchRoutes } from "$app/navigation";
   import { onMount } from "svelte";
+  import Button from "$lib/Button/index.svelte";
+
   let noteIndex = 0;
+  let selected = [];
+  let yes;
+  let check;
+  let deleting = false;
+
+  $: marked = selected;
 
   function restState() {
     $codeNotes.forEach((note) => {
@@ -74,6 +83,32 @@
     goto("/code/");
   }
   $domState.save = false;
+
+  function select(e) {
+    console.log(yes);
+    let idx = +e.srcElement.id;
+    selected = [...selected, $codeNotes[idx].id];
+  }
+
+  function trash() {
+    deleting = true;
+    selected.forEach(async (note) => {
+      console.log("trashing:", note);
+      const res = await fetch(`/code/${note}.json`, {
+        method: "DELETE",
+        body: JSON.stringify({ status: "trash" }),
+      });
+
+      console.log(res);
+
+      if (res.ok) {
+        deleting = false;
+        goto(`/code`, { invalidate: true });
+      }
+      const data = await res.json();
+      console.log(data);
+    });
+  }
 </script>
 
 <div
@@ -84,22 +119,49 @@
 
 <div class="section md:mt-32 mt-20">
   <div class="container mx-auto max-w-lg ">
+    <Button
+      on:click={() => {
+        check = !check;
+      }}
+      >{#if check}Unselect{:else}Select{/if}</Button
+    >
+    {#if check && marked.length > 0}
+      <Button loading={deleting} on:click={trash}>Delete</Button>
+    {/if}
     {#each $codeNotes as note, i}
-      <a
-        on:click={() => {
-          restState();
-          $codeNotes[i].ready = true;
-          // $codeNotes[$domState.pageIndex].edit = true;
-          $domState.edit = true;
-          $domState.showFabs = true;
-        }}
-        sveltekit:prefetch
-        href="/code/{i}-{note.id}"
-      >
-        <h3 class="md:text-4xl text-lg ml-8 md:ml-10">
-          {$codeNotes[i].title}
-        </h3>
-      </a>
+      <div class="flex">
+        <div class="w-1/12">
+          <!-- ,n -->
+          {#if check}
+            <label for={i}>
+              <input
+                id={i}
+                group={yes}
+                value={i}
+                type="checkbox"
+                on:click={select}
+              />
+            </label>
+          {/if}
+        </div>
+        <div class="w-11/12">
+          <a
+            on:click={() => {
+              restState();
+              $codeNotes[i].ready = true;
+              // $codeNotes[$domState.pageIndex].edit = true;
+              $domState.edit = true;
+              $domState.showFabs = true;
+            }}
+            sveltekit:prefetch
+            href="/code/{i}-{note.id}"
+          >
+            <h3 class="text-lg ml-8 md:ml-10">
+              {$codeNotes[i].title}
+            </h3>
+          </a>
+        </div>
+      </div>
     {:else}
       Please Press The Add Button To Create Your Notes!!!
     {/each}

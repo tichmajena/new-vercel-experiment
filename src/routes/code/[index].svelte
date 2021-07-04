@@ -12,8 +12,21 @@
 
     let slugArr = slug.split("-");
     let i = +slugArr[0];
-    console.log(codeNotes);
-    return { props: { i, session } };
+
+    console.log(slugArr);
+    let id = +slugArr[1];
+    let post;
+    if (slugArr.length > 1) {
+      const res = await fetch(`/code/${id}.json`);
+      const data = await res.json();
+      post = JSON.parse(data.string);
+
+      if (res.status === 200) {
+        console.log(post);
+      }
+      console.log(res);
+    }
+    return { props: { i, session, post } };
   }
 </script>
 
@@ -25,8 +38,19 @@
   import { domState } from "$lib/js/store";
   import { goto, prefetchRoutes } from "$app/navigation";
   import Message from "$lib/Message/index.svelte";
+  import { browser } from "$app/env";
 
   export let i = 0;
+  export let post;
+
+  // $codeNotes[i].steps.forEach((step, ii) => {
+  //   if (step.codeLang) {
+  //   } else {
+  //     console.log("hapana pana:", i);
+  //     $codeNotes[i].steps[ii].codeLang = "";
+  //     console.log(post.steps[ii].codeLang);
+  //   }
+  // });
 
   let publishing = true;
   let saving = false;
@@ -36,8 +60,15 @@
 
   console.log("Logging codenotes", $codeNotes[i]);
   function checkEmpty() {
-    if ($codeNotes[i] === undefined) {
-      goto("/code");
+    if ($codeNotes[i] === undefined && post !== undefined) {
+      $codeNotes[i] = post;
+    } else if ($codeNotes[i]) {
+      console.log("new");
+    } else {
+      console.log("ELSING", post);
+      if (browser) {
+        goto("/code", { invalidate: true });
+      }
     }
   }
   checkEmpty();
@@ -45,6 +76,7 @@
   let edit = false;
 
   function restState() {
+    $domState.update = false;
     $codeNotes.forEach((note) => {
       note.edit = false;
       if (note.steps.length > 0) {
@@ -76,6 +108,7 @@
 
   async function testPost() {
     saving = true;
+    $domState.update = false;
     $codeNotes[i].mode = "publish";
     let body = $codeNotes[i];
 
@@ -126,7 +159,9 @@
     updating = false;
     $domState.update = false;
   }
-  //restState();
+  if (!$domState.save) {
+    restState();
+  }
 </script>
 
 <div
@@ -136,7 +171,7 @@
 </div>
 
 <div class="section md:mt-8 mt-12">
-  <div class="container mx-auto max-w-lg ">
+  <div class="container mx-auto max-w-screen-md ">
     {#if $codeNotes[i]}
       <div class="app-wrapper">
         <div class="note-title">
@@ -336,3 +371,9 @@
     {/if}
   </div>
 </div>
+
+<style>
+  .app-wrapper {
+    padding-bottom: 200px;
+  }
+</style>

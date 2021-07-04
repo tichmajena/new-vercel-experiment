@@ -26,6 +26,7 @@
       desc: "",
       code: "",
       codeDOM: "",
+      codeLang: "",
       editDesc: true,
       editCode: false,
     };

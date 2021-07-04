@@ -1,11 +1,12 @@
 import { api } from "../api/_rest";
+import { getJSON } from "./_api";
 
 export const get = async (request) => {
-  request.locals.index;
-  const response = await api(
+  const response = await getJSON(
     request,
-    `wp/v2/code_note/${request.locals.index}`
+    `wp/v2/code_note/${request.params.index}`
   );
+  console.log("RES: ", response);
   if (response.status === 404) {
     console.log("404 pano");
 
@@ -43,12 +44,11 @@ export const put = async (request) => {
     `wp/v2/code_note/${request.params.index}`,
     request.body
   );
-  if (response.status === 404) {
+  if (response.status > 400) {
     console.log("404 pano");
 
     return { body: [] };
   }
-  console.log(response);
 
   return {
     body: response,
@@ -56,14 +56,14 @@ export const put = async (request) => {
 };
 
 export const del = async (request) => {
-  console.log("PUTING");
+  console.log("DELETING");
   console.log(request);
 
-  const response = await getJSON(
+  const response = await api(
     request,
     `wp/v2/code_note/${request.params.index}`
   );
-  if (response.status === 404) {
+  if (response.status < 400) {
     console.log("404 pano");
 
     return { body: [] };

@@ -14,6 +14,8 @@ export let domState = writable({
   appForward: true,
 });
 
+export let languages = writable(["Javascript", "PHP", "HTML", "CSS"]);
+
 export let notebook = writable([
   {
     note: {

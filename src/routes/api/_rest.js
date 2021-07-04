@@ -11,7 +11,7 @@ export async function api(request, resource, data) {
   let token;
 
   let rm = request.method.toUpperCase();
-  if (rm === "POST" || rm === "PUT" || rm === "PATCH" || rm === "DEL") {
+  if (rm === "POST" || rm === "PUT" || rm === "PATCH" || rm === "DELETE") {
     token = cookie.parse(request.headers.cookie || "").token || null;
   }
 
