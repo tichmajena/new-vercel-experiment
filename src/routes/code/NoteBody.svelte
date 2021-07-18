@@ -5,6 +5,7 @@
   import DescriptionContent from "./DescriptionContent.svelte";
   import { domState, codeNotes } from "$lib/js/store";
   import Button from "$lib/Button/index.svelte";
+  import QuillCode from "./QuillCode.svelte";
 
   let idCount = 1;
   export let i = 0;
@@ -24,6 +25,11 @@
     });
   }
 </script>
+
+<svelte:head>
+  <script
+    href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.1.0/highlight.min.js"></script>
+</svelte:head>
 
 <div class="note-body-wrapper note-body-wrapper-{idCount}">
   <div class="note-body__desc note-body__desc-{idCount}">
@@ -93,6 +99,7 @@
     <div class="relative snippet__form-div snippet__form-div-{idCount}">
       {#if $codeNotes[i].steps[ii].editCode}
         <CodeForm {i} {ii} />
+        <QuillCode {i} {ii} />
         {#if $domState.edit}
           <div class="flex mt-2 mb-6">
             <Button
