@@ -8,7 +8,11 @@
   let hljs, javascript, php;
   let editor;
   let atomOneDark;
+  let text;
 
+  $: {
+    console.log(text);
+  }
   export const toolbarOptions = [
     [{ header: 1 }, { header: 2 }, "blockquote", "link", "image", "video"],
     ["bold", "italic", "underline", "strike"],
@@ -59,6 +63,12 @@
 <div class="editor-wrapper">
   <div bind:this={editor} />
 </div>
+
+<button
+  on:click={() => {
+    console.log(editor.innerText);
+  }}>Test</button
+>
 
 <style>
   @import "https://cdn.quilljs.com/1.3.6/quill.snow.css";
