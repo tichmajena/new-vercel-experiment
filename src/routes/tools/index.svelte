@@ -4,23 +4,45 @@
   let hr;
   let mn;
   let sc;
+  let mode = "timer";
   let zuva = new Date();
   export let day = new Date();
 
+  console.log(zuva);
   $: hh = zuva.getHours() * 30;
   $: mm = zuva.getMinutes() * deg;
   $: ss = zuva.getSeconds() * deg;
+
+  let clock;
   onMount(() => {
     console.log(hr, mn, sc);
-    setInterval(() => {
-      zuva = new Date();
-      hr.style.transform = `rotateZ(${hh + mm / 12}deg)`;
-      mn.style.transform = `rotateZ(${mm}deg)`;
-      sc.style.transform = `rotateZ(${ss}deg)`;
-    });
+    if (mode === "clock") {
+      clock = setInterval(() => {
+        zuva = new Date();
+        hr.style.transform = `rotateZ(${hh + mm / 12}deg)`;
+        mn.style.transform = `rotateZ(${mm}deg)`;
+        sc.style.transform = `rotateZ(${ss}deg)`;
+      });
+    }
   });
 </script>
 
+<div>
+  <div class="flex">
+    <button
+      class="py-2 px-4 m-3 text-lg text-indigo-100 bg-indigo-900 hover:bg-indigo-700 rounded-md"
+      >Do Stuff 1</button
+    >
+    <button
+      class="py-2 px-4 m-3 text-lg text-indigo-100 bg-indigo-900 hover:bg-indigo-700 rounded-md"
+      >Do Stuff 2</button
+    >
+    <button
+      class="py-2 px-4 m-3 text-lg text-indigo-100 bg-indigo-900 hover:bg-indigo-700 rounded-md"
+      >Do Stuff 3</button
+    >
+  </div>
+</div>
 <div class=" bg flex justify-center items-center min-h-full p-5">
   <div class="clock text-white">
     <div class="hour">

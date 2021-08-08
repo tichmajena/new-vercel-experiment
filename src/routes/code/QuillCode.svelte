@@ -9,6 +9,7 @@
   let editor;
   let atomOneDark;
   let text;
+  let content;
 
   $: {
     console.log(text);
@@ -49,11 +50,14 @@
       theme: "snow",
       placeholder: "Write your story...",
     });
+    content = quill.getText();
+    // conte
 
     // $codeNotes[i].steps[ii].code = quill.getText();
   });
 
   $: themeURL = atomOneDark;
+  $: rText = content || "Empty";
 </script>
 
 <svelte:head>
@@ -69,6 +73,8 @@
     console.log(editor.innerText);
   }}>Test</button
 >
+
+{rText}
 
 <style>
   @import "https://cdn.quilljs.com/1.3.6/quill.snow.css";
