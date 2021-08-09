@@ -1,69 +1,96 @@
 <script>
   import { onMount } from "svelte";
+  import { addHours, addMilliseconds, startOfDay } from "date-fns";
+
   let deg = 6;
-  let hr;
-  let mn;
-  let sc;
-  let mode = "timer";
+  // let hr;
+  // let mn;
+  // let sc;
+  let duration;
+  let clock;
+  let countdown;
+  let mode = "mode";
   let zuva = new Date();
   export let day = new Date();
 
-  console.log(zuva);
   $: hh = zuva.getHours() * 30;
   $: mm = zuva.getMinutes() * deg;
   $: ss = zuva.getSeconds() * deg;
 
-  let clock;
-  onMount(() => {
-    console.log(hr, mn, sc);
-    if (mode === "clock") {
-      clock = setInterval(() => {
-        zuva = new Date();
-        hr.style.transform = `rotateZ(${hh + mm / 12}deg)`;
-        mn.style.transform = `rotateZ(${mm}deg)`;
-        sc.style.transform = `rotateZ(${ss}deg)`;
-      });
-    }
-  });
+  $: console.log(ss);
+
+  $: if (mode === "clock") {
+    clock = setInterval(() => {
+      zuva = new Date();
+    }, 1);
+  }
+
+  function addTest() {
+    zuva = addHours(zuva, -1);
+  }
+
+  function backtrack() {
+    zuva = startOfDay(zuva);
+    zuva = addMilliseconds(zuva, -duration);
+    countdown = setInterval(() => {
+      zuva = addMilliseconds(zuva, 1000);
+      duration = duration - 1000;
+      // console.log(zuva);
+      // zuva = zuva;
+      if (duration <= 0) {
+        clearInterval(countdown);
+      }
+
+      console.log("running", ss);
+    }, 1000);
+  }
+
+  function reduceSeconds() {
+    zuva = addMilliseconds(zuva, -1000);
+  }
 </script>
 
 <div>
   <div class="flex">
     <button
+      on:click={addTest}
       class="py-2 px-4 m-3 text-lg text-indigo-100 bg-indigo-900 hover:bg-indigo-700 rounded-md"
       >Do Stuff 1</button
     >
     <button
+      on:click={backtrack}
       class="py-2 px-4 m-3 text-lg text-indigo-100 bg-indigo-900 hover:bg-indigo-700 rounded-md"
       >Do Stuff 2</button
     >
     <button
+      on:click={reduceSeconds}
       class="py-2 px-4 m-3 text-lg text-indigo-100 bg-indigo-900 hover:bg-indigo-700 rounded-md"
       >Do Stuff 3</button
     >
+    <input type="range" min="0" max="60000" bind:value={duration} />
   </div>
 </div>
 <div class=" bg flex justify-center items-center min-h-full p-5">
   <div class="clock text-white">
     <div class="hour">
-      <div bind:this={hr} class="hr" id="hr" />
+      <div class="hr" style="transform: rotateZ({hh + mm / 12}deg)" />
     </div>
     <div class="min">
-      <div bind:this={mn} class="mn" id="mn" />
+      <div class="mn" style="transform: rotateZ({mm}deg)" />
     </div>
     <div class="sec">
-      <div bind:this={sc} class="sc" id="sc" />
+      <div class="sc" style="transform: rotateZ({ss}deg)" />
     </div>
     <div class=" number-wrapper absolute inset-0">
       <div class="number number1">|</div>
       <div class="number number2">|</div>
-      <div class="number number3">3</div>
+      <div class="number number3"><div class="three">3</div></div>
       <div class="number number4">|</div>
       <div class="number number5">|</div>
-      <div class="number number6">6</div>
+      <div class="number number6"><div class="six">6</div></div>
       <div class="number number7">|</div>
       <div class="number number8">|</div>
-      <div class="number number9">9</div>
+      <div class="number number9"><div class="nine">9</div></div>
       <div class="number number10">|</div>
       <div class="number number11">|</div>
       <div class="number number12">12</div>
@@ -106,6 +133,16 @@
     height: 100%;
     text-align: center;
     transform: rotate(var(--rotation));
+  }
+
+  .three {
+    transform: rotate(-90deg);
+  }
+  .six {
+    transform: rotate(-180deg);
+  }
+  .nine {
+    transform: rotate(-270deg);
   }
 
   .clock .number1 {

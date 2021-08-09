@@ -21,7 +21,7 @@
 
 <script>
   import Timer from "$lib/Timer/index.svelte";
-  import CLock from "$lib/Clock/index.svelte";
+  import Clock from "$lib/Clock/index.svelte";
   export let quiz;
   console.log(quiz);
 

@@ -17,22 +17,37 @@
   onMount(() => {
     console.log(hr, mn, sc);
 
-    hr.style.transform = `rotateZ(${hh + mm / 12}deg)`;
-    mn.style.transform = `rotateZ(${mm}deg)`;
-    sc.style.transform = `rotateZ(${ss}deg)`;
+    // hr.style.transform = `rotateZ(${hh + mm / 12}deg)`;
+    // mn.style.transform = `rotateZ(${mm}deg)`;
+    // sc.style.transform = `rotateZ(${ss}deg)`;
   });
 </script>
 
 <div class=" bg flex justify-center items-center min-h-full p-5">
   <div class="clock text-white">
     <div class="hour">
-      <div bind:this={hr} class="hr" id="hr" />
+      <div
+        bind:this={hr}
+        class="hr"
+        style="transform: rotateZ({hh + mm / 12}deg)"
+        id="hr"
+      />
     </div>
     <div class="min">
-      <div bind:this={mn} class="mn" id="mn" />
+      <div
+        bind:this={mn}
+        class="mn"
+        style="transform: rotateZ({mm}deg)"
+        id="mn"
+      />
     </div>
     <div class="sec">
-      <div bind:this={sc} class="sc" id="sc" />
+      <div
+        bind:this={sc}
+        class="sc"
+        style="transform: rotateZ({ss}deg)"
+        id="sc"
+      />
     </div>
     <div class=" number-wrapper absolute inset-0">
       <div class="number number1">|</div>
