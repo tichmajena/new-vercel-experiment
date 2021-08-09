@@ -65,7 +65,9 @@
 </svelte:head>
 
 <div class="editor-wrapper">
-  <div bind:this={editor} />
+  <div bind:this={editor}>
+    {$codeNotes[i].steps[ii].code}
+  </div>
 </div>
 
 <button
