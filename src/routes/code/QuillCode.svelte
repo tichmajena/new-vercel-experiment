@@ -45,7 +45,7 @@
       modules: {
         //toolbar: toolbarOptions,
         toolbar: [["code-block"]],
-        syntax: false,
+        syntax: true,
       },
       theme: "snow",
       placeholder: "Write your story...",
@@ -77,14 +77,6 @@
     {$codeNotes[i].steps[ii].code}
   </div>
 </div>
-
-<button
-  on:click={() => {
-    console.log(editor.innerText, $codeNotes[i].steps[ii].code);
-  }}>Test</button
->
-
-{rText}
 
 <style>
   @import "https://cdn.quilljs.com/1.3.6/quill.snow.css";
