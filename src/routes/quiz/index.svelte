@@ -36,6 +36,8 @@
     gameTimerId = null,
     gameTime = 15;
 
+  let analog = false;
+
   let answers = new Array(questions.length).fill("answer");
   let questionPointer = -1;
 
@@ -133,7 +135,9 @@
   }
 </script>
 
-<Clock />
+{#if analog}
+  <Clock />
+{/if}
 
 <div class="hidden">
   <button

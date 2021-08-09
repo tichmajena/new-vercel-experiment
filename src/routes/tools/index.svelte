@@ -1,11 +1,7 @@
 <script>
-  import { onMount } from "svelte";
   import { addHours, addMilliseconds, startOfDay } from "date-fns";
 
   let deg = 6;
-  // let hr;
-  // let mn;
-  // let sc;
   let duration;
   let clock;
   let countdown;
