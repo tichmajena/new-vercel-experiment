@@ -54,6 +54,14 @@
     // conte
 
     // $codeNotes[i].steps[ii].code = quill.getText();
+    quill.on("text-change", function (delta, oldDelta, source) {
+      if (source == "api") {
+        console.log("An API call triggered this change.");
+      } else if (source == "user") {
+        console.log("A user action triggered this change.");
+        $codeNotes[i].steps[ii].code = editor.innerText;
+      }
+    });
   });
 
   $: themeURL = atomOneDark;
@@ -72,7 +80,7 @@
 
 <button
   on:click={() => {
-    console.log(editor.innerText);
+    console.log(editor.innerText, $codeNotes[i].steps[ii].code);
   }}>Test</button
 >
 
