@@ -13,7 +13,6 @@
     let slugArr = slug.split("-");
     let i = +slugArr[0];
 
-    console.log(slugArr);
     let id = +slugArr[1];
     let post;
     if (slugArr.length > 1) {
@@ -22,11 +21,9 @@
       post = JSON.parse(data.string);
 
       if (res.status === 200) {
-        console.log(post);
       }
-      console.log(res);
     }
-    return { props: { i, session, post } };
+    return { props: { i, session, post, slug } };
   }
 </script>
 
@@ -39,9 +36,13 @@
   import { goto, prefetchRoutes } from "$app/navigation";
   import Message from "$lib/Message/index.svelte";
   import { browser } from "$app/env";
+  import DownloadButton from "$lib/components/DownloadButton.svelte";
+  import { patchSinglePostOfflineStatus } from "$lib/js/offline";
+  import { onMount } from "svelte";
 
   export let i = 0;
   export let post;
+  export let slug;
 
   // $codeNotes[i].steps.forEach((step, ii) => {
   //   if (step.codeLang) {
@@ -57,6 +58,21 @@
   let updating = false;
 
   export let session;
+
+  function savedHandler() {
+    post.offline = true;
+  }
+  function deletedHandler() {
+    post.offline = false;
+  }
+
+  onMount(() => {
+    if ("caches" in window) {
+      patchSinglePostOfflineStatus(post).then(
+        (patchedPost) => (post = patchedPost)
+      );
+    }
+  });
 
   console.log("Logging codenotes", $codeNotes[i]);
   function checkEmpty() {
@@ -219,6 +235,13 @@
               <span slot="message">An Error has occured</span>
             </Message>
           {/if}
+
+          <DownloadButton
+            on:saved={savedHandler}
+            on:deleted={deletedHandler}
+            offline={post.offline}
+            {slug}
+          />
         </div>
 
         <div class="note-footer">

@@ -11,18 +11,21 @@ const config = {
     }),
   ],
   kit: {
-    // adapter: adapter({
-    //   // default options are shown
-    //   pages: "build",
-    //   assets: "build",
-    //   fallback: "app.html",
-    // }),
-    adapter: vercel(),
+    adapter: adapter({
+      // default options are shown
+      pages: "build",
+      assets: "build",
+      fallback: "app.html",
+    }),
+    //adapter: vercel(),
 
     target: "#svelte",
 
     ssr: true,
     // hydrate the <div id="svelte"> element in src/app.html
+    files: {
+      serviceWorker: "src/service-worker",
+    },
   },
 };
 
