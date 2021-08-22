@@ -7,6 +7,7 @@ const returnSSRpage = (path) =>
   caches.open("ssrCache").then((cache) => cache.match(path));
 
 // Caches the svelte app (not the data)
+// * I could include the other routes
 self.addEventListener("install", (event) => {
     event.waitUntil(
       Promise.all([
@@ -21,6 +22,7 @@ self.addEventListener("install", (event) => {
   });
 
 // Removes old caches
+// * I could remove the other post-type caches
 self.addEventListener("activate", (event) => {
     event.waitUntil(
       clients.claim(),
@@ -42,11 +44,11 @@ self.addEventListener("activate", (event) => {
         .then(self.skipWaiting())
         .then(() => console.log("activated"))
     );
-  });
+});
 
-  self.addEventListener("fetch", (event) => {
-    const request = event.request;
-    const requestURL = new URL(request.url);
+self.addEventListener("fetch", (event) => {
+  const request = event.request;
+  const requestURL = new URL(request.url);
 
 
     // Do this for every route up for caching
@@ -78,14 +80,15 @@ self.addEventListener("activate", (event) => {
 
         event.respondWith(returnOfflinePosts());
 
-    }  else if ( /(\/code\/)(\w+-?)*/.test(requestURL.pathname) && !/(.css)|(.js)$/.test(requestURL.pathname)) {
+    } else if ( /(\/code\/)(\w+-?)*/.test(requestURL.pathname) && !/(.css)|(.js)$/.test(requestURL.pathname)) {
         const findOfflinePost = () =>
           caches
             .match(request)
             .then((response) => (response ? response : fetch(request)))
             .catch(() => returnSSRpage("/code/offline"));
-    event.respondWith(findOfflinePost());
-     } else
+          event.respondWith(findOfflinePost());
+     } else {
         event.respondWith(caches.match(request).then((cacheRes) => cacheRes || fetch(request)));
-    });
+      }
+  });
     

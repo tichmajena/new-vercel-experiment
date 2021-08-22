@@ -37,6 +37,7 @@
     gameTime = 15;
 
   let analog = false;
+  let load = 0;
 
   let answers = new Array(questions.length).fill("answer");
   let questionPointer = -1;
@@ -135,6 +136,20 @@
   }
 </script>
 
+<div><input type="range" start="0" end="100" bind:value={load} /></div>
+
+<div
+  class="l-container flex justify-center overflow-visible items-center mx-auto h-56 w-56 relative pt-8"
+>
+  <div
+    class="circle bg-gray-200 h-full w-full rounded-full absolute top-0 left-0 z-20"
+  />
+  <div class="pointer-container" />
+  <div
+    style="background: conic-gradient(#55b7a4 0%, #4ca493 {load}%, #aaa {load}%, #aaa 100%);"
+    class="gradient-circle h-64 w-64 z-10 rounded-full absolute -top-4 -left-4"
+  />
+</div>
 {#if analog}
   <Clock />
 {/if}
@@ -304,5 +319,10 @@
   }
   .app .score-screen h1 {
     margin-bottom: 10px;
+  }
+
+  /* ------------- */
+  .gradient-circle {
+    background: conic-gradient(#55b7a4 0%, #4ca493 40%, #aaa 40%, #aaa 100%);
   }
 </style>

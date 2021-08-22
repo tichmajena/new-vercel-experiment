@@ -35,7 +35,7 @@
   import { domState } from "$lib/js/store";
   import { goto, prefetchRoutes } from "$app/navigation";
   import Message from "$lib/Message/index.svelte";
-  import { browser } from "$app/env";
+  //import { browser } from "$app/env";
   import DownloadButton from "$lib/components/DownloadButton.svelte";
   import { patchSinglePostOfflineStatus } from "$lib/js/offline";
   import { onMount } from "svelte";
