@@ -98,7 +98,7 @@
   <div class="note-body__snippet note-body__snippet-{idCount}">
     <div class="relative snippet__form-div snippet__form-div-{idCount}">
       {#if $codeNotes[i].steps[ii].editCode}
-        <QuillCode {i} {ii} />
+        <CodeForm {i} {ii} />
         {#if $domState.edit}
           <div class="flex mt-2 mb-6">
             <Button
