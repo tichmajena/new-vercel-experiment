@@ -37,7 +37,7 @@
   import { goto, prefetchRoutes } from "$app/navigation";
   import Message from "$lib/Message/index.svelte";
   //import { browser } from "$app/env";
-  import DownloadButton from "$lib/components/DownloadButton.svelte";
+  //import DownloadButton from "$lib/components/DownloadButton.svelte";
   import { patchSinglePostOfflineStatus } from "$lib/js/offline";
   import { onMount } from "svelte";
 
@@ -237,12 +237,12 @@
             </Message>
           {/if}
 
-          <DownloadButton
+          <!-- <DownloadButton
             on:saved={savedHandler}
             on:deleted={deletedHandler}
             offline={post.offline}
             {slug}
-          />
+          /> -->
         </div>
 
         <div class="note-footer">
