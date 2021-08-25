@@ -20,7 +20,9 @@ self.addEventListener("install", (event) => {
     Promise.all([
       caches
         .open("ssrCache")
-        .then((cache) => cache.addAll(["/", "/code", "/code/offline"])),
+        .then((cache) =>
+          cache.addAll(["/", "/auth", "/code", "/code/offline"])
+        ),
       caches.open(applicationCache).then((cache) => cache.addAll(build)),
       caches.open(staticCache).then((cache) => cache.addAll(files)),
     ])
