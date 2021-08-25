@@ -1,6 +1,6 @@
 {
-  "short_name": "WazoPad",
-  "name": "WazoPad",
+  "short_name": "Mazano Pad",
+  "name": "Mazano Pad",
   "start_url": "/",
   "icons": [
     {
@@ -14,5 +14,5 @@
   "scope": "/",
   "theme_color": "#3367D6",
   "shortcuts": [],
-  "description": "Lofi to lofi beats, while using the scratchpad to list down tasks and thoughts"
+  "description": "Untangle your thoughts"
 }

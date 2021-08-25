@@ -15,8 +15,9 @@
 
     let id = +slugArr[1];
     let post;
+    //  If not 'new post' i.e already has an ID
     if (slugArr.length > 1) {
-      const res = await fetch(`/code/${id}.json`);
+      const res = await fetch(`/code/${slug}.json`);
       const data = await res.json();
       post = JSON.parse(data.string);
 
@@ -62,32 +63,33 @@
   function savedHandler() {
     post.offline = true;
   }
+
   function deletedHandler() {
     post.offline = false;
   }
 
   onMount(() => {
+    console.log("SLUG: ", slug);
     if ("caches" in window) {
-      patchSinglePostOfflineStatus(post).then(
+      patchSinglePostOfflineStatus(post, slug).then(
         (patchedPost) => (post = patchedPost)
       );
     }
   });
 
-  console.log("Logging codenotes", $codeNotes[i]);
-  function checkEmpty() {
+  function checkifEmpty() {
     if ($codeNotes[i] === undefined && post !== undefined) {
       $codeNotes[i] = post;
     } else if ($codeNotes[i]) {
       console.log("new");
     } else {
-      console.log("ELSING", post);
+      console.log("ELSING");
       if (browser) {
         goto("/code", { invalidate: true });
       }
     }
   }
-  checkEmpty();
+  checkifEmpty();
   let loading = false;
   let edit = false;
 
@@ -135,7 +137,7 @@
       author: session.id,
     };
 
-    const res = await fetch(`/code/${i}.json`, {
+    const res = await fetch(`/code/${slug}}.json`, {
       method: "POST",
       body: JSON.stringify(noteString),
     });
@@ -170,8 +172,7 @@
     });
 
     const data = await res.json();
-    console.log(res);
-    console.log(data);
+
     updating = false;
     $domState.update = false;
   }

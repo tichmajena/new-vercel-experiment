@@ -39,6 +39,8 @@
   import { goto, prefetchRoutes } from "$app/navigation";
   import { onMount } from "svelte";
   import Button from "$lib/Button/index.svelte";
+  import DownloadButton from "$lib/components/DownloadButton.svelte";
+  import { saveInCache, patchAllpostsOfflineStatus } from "$lib/js/offline";
 
   let noteIndex = 0;
   let selected = [];
@@ -47,6 +49,12 @@
   let deleting = false;
 
   $: marked = selected;
+
+  onMount(() => {
+    $codeNotes.forEach((note, i) => {
+      saveInCache(`${i}-${note.id}`);
+    });
+  });
 
   function restState() {
     $codeNotes.forEach((note) => {
@@ -99,14 +107,11 @@
         body: JSON.stringify({ status: "trash" }),
       });
 
-      console.log(res);
-
       if (res.ok) {
         deleting = false;
         goto(`/code`, { invalidate: true });
       }
       const data = await res.json();
-      console.log(data);
     });
   }
 </script>
@@ -153,7 +158,6 @@
               $domState.edit = true;
               $domState.showFabs = true;
             }}
-            sveltekit:prefetch
             href="/code/{i}-{note.id}"
           >
             <h3 class="text-lg ml-8 md:ml-10">
@@ -165,6 +169,8 @@
     {:else}
       Please Press The Add Button To Create Your Notes!!!
     {/each}
+
+    <!-- <DownloadButton offline={true} slug="" list={$codeNotes} /> -->
 
     <div class="app-wrapper">
       <div class="note-footer">

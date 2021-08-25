@@ -2,11 +2,12 @@ import { api } from "../api/_rest";
 import { getJSON } from "./_api";
 
 export const get = async (request) => {
-  const response = await getJSON(
-    request,
-    `wp/v2/code_note/${request.params.index}`
-  );
-  console.log("RES: ", response);
+  let slug = request.params.index;
+  let slugArr = slug.split("-");
+
+  let id = +slugArr[1];
+  const response = await getJSON(request, `wp/v2/code_note/${id}`);
+  console.log("RES: ");
   if (response.status === 404) {
     console.log("404 pano");
 
@@ -17,11 +18,11 @@ export const get = async (request) => {
 };
 
 export const post = async (request) => {
-  console.log(request.body);
+  console.log("request.body");
 
   const response = await api(request, `wp/v2/code_note`, request.body);
   if (response.status >= 400) {
-    console.log("404 pano", response);
+    console.log("404 pano");
 
     return {
       status: 400,

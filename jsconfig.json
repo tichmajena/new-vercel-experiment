@@ -10,6 +10,7 @@
     "src/**/*.js",
     "src/**/*.svelte",
     "src/hooks.txt",
-    "src/service-worker.jrts"
+    "src/service-worker.jrts",
+    "src/serviceorker.pdf"
   ]
 }
