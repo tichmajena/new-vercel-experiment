@@ -39,8 +39,7 @@
   import { goto, prefetchRoutes } from "$app/navigation";
   import { onMount } from "svelte";
   import Button from "$lib/Button/index.svelte";
-  import DownloadButton from "$lib/components/DownloadButton.svelte";
-  import { saveInCache, patchAllpostsOfflineStatus } from "$lib/js/offline";
+  import { saveInCache } from "$lib/js/offline";
 
   let noteIndex = 0;
   let selected = [];
