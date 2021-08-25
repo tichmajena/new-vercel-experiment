@@ -10,6 +10,12 @@ const returnSSRpage = (path) =>
 // Caches the svelte app (not the data)
 // * I could include the other routes
 self.addEventListener("install", (event) => {
+  if (
+    event.request.cache === "only-if-cached" &&
+    event.request.mode !== "same-origin"
+  ) {
+    return;
+  }
   event.waitUntil(
     Promise.all([
       caches
@@ -49,6 +55,12 @@ self.addEventListener("activate", (event) => {
 });
 
 self.addEventListener("fetch", (event) => {
+  // if (
+  //   event.request.cache === "only-if-cached" &&
+  //   event.request.mode !== "same-origin"
+  // ) {
+  //   return;
+  // }
   const request = event.request;
   const requestURL = new URL(request.url);
 
