@@ -37,7 +37,7 @@
     gameTime = 15;
 
   let analog = false;
-  let load = 0;
+  let loadd = 0;
 
   let answers = new Array(questions.length).fill("answer");
   let questionPointer = -1;
@@ -136,7 +136,7 @@
   }
 </script>
 
-<div><input type="range" start="0" end="100" bind:value={load} /></div>
+<div><input type="range" start="0" end="100" bind:value={loadd} /></div>
 
 <div
   class="l-container flex justify-center overflow-visible items-center mx-auto h-56 w-56 relative pt-8"
@@ -146,7 +146,7 @@
   />
   <div class="pointer-container" />
   <div
-    style="background: conic-gradient(#55b7a4 0%, #4ca493 {load}%, #aaa {load}%, #aaa 100%);"
+    style="background: conic-gradient(#55b7a4 0%, #4ca493 {loadd}%, #aaa {loadd}%, #aaa 100%);"
     class="gradient-circle h-64 w-64 z-10 rounded-full absolute -top-4 -left-4"
   />
 </div>
