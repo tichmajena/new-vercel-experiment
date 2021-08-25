@@ -6,15 +6,48 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="manifest" crossorigin="use-credentials" href="manifest.json" />
 
-    <title>About</title>
+    
 
 		
 
+		<link rel="modulepreload" href="/./_app/start-95883e4f.js">
+		<link rel="modulepreload" href="/./_app/chunks/vendor-3cb4ad3c.js">
+		<link rel="modulepreload" href="/./_app/chunks/preload-helper-08cc8e69.js">
+		<link rel="modulepreload" href="/./_app/chunks/singletons-ff603286.js">
+		<link rel="modulepreload" href="/./_app/pages/__layout.svelte-e8cd550c.js">
+		<link rel="modulepreload" href="/./_app/chunks/stores-a8276c3d.js">
+		<link rel="modulepreload" href="/./_app/chunks/navigation-e6c17f3a.js">
+		<link rel="modulepreload" href="/./_app/chunks/store-67a0ef90.js">
+		<link rel="modulepreload" href="/./_app/pages/code/offline.svelte-32fdf572.js">
 		<link rel="stylesheet" href="/./_app/assets/start-0826e215.css">
 		<link rel="stylesheet" href="/./_app/assets/pages/__layout.svelte-47e33859.css">
-		<link rel="stylesheet" href="/./_app/assets/pages/about.svelte-51ba7a34.css">
 
-		<script>
+		<script type="module">
+			import { start } from "/./_app/start-95883e4f.js";
+			start({
+				target: document.querySelector("#svelte"),
+				paths: {"base":"","assets":"/."},
+				session: null,
+				host: location.host,
+				route: true,
+				spa: false,
+				trailing_slash: "never",
+				hydrate: {
+					status: 200,
+					error: null,
+					nodes: [
+						import("/./_app/pages/__layout.svelte-e8cd550c.js"),
+						import("/./_app/pages/code/offline.svelte-32fdf572.js")
+					],
+					page: {
+						host: location.host, // TODO this is redundant
+						path: "/code/offline",
+						query: new URLSearchParams(""),
+						params: {}
+					}
+				}
+			});
+		</script><script>
 			if ('serviceWorker' in navigator) {
 				navigator.serviceWorker.register('/service-worker.js');
 			}
@@ -47,26 +80,8 @@
       </li></a></nav>
 </header>
 
-  <div class="h-screen w-full overflow-auto flex-1 px-10 my-32 relative">
-
-<div class="content svelte-t58uux"><h1>About this app</h1>
-
-	<p>This is a <a href="https://kit.svelte.dev">SvelteKit</a> app. You can make your own by typing the
-following into your command line and following the prompts:
-	</p>
-
-	
-	<pre>npm init svelte@next</pre>
-
-	<p>The page you&#39;re looking at is purely static HTML, with no client-side interactivity needed.
-Because of that, we don&#39;t need to load any JavaScript. Try viewing the page&#39;s source, or opening
-the devtools network panel and reloading.
-	</p>
-
-	<p>The <a href="/todos">TODOs</a> page illustrates SvelteKit&#39;s data loading and form handling. Try using
-it with JavaScript disabled!
-	</p>
-</div></div></div>
+  <div class="h-screen w-full overflow-auto flex-1 px-10 my-32 relative"><h1>This Code Note is not offline available</h1>
+<a href="/code">← Go back</a></div></div>
 
 
 

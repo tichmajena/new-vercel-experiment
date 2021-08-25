@@ -1,0 +1,18 @@
+{
+  "short_name": "Mazano Pad",
+  "name": "Mazano Pad",
+  "start_url": "/",
+  "icons": [
+    {
+      "src": "ic_launcher.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    }
+  ],
+  "background_color": "#3367D6",
+  "display": "standalone",
+  "scope": "/",
+  "theme_color": "#3367D6",
+  "shortcuts": [],
+  "description": "Untangle your thoughts"
+}
