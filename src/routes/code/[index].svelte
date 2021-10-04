@@ -40,10 +40,16 @@
   //import DownloadButton from "$lib/components/DownloadButton.svelte";
   import { patchSinglePostOfflineStatus } from "$lib/js/offline";
   import { onMount } from "svelte";
+  import { page } from "$app/stores";
 
   export let i = 0;
   export let post;
   export let slug;
+  let file;
+
+  $: thefiles = {
+    src: file,
+  };
 
   // $codeNotes[i].steps.forEach((step, ii) => {
   //   if (step.codeLang) {
@@ -71,7 +77,7 @@
   onMount(() => {
     console.log("SLUG: ", slug);
     if ("caches" in window) {
-      patchSinglePostOfflineStatus(post, slug).then(
+      patchSinglePostOfflineStatus(post, "code", slug).then(
         (patchedPost) => (post = patchedPost)
       );
     }
@@ -152,6 +158,24 @@
     }, 2001);
   }
 
+  let titleInputField;
+  let contentInputField;
+
+  $: body = {
+    title: titleInputField,
+    content: contentInputField,
+    status: "publish",
+    author: 1,
+  };
+
+  async function createPost() {
+    const res = fetch("/blog.json", {
+      headers: {},
+      method: "POST",
+      body: JSON.stringify(body),
+    });
+  }
+
   async function testEdit() {
     updating = true;
     $codeNotes[i].mode = "publish";
@@ -179,6 +203,20 @@
   if (!$domState.save) {
     restState();
   }
+
+  async function attach() {
+    const formData = new FormData();
+    formData.append("file", file.files[0]);
+    try {
+      const res = await fetch(`/code/media/${$codeNotes[i].id}`, {
+        method: "POST",
+        body: JSON.stringify(formData),
+      });
+      console.log(res);
+    } catch (error) {
+      console.error(error);
+    }
+  }
 </script>
 
 <div
@@ -189,6 +227,13 @@
 
 <div class="section md:mt-8 mt-12">
   <div class="container mx-auto max-w-screen-md ">
+    <div class="border-4  border-dotted border-indigo-200 p-6 rounded-lg">
+      <input type="file" bind:this={file} />
+      <button
+        class="px-4 py-2 bg-indigo-200 text-indigo-900 hover:bg-indigo-300 transition"
+        on:click={attach}>Submit</button
+      >
+    </div>
     {#if $codeNotes[i]}
       <div class="app-wrapper">
         <div class="note-title">

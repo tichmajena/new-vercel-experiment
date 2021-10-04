@@ -3,13 +3,13 @@
  * @param post a post
  * @returns A promise that resolves to the post with a `offline` property
  */
-export function patchSinglePostOfflineStatus(post, slug) {
+export function patchSinglePostOfflineStatus(post, route, slug) {
   //! This is acting upon the post prop object
   console.log("patchSinglePostOfflineStatus", slug);
   return caches
-    .open("codeNoteCache")
+    .open(`${route}NoteCache`)
     .then((cache) => {
-      return cache.match(`/code/${slug}.json`);
+      return cache.match(`/${route}/${slug}.json`);
     })
     .then((response) => {
       if (response) post.offline = true;
@@ -42,14 +42,16 @@ export function patchAllpostsOfflineStatus(posts, appOffline) {
  * @param slug the id of the post to save
  * @returns True if saved to cache, false on error
  */
-export function saveInCache(slug) {
+export function saveInCache(route, slug) {
   console.log("SAVE: ", slug);
   //! This is acting upon a route/endpoint, we cache the route & json data
   return Promise.all([
     caches
-      .open("codeNoteCache")
-      .then((cache) => cache.add(`/code/${slug}.json`)),
-    caches.open("codeNoteCacheSSR").then((cache) => cache.add(`/code/${slug}`)),
+      .open(`${route}NoteCache`)
+      .then((cache) => cache.add(`/${route}/${slug}.json`)),
+    caches
+      .open(`${route}NoteCacheSSR`)
+      .then((cache) => cache.add(`/${route}/${slug}`)),
   ])
     .then(() => true)
     .catch(() => false);
@@ -65,15 +67,15 @@ export function saveInCache(slug) {
  * @param slug the id of the post to save
  * @returns True if deleted and false if not
  */
-export function deleteInCache(slug) {
+export function deleteInCache(route, slug) {
   //! This is acting upon a route/endpoint, we cache the route & json data
   return Promise.all([
     caches
-      .open("codeNoteCache")
-      .then((cache) => cache.delete(`/code/${slug}.json`)),
+      .open(`${route}NoteCache`)
+      .then((cache) => cache.delete(`/${route}/${slug}.json`)),
     caches
-      .open("codeNoteCacheSSR")
-      .then((cache) => cache.delete(`/code/${slug}`)),
+      .open(`${route}NoteCacheSSR`)
+      .then((cache) => cache.delete(`/${route}/${slug}`)),
   ]).then(([dataSuccess, ssrSuccess]) => dataSuccess && ssrSuccess);
 }
 // Need I say more?

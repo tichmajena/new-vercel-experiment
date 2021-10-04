@@ -51,7 +51,7 @@
 
   onMount(() => {
     $codeNotes.forEach((note, i) => {
-      saveInCache(`${i}-${note.id}`);
+      saveInCache("code", `${i}-${note.id}`);
     });
   });
 

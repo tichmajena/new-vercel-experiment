@@ -70,3 +70,7 @@ export async function post(fetch, url, body) {
     throw customError ? error : { id: "", message: "Unkown Error" };
   }
 }
+
+let one = 1,
+  two = 2,
+  three = 3;

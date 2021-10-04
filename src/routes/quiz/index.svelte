@@ -22,7 +22,9 @@
 <script>
   import Timer from "$lib/Timer/index.svelte";
   import Clock from "$lib/Clock/index.svelte";
-  export let quiz;
+  import { qztm } from "$lib/js/store";
+
+  export let quiz = [];
   console.log(quiz);
 
   let questions = quiz,
@@ -37,13 +39,26 @@
     gameTime = 15;
 
   let analog = false;
-  let loadd = 0;
+  let loadd = 50;
 
-  let answers = new Array(questions.length).fill("answer");
+  $: et = $qztm.t;
+  $: console.log($qztm.t);
+
+  function verenga(duration, ems, gameDuration) {
+    $qztm.t = now + duration - ems + pauseTime;
+    elapsedGameTime = now + gameDuration - ems + pauseTime;
+  }
+
+  function wedzera(duration) {
+    $qztm.t = $qztm.t + duration;
+  }
+
+  let answers = new Array(questions.length).fill(null);
   let questionPointer = -1;
 
   function getScore() {
     let score = answers.reduce((zzero, selectedAnswer, quizIndex) => {
+      console.log(selectedAnswer);
       if (
         questions[quizIndex].question_answers[selectedAnswer].is_correct == 1
       ) {
@@ -99,18 +114,20 @@
     let gameDuration = gameTime * 1000;
     let everyMilliSecond = Date.now();
 
-    elapsedTime = now + duration - everyMilliSecond + pauseTime;
-
-    elapsedGameTime = now + gameDuration - everyMilliSecond + pauseTime;
-
-    if (elapsedTime <= 0 && elapsedGameTime > 0) {
+    verenga(duration, everyMilliSecond, gameDuration);
+    // console.log($qztm.t);
+    // if Elapsed Time drops to 0 & and Game Time is still above 0 increame
+    if (et <= 0 && elapsedGameTime > 0) {
       console.log("Adding");
-      //questionPointer++;
-      elapsedTime += duration;
-    } else if (elapsedGameTime <= 0 && elapsedTime <= 0) {
+      // questionPointer++;
+      wedzera(duration);
+
+      // console.log($qztm.t, duration);
+    } else if (elapsedGameTime <= 0 && $qztm.t <= 0) {
       console.log("Game Over");
       clear(countDownTimer);
-      (elapsedGameTime = 0), (elapsedTime = 0);
+      elapsedGameTime = 0;
+      $qztm.t = 0;
 
       //questionPointer++;
     }
@@ -127,11 +144,11 @@
 
   function pause() {
     clearInterval(countDownTimer);
-    pauseTime = elapsedTime;
+    pauseTime = $qztm.t;
   }
 
   function stopCountDown() {
-    elapsedTime = 0;
+    $qztm.t = 0;
     clearInterval(countDownTimer);
   }
 </script>
@@ -169,7 +186,7 @@
 </div>
 
 <div class="app">
-  <Timer {elapsedTime} />
+  <Timer elapsedTime={$qztm.t} />
   <Timer elapsedTime={elapsedGameTime} />
   {#if questionPointer == -1}
     <div class="start-screen">

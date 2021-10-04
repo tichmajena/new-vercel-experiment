@@ -8,11 +8,11 @@ export const get = async (request) => {
   //     return { body: [] };
   //   }
 
-  const response = await getJSON(request, `tutor/v1/quiz-question-answer/181/`);
- // const response = await getJSON(request, `tutor/v1/quiz-question-answer/16/`);
+  const response = await getJSON(request, `tutor/v1/quiz-question-answer/13`);
+  // const response = await getJSON(request, `tutor/v1/quiz-question-answer/16/`);
 
   if (response.status === 404) {
-    console.log("404 pano");
+    console.log("404 pano tashaya quiz");
     // the user has visited before, but hasn't yet
     // created a todo list. start with an empty array
     return { body: [] };

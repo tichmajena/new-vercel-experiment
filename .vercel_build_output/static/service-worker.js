@@ -1,1 +1,129 @@
-const e=["/_app/start-b7470416.js","/_app/assets/start-0826e215.css","/_app/pages/__layout.svelte-b4b50633.js","/_app/assets/pages/__layout.svelte-47e33859.css","/_app/error.svelte-68ee8944.js","/_app/pages/index.svelte-3df13f8c.js","/_app/pages/contacts/index.svelte-b93a4f4f.js","/_app/pages/contacts/new.svelte-75ce7f67.js","/_app/pages/contacts/[slug].svelte-b8d32def.js","/_app/assets/pages/contacts/[slug].svelte-4bf92ded.css","/_app/pages/myShop/index.svelte-f9c5764b.js","/_app/pages/about.svelte-56926da1.js","/_app/assets/pages/about.svelte-51ba7a34.css","/_app/pages/notes/index.svelte-442d2700.js","/_app/pages/notes/new.svelte-f0d4a02b.js","/_app/pages/notes/[slug].svelte-d471df4a.js","/_app/pages/todos/index.svelte-bee699ea.js","/_app/assets/pages/todos/index.svelte-ab14594b.css","/_app/pages/tools/index.svelte-7fbf11c1.js","/_app/assets/pages/tools/index.svelte-214ebbc6.css","/_app/pages/tools/stopwatch.svelte-c77dab1d.js","/_app/pages/tools/dates.svelte-1ff4e8f1.js","/_app/pages/tools/sales.svelte-91746831.js","/_app/pages/auth/index.svelte-0b39fc6e.js","/_app/pages/cars/index.svelte-6d4d8bfe.js","/_app/pages/cars/[index].svelte-4d84eba2.js","/_app/pages/code/index.svelte-9f91fc1c.js","/_app/pages/code/OurButtons.svelte-8312a9cc.js","/_app/pages/code/DescriptionContent.svelte-ab27bb23.js","/_app/pages/code/DescriptionForm.svelte-659dc395.js","/_app/pages/code/TitleContent.svelte-afee34b6.js","/_app/pages/code/CodeContent.svelte-1bfb35c5.js","/_app/assets/pages/code/CodeContent.svelte-34bd68e6.css","/_app/pages/code/QuillCode.svelte-1ed95ff6.js","/_app/assets/QuillCode.svelte_svelte&type=style&lang-f384224f.css","/_app/pages/code/TitleForm.svelte-e7bc9094.js","/_app/pages/code/CodeForm.svelte-fa8e9a3c.js","/_app/assets/pages/code/CodeForm.svelte-d1691e53.css","/_app/pages/code/NoteBody.svelte-da7c7618.js","/_app/pages/code/CodeJar.svelte-08e1ade5.js","/_app/pages/code/offline.svelte-bb98435c.js","/_app/pages/code/[index].svelte-57e9a0e3.js","/_app/assets/pages/code/[index].svelte-b2c0f41b.css","/_app/pages/quiz/index.svelte-abcaad8e.js","/_app/assets/pages/quiz/index.svelte-001a687f.css","/_app/pages/quiz/[slug].svelte-489a6312.js","/_app/pages/app/index.svelte-899ec39b.js","/_app/assets/pages/app/index.svelte-4c60bb27.css","/_app/pages/app/new.svelte-a4de4870.js","/_app/assets/pages/app/new.svelte-a22408ed.css","/_app/pages/app/[slug].svelte-8b8730a8.js","/_app/chunks/vendor-233f8ef4.js","/_app/chunks/singletons-ff603286.js","/_app/chunks/preload-helper-08cc8e69.js","/_app/chunks/stores-393619cb.js","/_app/chunks/navigation-e6c17f3a.js","/_app/chunks/store-098d49d4.js","/_app/chunks/index-a7651b31.js","/_app/chunks/index-1ede7b61.js","/_app/chunks/offline-45ec2525.js","/_app/chunks/Card-b1f3cb35.js","/_app/chunks/index-81894c16.js","/_app/chunks/javascript-a837743b.js","/_app/chunks/php-fff554a0.js","/_app/chunks/atom-one-dark-9fa0c185.js","/_app/chunks/quill-55589507.js","/_app/chunks/_commonjsHelpers-7d66b65f.js","/_app/chunks/index-3bd16efb.js","/_app/assets/index-39b4e2a9.css","/_app/chunks/javascript-4090567a.js"],s=["/favicon.ico","/ic_launcher.png","/manifest.json","/robots.txt","/svelte-welcome.png","/svelte-welcome.webp"];self.addEventListener("install",(a=>{"only-if-cached"===a.request.cache&&"same-origin"!==a.request.mode||a.waitUntil(Promise.all([caches.open("ssrCache").then((e=>e.addAll(["/","/auth","/code","/code/offline"]))),caches.open("applicationCache-v1629922604030").then((s=>s.addAll(e))),caches.open("staticCache-v1629922604030").then((e=>e.addAll(s)))]).then(self.skipWaiting()).then((()=>console.log("installed"))))})),self.addEventListener("activate",(e=>{e.waitUntil(clients.claim(),caches.keys().then((e=>Promise.all(e.filter((e=>"applicationCache-v1629922604030"!==e&&"staticCache-v1629922604030"!==e&&"codeNoteCache"!==e&&"ssrCache"!==e)).map((e=>caches.delete(e)))))).then(self.skipWaiting()).then((()=>console.log("activated"))))})),self.addEventListener("fetch",(e=>{const s=e.request,a=new URL(s.url);if(/(code\.json)/.test(a.pathname)){console.log("REQUESTS: ",s,a);const p=()=>fetch(e.request).catch((()=>caches.open("codeNoteCache").then((e=>e.keys().then((s=>Promise.all(s.map((s=>e.match(s)))))))).then((e=>Promise.all(e.map((e=>e.json()))))).then((e=>new Response(JSON.stringify(e),{statusText:"offline"})))));e.respondWith(p()),console.log("PATHS IF: ",a.pathname)}else if(/(\/code\/)(\w+-?)*/.test(a.pathname)&&!/(.css)|(.js)$/.test(a.pathname)){console.log("PATHS ELSE IF: ",a.pathname);const p=()=>caches.match(s).then((e=>e||fetch(s))).catch((()=>{return e="/code/offline",caches.open("ssrCache").then((s=>s.match(e)));var e}));e.respondWith(p())}else e.respondWith(caches.match(s).then((e=>e||fetch(s))))}));
+const timestamp = 1633281815992;
+const build = [
+  "/_app/start-1808eaeb.js",
+  "/_app/assets/start-464e9d0a.css",
+  "/_app/pages/__layout.svelte-9b5f03ae.js",
+  "/_app/assets/pages/__layout.svelte-c6870080.css",
+  "/_app/error.svelte-2e250251.js",
+  "/_app/pages/index.svelte-df645e5b.js",
+  "/_app/pages/contacts/index.svelte-2492c0a2.js",
+  "/_app/pages/contacts/new.svelte-8abedfce.js",
+  "/_app/pages/contacts/[slug].svelte-1d248494.js",
+  "/_app/assets/pages/contacts/[slug].svelte-58a734ce.css",
+  "/_app/pages/myShop/index.svelte-650e6158.js",
+  "/_app/pages/about.svelte-d450b17d.js",
+  "/_app/assets/pages/about.svelte-846f56b5.css",
+  "/_app/pages/notes/index.svelte-29afbc04.js",
+  "/_app/pages/notes/new.svelte-6387e7ab.js",
+  "/_app/pages/notes/[slug].svelte-0ba9b624.js",
+  "/_app/pages/todos/index.svelte-377c7a1d.js",
+  "/_app/assets/pages/todos/index.svelte-785505fa.css",
+  "/_app/pages/tools/index.svelte-5b9e2fe2.js",
+  "/_app/assets/pages/tools/index.svelte-46bba601.css",
+  "/_app/pages/tools/stopwatch.svelte-c2920133.js",
+  "/_app/pages/tools/dates.svelte-c1515a66.js",
+  "/_app/pages/tools/sales.svelte-cfe6f4af.js",
+  "/_app/pages/auth/index.svelte-52cbae2c.js",
+  "/_app/pages/cars/index.svelte-454fe40e.js",
+  "/_app/pages/cars/[index].svelte-c6a928e1.js",
+  "/_app/pages/code/index.svelte-49069df5.js",
+  "/_app/pages/code/OurButtons.svelte-b3ae2b8c.js",
+  "/_app/pages/code/DescriptionContent.svelte-28241d0c.js",
+  "/_app/pages/code/DescriptionForm.svelte-9b95a921.js",
+  "/_app/pages/code/TitleContent.svelte-d605ce40.js",
+  "/_app/pages/code/CodeContent.svelte-2ac324cb.js",
+  "/_app/assets/pages/code/CodeContent.svelte-1b9f216b.css",
+  "/_app/pages/code/QuillCode.svelte-a6a628bd.js",
+  "/_app/assets/QuillCode.svelte_svelte&type=style&lang-af316d4c.css",
+  "/_app/pages/code/TitleForm.svelte-80959ad0.js",
+  "/_app/pages/code/CodeForm.svelte-d01338bd.js",
+  "/_app/assets/pages/code/CodeForm.svelte-7c93d51d.css",
+  "/_app/pages/code/NoteBody.svelte-088853ff.js",
+  "/_app/pages/code/CodeJar.svelte-7f604c3e.js",
+  "/_app/pages/code/offline.svelte-a47d5b81.js",
+  "/_app/pages/code/[index].svelte-2a0b6e97.js",
+  "/_app/assets/pages/code/[index].svelte-a5d2f24a.css",
+  "/_app/pages/quiz/index.svelte-68611023.js",
+  "/_app/assets/pages/quiz/index.svelte-a9ee7896.css",
+  "/_app/pages/quiz/[slug].svelte-03d448fe.js",
+  "/_app/pages/app/index.svelte-84977d35.js",
+  "/_app/assets/pages/app/index.svelte-0d576a2f.css",
+  "/_app/pages/app/new.svelte-f69f6c8c.js",
+  "/_app/assets/pages/app/[slug].svelte-58cc6b15.css",
+  "/_app/pages/app/[slug].svelte-840e1ced.js",
+  "/_app/chunks/vendor-52b416c4.js",
+  "/_app/chunks/singletons-ff603286.js",
+  "/_app/chunks/preload-helper-ec9aa979.js",
+  "/_app/chunks/stores-d013c170.js",
+  "/_app/chunks/navigation-51b348a1.js",
+  "/_app/chunks/store-18dbc89f.js",
+  "/_app/chunks/index-4a09887f.js",
+  "/_app/chunks/index-dff4edb2.js",
+  "/_app/chunks/offline-45ec2525.js",
+  "/_app/chunks/Card-bccc4dc3.js",
+  "/_app/chunks/index-6fdebf86.js",
+  "/_app/chunks/javascript-247adf3f.js",
+  "/_app/chunks/php-7eff8603.js",
+  "/_app/chunks/atom-one-dark-9fa0c185.js",
+  "/_app/chunks/quill-bf22308a.js",
+  "/_app/chunks/_commonjsHelpers-7d66b65f.js",
+  "/_app/chunks/index-c7efbd9d.js",
+  "/_app/assets/index-01dc06ec.css",
+  "/_app/chunks/javascript-23f6e463.js"
+];
+const files = [
+  "/favicon.ico",
+  "/ic_launcher.png",
+  "/manifest.json",
+  "/robots.txt",
+  "/svelte-welcome.png",
+  "/svelte-welcome.webp"
+];
+const applicationCache = `applicationCache-v${timestamp}`;
+const staticCache = `staticCache-v${timestamp}`;
+const returnSSRpage = (path) => caches.open("ssrCache").then((cache) => cache.match(path));
+self.addEventListener("install", (event) => {
+  event.waitUntil(Promise.all([
+    caches.open("ssrCache").then((cache) => cache.addAll(["/", "/auth", "/code", "/code/offline"])),
+    caches.open(applicationCache).then((cache) => cache.addAll(build)),
+    caches.open(staticCache).then((cache) => cache.addAll(files))
+  ]).then(self.skipWaiting()).then(() => console.log("installed")));
+});
+self.addEventListener("activate", (event) => {
+  event.waitUntil(clients.claim(), caches.keys().then((keys) => {
+    return Promise.all(keys.filter((key) => key !== applicationCache && key !== staticCache && key !== "codeNoteCache" && key !== "ssrCache").map((key) => caches.delete(key)));
+  }).then(self.skipWaiting()).then(() => console.log("activated")));
+});
+self.addEventListener("fetch", (event) => {
+  if (event.request.cache === "only-if-cached" && event.request.mode !== "same-origin") {
+    return;
+  }
+  const request = event.request;
+  const requestURL = new URL(request.url);
+  if (/(code\.json)/.test(requestURL.pathname)) {
+    console.log("REQUESTS: ", request, requestURL);
+    const returnOfflinePosts = () => {
+      return fetch(event.request).catch(() => {
+        return caches.open("codeNoteCache").then((cache) => {
+          return cache.keys().then((cacheKeys) => {
+            return Promise.all(cacheKeys.map((cacheKey) => cache.match(cacheKey)));
+          });
+        }).then((cachesResponses) => {
+          return Promise.all(cachesResponses.map((response) => response.json()));
+        }).then((posts) => {
+          const response = new Response(JSON.stringify(posts), {
+            statusText: "offline"
+          });
+          return response;
+        });
+      });
+    };
+    event.respondWith(returnOfflinePosts());
+    console.log("PATHS IF: ", requestURL.pathname);
+  } else if (/(\/code\/)(\w+-?)*/.test(requestURL.pathname) && !/(.css)|(.js)$/.test(requestURL.pathname)) {
+    console.log("PATHS ELSE IF: ", requestURL.pathname);
+    const findOfflinePost = () => caches.match(request).then((response) => response ? response : fetch(request)).catch(() => returnSSRpage("/code/offline"));
+    event.respondWith(findOfflinePost());
+  } else
+    event.respondWith(caches.match(request).then((cacheRes) => cacheRes || fetch(request)));
+});
