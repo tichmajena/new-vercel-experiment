@@ -23,6 +23,7 @@
   import Timer from "$lib/Timer/index.svelte";
   import Clock from "$lib/Clock/index.svelte";
   import { qztm } from "$lib/js/store";
+  import CircleLoader from "$lib/Components/CircleLoader.svelte";
 
   export let quiz = [];
   console.log(quiz);
@@ -39,19 +40,11 @@
     gameTime = 15;
 
   let analog = false;
-  let loadd = 50;
+  let quizLoad = 0;
+  let gameLoad = 0;
 
   $: et = $qztm.t;
   $: console.log($qztm.t);
-
-  function verenga(duration, ems, gameDuration) {
-    $qztm.t = now + duration - ems + pauseTime;
-    elapsedGameTime = now + gameDuration - ems + pauseTime;
-  }
-
-  function wedzera(duration) {
-    $qztm.t = $qztm.t + duration;
-  }
 
   let answers = new Array(questions.length).fill(null);
   let questionPointer = -1;
@@ -108,19 +101,24 @@
       questionPointer++;
     }
   }
+  let dec = 0;
 
   function newGameTimer() {
     let duration = quizDuration * 1000;
     let gameDuration = gameTime * 1000;
-    let everyMilliSecond = Date.now();
+    let ems = Date.now();
 
-    verenga(duration, everyMilliSecond, gameDuration);
-    // console.log($qztm.t);
-    // if Elapsed Time drops to 0 & and Game Time is still above 0 increame
-    if (et <= 0 && elapsedGameTime > 0) {
+    $qztm.t = now + duration - ems + pauseTime + dec;
+    elapsedGameTime = now + gameDuration - ems + pauseTime;
+
+    quizLoad = 100 - ($qztm.t / duration) * 100;
+    gameLoad = 100 - (elapsedGameTime / gameDuration) * 100;
+
+    if ($qztm.t <= 0 && elapsedGameTime > 0) {
       console.log("Adding");
-      // questionPointer++;
-      wedzera(duration);
+      questionPointer++;
+
+      dec += duration;
 
       // console.log($qztm.t, duration);
     } else if (elapsedGameTime <= 0 && $qztm.t <= 0) {
@@ -128,7 +126,7 @@
       clear(countDownTimer);
       elapsedGameTime = 0;
       $qztm.t = 0;
-
+      questionPointer++;
       //questionPointer++;
     }
   }
@@ -153,25 +151,17 @@
   }
 </script>
 
-<div><input type="range" start="0" end="100" bind:value={loadd} /></div>
+<div><input type="range" start="0" end="100" bind:value={quizLoad} /></div>
 
-<div
-  class="l-container flex justify-center overflow-visible items-center mx-auto h-56 w-56 relative pt-8"
->
-  <div
-    class="circle bg-gray-200 h-full w-full rounded-full absolute top-0 left-0 z-20"
-  />
-  <div class="pointer-container" />
-  <div
-    style="background: conic-gradient(#55b7a4 0%, #4ca493 {loadd}%, #aaa {loadd}%, #aaa 100%);"
-    class="gradient-circle h-64 w-64 z-10 rounded-full absolute -top-4 -left-4"
-  />
-</div>
+<div><input type="range" start="0" end="100" bind:value={gameLoad} /></div>
+
+<CircleLoader load={quizLoad} />
+<CircleLoader load={gameLoad} />
 {#if analog}
   <Clock />
 {/if}
 
-<div class="hidden">
+<div class="">
   <button
     class="px-2 py-1 mb-3 ml-20 text-white bg-yellow-500"
     on:click={chachaya}>Start</button
