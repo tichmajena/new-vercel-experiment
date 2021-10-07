@@ -52,7 +52,10 @@
   function getScore() {
     let score = answers.reduce((zzero, selectedAnswer, quizIndex) => {
       console.log(selectedAnswer);
-      if (
+
+      if (questions[quizIndex].question_answers[selectedAnswer] == undefined) {
+        return zzero;
+      } else if (
         questions[quizIndex].question_answers[selectedAnswer].is_correct == 1
       ) {
         return zzero + 1;
@@ -65,6 +68,9 @@
   function restartQuiz() {
     answers = new Array(questions.length).fill(null);
     questionPointer = 0;
+    quizLoad = 0;
+    gameLoad = 0;
+    chachaya();
   }
 
   let getAns = (opt) => {
@@ -87,20 +93,6 @@
     clearInterval(id);
   }
 
-  function gameTimer() {
-    quizTime--;
-    gameTime--;
-    console.log(quizTime);
-
-    if (quizTime === 0 && gameTime >= 0) {
-      questionPointer++;
-      quizTime += quizDuration;
-    } else if (gameTime <= 0 && quizTime === 0) {
-      console.log("Game Over");
-      clear(gameTimerId);
-      questionPointer++;
-    }
-  }
   let dec = 0;
 
   function newGameTimer() {
@@ -142,7 +134,8 @@
 
   function pause() {
     clearInterval(countDownTimer);
-    pauseTime = $qztm.t;
+    pauseTime = $qztm.t - 5000;
+    console.log(pauseTime);
   }
 
   function stopCountDown() {
@@ -151,12 +144,32 @@
   }
 </script>
 
+<section class="w-full">
+  <div class="mx-auto px-10 max-w-screen-lg">
+    <div class="md:w-3/4">
+      <!--  -->
+    </div>
+    <div class="md:w-1/4 relative">
+      <div class="absolute mx-auto">
+        <div class="absolute z-0 h"><CircleLoader load={gameLoad} /></div>
+        <div class="absolute z-10 w-48 h-48 top-10 left-4">
+          <CircleLoader
+            hh={"h-44"}
+            ww={"w-44"}
+            h={"h-36"}
+            w={"w-36"}
+            load={quizLoad}
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <div><input type="range" start="0" end="100" bind:value={quizLoad} /></div>
 
 <div><input type="range" start="0" end="100" bind:value={gameLoad} /></div>
 
-<CircleLoader load={quizLoad} />
-<CircleLoader load={gameLoad} />
 {#if analog}
   <Clock />
 {/if}
@@ -233,13 +246,13 @@
     <div class="score-screen">
       <h1>Your score:{getScore()}</h1>
 
-      <button on:click={restartQuiz}> Restar Quiz </button>
+      <button on:click={restartQuiz}> Restart Quiz </button>
     </div>
   {/if}
 </div>
 
 <style>
-  .app {
+  /* .app {
     position: absolute;
     top: 0px;
     left: 0px;
@@ -315,9 +328,9 @@
     background: #aaa;
     border-radius: 10px;
     overflow: hidden;
-  }
+  } */
 
-  .app .quiz-screen .footer .progress-bar div {
+  /* .app .quiz-screen .footer .progress-bar div {
     height: 100%;
     background: #4a77dc;
   }
@@ -326,10 +339,5 @@
   }
   .app .score-screen h1 {
     margin-bottom: 10px;
-  }
-
-  /* ------------- */
-  .gradient-circle {
-    background: conic-gradient(#55b7a4 0%, #4ca493 40%, #aaa 40%, #aaa 100%);
-  }
+  } */
 </style>

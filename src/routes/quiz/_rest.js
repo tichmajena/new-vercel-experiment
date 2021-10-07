@@ -1,7 +1,7 @@
-//export const BASE = import.meta.env.VITE_BASE;
-//const base = BASE;
+export const BASE = import.meta.env.VITE_BASE;
+const base = BASE;
 
-const base = "http://blitzkrieg.local/wp-json";
+//const base = "http://blitzkrieg.local/wp-json";
 
 export async function getJSON(request, resource, data) {
   // user must have a cookie set
