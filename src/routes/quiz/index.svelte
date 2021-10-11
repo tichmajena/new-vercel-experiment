@@ -24,6 +24,7 @@
   import Clock from "$lib/Clock/index.svelte";
   import { qztm } from "$lib/js/store";
   import CircleLoader from "$lib/Components/CircleLoader.svelte";
+  import { takeWeek, takeMonth, getDay } from "$lib/js/calendar";
 
   export let quiz = [];
   console.log(quiz);
@@ -42,6 +43,14 @@
   let analog = false;
   let quizLoad = 0;
   let gameLoad = 0;
+  let month = takeMonth()();
+
+  let monthObj = month.map((week) =>
+    week.map((day) => {
+      return { date: day, stats: {} };
+    })
+  );
+  console.log(monthObj);
 
   $: et = $qztm.t;
   $: console.log($qztm.t);
@@ -149,7 +158,7 @@
     <div class="md:w-3/4">
       <!--  -->
     </div>
-    <div class="md:w-1/4 relative">
+    <div class="md:w-1/4 relative h-46 w-64">
       <div class="absolute mx-auto">
         <div class="absolute z-0 h"><CircleLoader load={gameLoad} /></div>
         <div class="absolute z-10 w-48 h-48 top-10 left-4">
@@ -249,6 +258,19 @@
       <button on:click={restartQuiz}> Restart Quiz </button>
     </div>
   {/if}
+
+  {#each month as week, i}
+    <div>
+      <span class="text-4xl">Week {i + 1}</span>
+    </div>
+    <div>
+      {#each week as day}
+        <div>
+          {getDay(day)}
+        </div>
+      {/each}
+    </div>
+  {/each}
 </div>
 
 <style>
