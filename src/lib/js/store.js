@@ -27,21 +27,21 @@ export let notebook = writable([
         {
           note: {
             title: "Step 1",
-            level: 1,
+            level: 2,
             steps: [],
           },
         },
         {
           note: {
             title: "Step 2",
-            level: 1,
+            level: 2,
             steps: [],
           },
         },
         {
           note: {
             title: "Step 3",
-            level: 1,
+            level: 2,
             steps: [],
           },
         },
@@ -56,26 +56,26 @@ export let notebook = writable([
         {
           note: {
             title: "Step 1",
-            level: 1,
+            level: 2,
             steps: [],
           },
         },
         {
           note: {
             title: "Step 2",
-            level: 1,
+            level: 2,
             steps: [
               {
                 note: {
                   title: "Sub Step 1",
-                  level: 1,
+                  level: 3,
                   steps: [],
                 },
               },
               {
                 note: {
                   title: "Sub Step 2",
-                  level: 1,
+                  level: 3,
                   steps: [],
                 },
               },
@@ -85,7 +85,7 @@ export let notebook = writable([
         {
           note: {
             title: "Step 3",
-            level: 1,
+            level: 2,
             steps: [],
           },
         },
@@ -98,29 +98,29 @@ export let notes = writable([]);
 
 export let contacts = writable([
   {
-    name: "name",
-    phoneNumber: ["phoneNumber"],
-    email: "email",
+    name: "Trevor Nzou",
+    phoneNumber: ["0772557890", "0778889443"],
+    email: "trevornzou@gmail.com",
   },
   {
-    name: "name",
-    phoneNumber: ["phoneNumber"],
-    email: "email",
+    name: "Julia Mhere",
+    phoneNumber: ["0735557890"],
+    email: "juliamhere@yahoo.co.uk",
   },
   {
-    name: "name",
-    phoneNumber: ["phoneNumber"],
-    email: "email",
+    name: "Kuda Chimutashu",
+    phoneNumber: ["0772457890", "0719889443"],
+    email: "kudac234@gmail.com",
   },
   {
-    name: "name",
-    phoneNumber: ["phoneNumber"],
-    email: "email",
+    name: "Mavis Garan'anga",
+    phoneNumber: ["0772557340", "0774589443", "0776789443"],
+    email: "mgara@hotmail.com",
   },
   {
-    name: "name",
-    phoneNumber: ["phoneNumber"],
-    email: "email",
+    name: "Chido Chazezesa",
+    phoneNumber: ["0772557890"],
+    email: "cchazezesa@gmail.com",
   },
 ]);
 

@@ -30,6 +30,14 @@
     };
   };
 
+  let theKy = "zita";
+
+  let myObj = {};
+
+  myObj[theKy] = "John";
+
+  console.log(myObj);
+
   function updateSchema() {}
 </script>
 
@@ -50,9 +58,9 @@
   $: marked = selected;
 
   onMount(() => {
-    $codeNotes.forEach((note, i) => {
-      saveInCache("code", `${i}-${note.id}`);
-    });
+    // $codeNotes.forEach((note, i) => {
+    //   saveInCache("code", `${i}-${note.id}`);
+    // });
   });
 
   function restState() {

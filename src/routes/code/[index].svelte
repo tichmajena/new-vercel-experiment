@@ -75,12 +75,12 @@
   }
 
   onMount(() => {
-    console.log("SLUG: ", slug);
-    if ("caches" in window) {
-      patchSinglePostOfflineStatus(post, "code", slug).then(
-        (patchedPost) => (post = patchedPost)
-      );
-    }
+    // console.log("SLUG: ", slug);
+    // if ("caches" in window) {
+    //   patchSinglePostOfflineStatus(post, "code", slug).then(
+    //     (patchedPost) => (post = patchedPost)
+    //   );
+    // }
   });
 
   function checkifEmpty() {
@@ -213,6 +213,9 @@
         body: JSON.stringify(formData),
       });
       console.log(res);
+      let data = await ASASASASASASASASASASASASASASASASASASASASASASASASASASASASASASASASASASASASASASASASASASASASASASASASASASASASASASASASASASASASASASASASASASASASASASASASASASASASASASASASASASASASASASASASASASASASASASASASASASASASASASASASASASASASASASASASASASASASASASASASASASASASASASASASASASASASASASASASASASASASASASASASASASASASASASASASASASASres.json();
+
+      console.log(data);
     } catch (error) {
       console.error(error);
     }
@@ -227,7 +230,7 @@
 
 <div class="section md:mt-8 mt-12">
   <div class="container mx-auto max-w-screen-md ">
-    <div class="border-4  border-dotted border-indigo-200 p-6 rounded-lg">
+    <div class="border-4 border-dotted border-indigo-200 p-6 rounded-lg">
       <input type="file" bind:this={file} />
       <button
         class="px-4 py-2 bg-indigo-200 text-indigo-900 hover:bg-indigo-300 transition"
