@@ -10,15 +10,18 @@ export async function api(request, resource, data) {
 
   let token;
 
+  console.log("FORMDATA :", data);
+
   let rm = request.method.toUpperCase();
   if (rm === "POST" || rm === "PUT" || rm === "PATCH" || rm === "DELETE") {
     token = cookie.parse(request.headers.cookie || "").token || null;
   }
-
+  console.log("TYPE ", typeof data);
   const res = await fetch(`${base}/${resource}`, {
     method: request.method,
     headers: {
-      "content-type": "application/json",
+      // "content-type": "image/jpeg",
+      // "Content-Disposition": "attachment; filename='example.jpg'",
       Authorization: "Bearer " + token,
     },
     body: data,

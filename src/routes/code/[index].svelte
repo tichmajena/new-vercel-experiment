@@ -207,15 +207,26 @@
   async function attach() {
     const formData = new FormData();
     formData.append("file", file.files[0]);
-    try {
-      const res = await fetch(`/code/media/${$codeNotes[i].id}`, {
-        method: "POST",
-        body: JSON.stringify(formData),
-      });
-      console.log(res);
-      let data = await res.json();
+    const token = `eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9teWRpYXJ5LmxvY2FsIiwiaWF0IjoxNjM0MTU0MjU1LCJuYmYiOjE2MzQxNTQyNTUsImV4cCI6MTYzNDc1OTA1NSwiZGF0YSI6eyJ1c2VyIjp7ImlkIjoiMiJ9fX0._pQBfMJWbgR8CgbpTeUtFTeuqouobDYqjtYc04ecLQM`;
 
-      console.log(data);
+    try {
+      // const res = await fetch(`http://mydiary.local/wp-json/wp/v2/media`, {
+      //   method: "POST",
+      //   headers: {
+      //     Authorization: "Bearer " + token,
+      //   },
+      //   body: formData,
+      // });
+      //${$codeNotes[i].id}
+      const res = await fetch(`/code/media/upload`, {
+        method: "POST",
+        body: formData,
+      });
+
+      //console.log(res);
+      // let data = await res.json();
+
+      // console.log(data);
     } catch (error) {
       console.error(error);
     }

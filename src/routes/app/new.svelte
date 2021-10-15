@@ -1,6 +1,6 @@
 <script context="module">
   async function load({ page, fetch, session }) {
-    console.log(session);
+    console.log("SESHAN", session);
     if (!session) {
       return {
         status: 302,

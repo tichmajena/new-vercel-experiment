@@ -6,11 +6,16 @@ let days = 86400000 * 30;
 
 /** @type {import('@sveltejs/kit').GetSession} */
 export function getSession(request) {
+  let bhisvo = JSON.parse(
+    cookie.parse(request.headers.cookie || "").session || null
+  );
+  console.log("BHISVO", bhisvo);
   return JSON.parse(cookie.parse(request.headers.cookie || "").session || null);
 }
 
 export async function handle({ request, resolve }) {
   /** @type {import('@sveltejs/kit').Handle} */
+
   request.locals = await JSON.parse(
     cookie.parse(request.headers.cookie || "").session || null
   );
@@ -20,6 +25,8 @@ export async function handle({ request, resolve }) {
   }
 
   if (request.locals) {
+    console.log("ROKARI", request.locals);
+
     const response = await resolve(request);
 
     let cookieStr = JSON.stringify(request.locals);

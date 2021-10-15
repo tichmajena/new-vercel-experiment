@@ -7,7 +7,7 @@ export const get = async (request) => {
 
   let id = +slugArr[1];
   const response = await getJSON(request, `wp/v2/code_note/${id}`);
-  console.log("RES: ");
+
   if (response.status === 404) {
     console.log("404 pano");
 
