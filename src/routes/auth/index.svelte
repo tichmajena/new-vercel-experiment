@@ -12,6 +12,7 @@
 
 <script>
   import { scale, fade } from "svelte/transition";
+  import { onMount } from "svelte";
 
   let error = false;
   let succ = false;
@@ -128,6 +129,8 @@
   function logIn() {
     login = true;
   }
+
+  let myWord = "Word";
 </script>
 
 <div
@@ -256,3 +259,5 @@
     <span class="text-xl"> An Error has occured: {errMessage} </span>
   </div>
 {/if}
+<div id="my_word" />
+<!-- <h1>{myWord}</h1> -->

@@ -38,7 +38,7 @@
   import Message from "$lib/Message/index.svelte";
   //import { browser } from "$app/env";
   //import DownloadButton from "$lib/components/DownloadButton.svelte";
-  import { patchSinglePostOfflineStatus } from "$lib/js/offline";
+  //import { patchSinglePostOfflineStatus } from "$lib/js/offline";
   import { onMount } from "svelte";
   import { page } from "$app/stores";
 
@@ -74,14 +74,14 @@
     post.offline = false;
   }
 
-  onMount(() => {
-    // console.log("SLUG: ", slug);
-    // if ("caches" in window) {
-    //   patchSinglePostOfflineStatus(post, "code", slug).then(
-    //     (patchedPost) => (post = patchedPost)
-    //   );
-    // }
-  });
+  // onMount(() => {
+  //   console.log("SLUG: ", slug);
+  //   if ("caches" in window) {
+  //     patchSinglePostOfflineStatus(post, "code", slug).then(
+  //       (patchedPost) => (post = patchedPost)
+  //     );
+  //   }
+  // });
 
   function checkifEmpty() {
     if ($codeNotes[i] === undefined && post !== undefined) {

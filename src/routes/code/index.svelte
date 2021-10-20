@@ -47,7 +47,7 @@
   import { goto, prefetchRoutes } from "$app/navigation";
   import { onMount } from "svelte";
   import Button from "$lib/Button/index.svelte";
-  import { saveInCache } from "$lib/js/offline";
+  // import { saveInCache } from "$lib/js/offline";
 
   let noteIndex = 0;
   let selected = [];
@@ -57,11 +57,11 @@
 
   $: marked = selected;
 
-  onMount(() => {
-    // $codeNotes.forEach((note, i) => {
-    //   saveInCache("code", `${i}-${note.id}`);
-    // });
-  });
+  // onMount(() => {
+  //   $codeNotes.forEach((note, i) => {
+  //     saveInCache("code", `${i}-${note.id}`);
+  //   });
+  // });
 
   function restState() {
     $codeNotes.forEach((note) => {
