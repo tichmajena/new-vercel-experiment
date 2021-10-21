@@ -1,6 +1,6 @@
 import preprocess from "svelte-preprocess";
-import adapter from "@sveltejs/adapter-static";
-//import vercel from "@sveltejs/adapter-vercel";
+//import adapter from "@sveltejs/adapter-static";
+import vercel from "@sveltejs/adapter-vercel";
 /** @type {import('@sveltejs/kit').Config} */
 //import adapter from "@sveltejs/adapter-static";
 
@@ -11,12 +11,12 @@ const config = {
     }),
   ],
   kit: {
-    adapter: adapter({
-      pages: "build",
-      assets: "build",
-      fallback: "app.html",
-    }),
-    //adapter: vercel(),
+    // adapter: adapter({
+    //   pages: "build",
+    //   assets: "build",
+    //   fallback: "app.html",
+    // }),
+    adapter: vercel(),
 
     target: "#svelte",
 
