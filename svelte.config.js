@@ -23,7 +23,7 @@ const config = {
     ssr: true,
     // hydrate the <div id="svelte"> element in src/app.html
     files: {
-      serviceWorker: "src/service-worker",
+      // serviceWorker: "src/service-worker",
     },
   },
 };
