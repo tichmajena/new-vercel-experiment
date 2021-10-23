@@ -75,7 +75,7 @@
       title: myNotes.note.title,
       string: JSON.stringify(myNotes),
       status: "publish",
-      author: user.id,
+      author: 2,
     };
 
     const res = await fetch("/app/new.json", {
